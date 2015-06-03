@@ -176,13 +176,15 @@ class Objects
     sortedlist<vector_3D<double>> velocity;
     sortedlist<double> radius;
     sortedlist<double> mass;
+    unsigned long number_of_objects;
 
     void add(vector_3D<double> position, vector_3D<double>  velo, double r, double m)
     {
-        position.add(position)
-        velocity.add(velo)
-        radius.add(r)
-        mass.add(m)
+        position.add(position);
+        velocity.add(velo);
+        radius.add(r);
+        mass.add(m);
+        number_of_objects++;
     }
     vector<Object_data>  calculate_collision(vector<unsigned long>)
     {
@@ -195,6 +197,36 @@ class Objects
     }
 }
     \end{minted}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Sequentiell}
+    INPUT:
+        \begin{itemize}
+            \item Größe
+            \item initiale Anzahl Obj.
+            \item max. Anzahl Obj.
+            \item min. und max. Masse
+            \item min. und max. Geschwindigkeit
+            \item Stellar-Obj. Masse
+        \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Sequentiell}
+    LOOP:
+        \begin{itemize}
+            \item Verrechnen bzw. Update aller Geschwindigkeitsvektoren
+            \item Update aller Positionen
+            \item ggfs. Objekte löschen
+            \item Kollisionen verarbeiten
+            \item alle $n \in \mathbb{N}$ Loops: Status (schlau \& effizient) speichern
+        \end{itemize}
+
 \end{frame}
 
 %------------------------------------------------
