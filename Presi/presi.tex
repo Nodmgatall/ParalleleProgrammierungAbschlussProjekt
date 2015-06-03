@@ -1,0 +1,235 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+%\usetheme{Berlin}
+%\usetheme{CambridgeUS}
+%\usetheme{Frankfurt}
+%\usetheme{Madrid}
+%\usetheme{Singapore}
+\usetheme{Dresden}
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Boadilla}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% Colors
+
+%\usecolortheme{albatross}
+\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage[german,ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{minted}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[PAPO 2015]{Praktikumsprojekt} 
+\author{Oliver Heidmann, Tronje Krabbe}
+\institute[UHH]
+{
+Uni Hamburg \\
+Praktikum Parallele Programmierung\\
+}
+\date{03.06.2015}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Übersicht}
+\tableofcontents
+\end{frame}
+
+%\AtBeginSection{
+%\begin{frame}
+%\frametitle{Overview} 
+%\tableofcontents[currentsection]
+%\end{frame}}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+\section{Kurzbeschreibung}
+%------------------------------------------------
+
+\subsection{}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Simulation eines Sonnensystems}
+    \begin{itemize}
+        \item Wir betrachten \textit{n} Objekte
+            mit jeweils einer Masse \textit{m}
+            und einem Geschwindigkeitsvektor \textit{v}.
+        \item Im Zentrum befindet sich ein stationäres Objekt
+            mit besonders hoher Masse, analog zu einer Sonne
+            oder einem schwarzen Loch.
+        \item Ziel: eine vielzahl möglicher stellarer
+            Konstellationen simulieren.
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Funktionsweise}
+    Pro Iteration:
+    \begin{itemize}
+        \item Verrechnung aller Geschwindigkeitsvektoren
+        \item Errechnung aktualisierter Positionen
+        \item Kollisionsbehandlung (wie?)
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Schwierigkeiten/Herausforderungen}
+    \begin{itemize}
+        \item Wie Kollisionen behandeln?
+            \begin{itemize}
+                \item naiv: ignorieren
+                \item beide Objekte zerstören und neue(s) Objekt(e) erzeugen
+            \end{itemize}
+        \item Größe des Systems
+            \begin{itemize}
+                \item dynamische Größe? Eher nicht.
+                \item Objekte könnten das System verlassen
+            \end{itemize}
+        \item Visualisierung
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Lösungsansatz}
+\subsection{}
+
+%------------------------------------------------
+
+\begin{frame}[fragile]
+    \frametitle{Code}
+    \begin{minted}[linenos,
+                   samepage,
+                   fontsize=\tiny,
+                   tabsize=2]{cpp}
+class Objects
+{
+    sortedlist<vector_3D<double>> position;
+    sortedlist<vector_3D<double>> velocity;
+    sortedlist<double> radius;
+    sortedlist<double> mass;
+
+    void add(vector_3D<double> position, vector_3D<double>  velo, double r, double m)
+    {
+        position.add(position)
+        velocity.add(velo)
+        radius.add(r)
+        mass.add(m)
+    }
+    vector<Object_data>  calculate_collision(vector<unsigned long>)
+    {
+        /*
+        hier wird berechnet, ob mehrere Objekte mit der Gesamtmasse der
+        kollidierenden Objekte gebildet werden,
+        oder ob nur ein neues bei der Kollision entsteht.
+        Außerdem: Größe, Radius, Geschwindigkeitsvektor.
+        */
+    }
+}
+    \end{minted}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Projektplan}
+\subsection{}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Projektplan}
+    Einmal wöchentlich treffen bis es fertig ist. :)
+\end{frame}
+
+%------------------------------------------------
+
+\section{Parallelisierungsschema}
+\subsection{}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Parallelisierung}
+    \begin{enumerate}
+        \item Naiv: Aufteilung nach Index (jeder Prozess bekommt $n/p$ Objekte)
+        \item Cool(?): Aufteilung nach Anzahl beeinflussten Objekten
+        \begin{itemize}
+            \item Ein Objekt hat Einfluss auf unterschiedlich viele andere Objekte.
+                Je nachdem, wie viele beeinflusst werden, muss mehr berechnet werden.
+                Verteilt man Objekte nach dieser Gewichtung, kann die Last auf Prozesse
+                optimiert werden.
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\end{document} 

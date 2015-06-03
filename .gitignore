@@ -26,3 +26,13 @@
 *.exe
 *.out
 *.app
+
+# Latex files
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+*.vrb
+*.pygtex
+*.pygstyle
