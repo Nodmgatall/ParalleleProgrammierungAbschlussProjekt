@@ -1,0 +1,2 @@
+# ParralleleProgrammierungAbschlussProjekt
+Abschluss Projekt fuer das Praktikum Parrallele Programmierung
