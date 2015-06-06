@@ -1,0 +1,83 @@
+\hypertarget{classParticle}{}\section{Particle Class Reference}
+\label{classParticle}\index{Particle@{Particle}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classParticle_a1b9b969dd9c1d2a8147640bde85913ca}{}void {\bfseries remove} (unsigned long vector\+\_\+index)\label{classParticle_a1b9b969dd9c1d2a8147640bde85913ca}
+
+\item 
+\hypertarget{classParticle_abf747e26491e7a7af1792aa7d0d69aef}{}double {\bfseries get\+\_\+distance\+\_\+to\+\_\+center} (unsigned long particle\+\_\+index)\label{classParticle_abf747e26491e7a7af1792aa7d0d69aef}
+
+\item 
+\hypertarget{classParticle_a40734ec81f97cb43f533245f3644c474}{}void {\bfseries move\+\_\+\+Object} (unsigned long particle\+\_\+index, double step\+\_\+size=1)\label{classParticle_a40734ec81f97cb43f533245f3644c474}
+
+\item 
+\hypertarget{classParticle_aeea985651cf29b2fdd368fec991961a8}{}double {\bfseries get\+Distance\+Of\+Two\+Objects} (unsigned long ob1, unsigned long ob2)\label{classParticle_aeea985651cf29b2fdd368fec991961a8}
+
+\item 
+\hypertarget{classParticle_a2e0c0e885353fa1c916baf31366c2ed3}{}\hyperlink{classVec3}{Vec3}$<$ double $>$ {\bfseries get\+Velocity\+Vector} (unsigned long particle\+\_\+index)\label{classParticle_a2e0c0e885353fa1c916baf31366c2ed3}
+
+\item 
+\hypertarget{classParticle_a2071bda8f42ce83d30f267145f32ceb6}{}\hyperlink{classVec3}{Vec3}$<$ double $>$ {\bfseries get\+Postion} (unsigned long particle\+\_\+index)\label{classParticle_a2071bda8f42ce83d30f267145f32ceb6}
+
+\item 
+\hypertarget{classParticle_abfd6556526b15b5bee3384ae7baec48b}{}double {\bfseries get\+Mass} (unsigned long particle\+\_\+index)\label{classParticle_abfd6556526b15b5bee3384ae7baec48b}
+
+\item 
+\hypertarget{classParticle_a699d893583b4fabeffd48c0a509bd50e}{}double {\bfseries get\+Radius} (unsigned long particle\+\_\+index)\label{classParticle_a699d893583b4fabeffd48c0a509bd50e}
+
+\item 
+\hypertarget{classParticle_a06514801da39b213dc9d408d40e2adc1}{}unsigned long {\bfseries get\+Number\+Of\+Particles} ()\label{classParticle_a06514801da39b213dc9d408d40e2adc1}
+
+\item 
+unsigned long \hyperlink{classParticle_af9d4982b196dbcaf9cdf59377dd5b2ee}{generate\+Random\+Particle} (std\+::pair$<$ double, double $>$ range\+\_\+position, std\+::pair$<$ double, double $>$ range\+\_\+velocity, std\+::pair$<$ double, double $>$ range\+\_\+mass, std\+::pair$<$ double, double $>$ range\+\_\+radius)
+\item 
+unsigned long \hyperlink{classParticle_ab23d7609a8b229bae8756c1b45b167fb}{create\+Particle} (\hyperlink{classVec3}{Vec3}$<$ double $>$ p, \hyperlink{classVec3}{Vec3}$<$ double $>$ v, double m, double r)
+\item 
+\hypertarget{classParticle_ac68f9be7c033bc006fac8b90b31fad6b}{}void {\bfseries print\+Particle} (unsigned long particle\+\_\+index)\label{classParticle_ac68f9be7c033bc006fac8b90b31fad6b}
+
+\item 
+\hypertarget{classParticle_a9acb129d789df24580508e20816f2922}{}void {\bfseries print\+All\+Particles} ()\label{classParticle_a9acb129d789df24580508e20816f2922}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classParticle_ab23d7609a8b229bae8756c1b45b167fb}{}\index{Particle@{Particle}!create\+Particle@{create\+Particle}}
+\index{create\+Particle@{create\+Particle}!Particle@{Particle}}
+\subsubsection[{create\+Particle}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long Particle\+::create\+Particle (
+\begin{DoxyParamCaption}
+\item[{{\bf Vec3}$<$ double $>$}]{p, }
+\item[{{\bf Vec3}$<$ double $>$}]{v, }
+\item[{double}]{m, }
+\item[{double}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classParticle_ab23d7609a8b229bae8756c1b45b167fb}
+Discription\+: Generates a new \hyperlink{classParticle}{Particle} with specified values~\newline
+~\newline
+Parameters\+:~\newline
+ v\+: velocity vector for the new particle Vec3$<$double$>$~\newline
+ p\+: position vector for the new particle Vec3$<$double$>$~\newline
+ m\+: mass for the new object double~\newline
+ r\+: radius for the new Object double~\newline
+~\newline
+Return value\+:~\newline
+ returns the index of the new \hyperlink{classParticle}{Particle}~\newline
+\hypertarget{classParticle_af9d4982b196dbcaf9cdf59377dd5b2ee}{}\index{Particle@{Particle}!generate\+Random\+Particle@{generate\+Random\+Particle}}
+\index{generate\+Random\+Particle@{generate\+Random\+Particle}!Particle@{Particle}}
+\subsubsection[{generate\+Random\+Particle}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long Particle\+::generate\+Random\+Particle (
+\begin{DoxyParamCaption}
+\item[{std\+::pair$<$ double, double $>$}]{range\+\_\+position, }
+\item[{std\+::pair$<$ double, double $>$}]{range\+\_\+velocity, }
+\item[{std\+::pair$<$ double, double $>$}]{range\+\_\+mass, }
+\item[{std\+::pair$<$ double, double $>$}]{range\+\_\+radius}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classParticle_af9d4982b196dbcaf9cdf59377dd5b2ee}
+Discription\+: Generates a new particle witch random atributes ~\newline
+Parameters\+:
+
+Return value\+: returns the index of the new \hyperlink{classParticle}{Particle} 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+particle.\+hpp\end{DoxyCompactItemize}
