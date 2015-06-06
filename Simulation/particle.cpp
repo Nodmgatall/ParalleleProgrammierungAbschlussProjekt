@@ -65,14 +65,6 @@
 		return number_of_particles;
 	}
 
-	/**
-		Discription:
-			Generates a new particle witch random atributes \n
-		Parameters:
-
-		Return value:
-			returns the index of the new Particle
-	*/
 	unsigned long Particle::generateRandomParticle(
 		std::pair<double,double> range_position,
 		std::pair<double,double> range_velocity,
@@ -98,19 +90,7 @@
 			new_mass,
 			new_radius);
 	}
-	/**
-		Discription:
-			Generates a new Particle with specified values\n
-		\n
-		Parameters:\n
-			v: velocity vector for the new particle 	Vec3<double>\n
-			p: position vector for the new particle 	Vec3<double>\n
-			m: mass for the new object 					double\n
-			r: radius for the new Object 				double\n
-		\n
-		Return value:\n
-			returns the index of the new Particle\n
-	*/
+	
 	unsigned long Particle::createParticle(
 		Vec3<double> p,
 		Vec3<double> v,
