@@ -1,3 +1,7 @@
+/*  This class is from: http://r3dux.org/2012/12/vec3-a-simple-vector-class-in-c/
+    only the length function is written by us
+*/
+
 #ifndef VEC3_HPP
 #define VEC3_HPP
 
@@ -7,7 +11,7 @@
 template <class T> class Vec3
 {
     private:
-         A Vec3 simply has three properties called x, y and z
+        // A Vec3 simply has three properties called x, y and z
         T x, y, z;
 
     public:
