@@ -17,10 +17,10 @@ template <class T> class Vec3
     public:
         // ------------ Constructors ------------
 
-        // Default constructor
+        /// Default constructor
         Vec3() { x = y = z = 0; };
 
-        // Three parameter constructor
+        /// Three parameter constructor
         Vec3(T xValue, T yValue, T zValue)
         {
             x = xValue;
@@ -29,20 +29,24 @@ template <class T> class Vec3
         }
 
         // ------------ Getters and setters ------------
-
+        /// Setter for all 3 atributes
         void set(const T &xValue, const T &yValue, const T &zValue)
         {
             x = xValue;
             y = yValue;
             z = zValue;
         }
-
+        /// Getter for X
         T getX() const { return x; }
+        /// Getter for Y
         T getY() const { return y; }
+        /// Getter for Z
         T getZ() const { return z; }
-
+        /// Setter for X
         void setX(const T &xValue) { x = xValue; }
+        /// Setter for Y
         void setY(const T &yValue) { y = yValue; }
+        /// Setter for Z
         void setZ(const T &zValue) { z = zValue; }
 
         // ------------ Helper methods ------------

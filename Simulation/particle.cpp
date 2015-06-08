@@ -7,6 +7,8 @@
 #include "random_generator.hpp"
 #include "particle.hpp"
 
+
+//TODO SWITCH TO UINTX_T
 // center object has to be at <0.0.0>
 	void Particle::remove(unsigned long vector_index)
 	{
@@ -84,13 +86,15 @@
 			range_radius.first,
 			range_radius.second);
 
-		createParticle(
+		return createParticle(
 			new_position,
 			new_velocity_vector,
 			new_mass,
 			new_radius);
+
 	}
-	
+
+	//IDEA : retutn iterator instead of index
 	unsigned long Particle::createParticle(
 		Vec3<double> p,
 		Vec3<double> v,
@@ -102,6 +106,7 @@
 		masses.push_back(m);
 		radiuses.push_back(r);
 		number_of_particles++;
+		return number_of_particles - 1;
 	}
 
 	

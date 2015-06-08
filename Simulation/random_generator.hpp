@@ -15,7 +15,7 @@
 		random_number = distribution(random_device);
 
 		return random_number;
-	};
+	}
 
 	template<typename T> 
 	Vec3<T> generateRandomVec3(T range_start, T range_end)
@@ -28,5 +28,5 @@
 			);
 		new_vector *= (final_length/new_vector.getLength());
 		return new_vector;
-	};
+	}
 #endif /* RANDOM_GENERATOR_HPP */
