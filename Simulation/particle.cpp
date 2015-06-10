@@ -4,12 +4,20 @@
 #include <ctime>
 #include <utility> 
 #include <cstdlib>
+#include <fstream>
+
 #include "random_generator.hpp"
 #include "particle.hpp"
 
 
 //TODO SWITCH TO UINTX_T
 // center object has to be at <0.0.0>
+
+	Particle::Particle()
+	{
+		number_of_particles = 0;
+
+	}
 	void Particle::remove(unsigned long vector_index)
 	{
 		velocity_vectors.erase(velocity_vectors.begin() + vector_index);
@@ -133,6 +141,20 @@
 			printParticle(i);
 		}
 
+	}
+
+	void Particle::writePositionToFile(char* filename)
+	{
+		std::ofstream file(filename);
+		if(file.is_open())
+		{
+		file << ">";
+
+			for(unsigned long i = 0; i < number_of_particles; i++)
+			{
+				file << positions[i].toString() << "\n";
+			}
+		}
 	}
 
 
