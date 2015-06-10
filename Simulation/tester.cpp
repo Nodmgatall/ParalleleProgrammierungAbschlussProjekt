@@ -4,6 +4,10 @@
 #include <iostream>
 #include <assert.h>
 
+#include <random>
+#include <array>
+#include <utility>
+
 void first_test() {
     Particle particles;
     //int i;
@@ -44,12 +48,12 @@ void vectorInitTest()
 
 void randomGeneratorTest()
 {     
-    TEST2
     std::random_device random_device;
     std::uniform_real_distribution<double> die_distribution{1.0,500.0};
 
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 10; i++)
+    {
     double random_x_pos = die_distribution(random_device);
-    }
     std::cout << random_x_pos << std::endl;
+    }
 }
