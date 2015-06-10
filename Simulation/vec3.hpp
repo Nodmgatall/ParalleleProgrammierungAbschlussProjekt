@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <string>
 
 template <class T> class Vec3
 {
@@ -55,6 +56,19 @@ template <class T> class Vec3
         void zero()
         {
             x = y = z = 0;
+        }
+
+        std::string tostring()
+        {
+            std::string data;
+            data + std::to_string(x);
+            data + " ";
+            data + std::to_string(y);
+            data + " ";
+            data + std::to_string(z);
+            data + " ";
+
+            return data;
         }
 
         /** Method to normalise a vector */
