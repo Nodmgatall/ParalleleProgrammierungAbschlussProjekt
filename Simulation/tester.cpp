@@ -27,3 +27,29 @@ void first_test() {
 
     //assert(particles.getNumberOfParticles() == 29);
 }
+
+void vectorInitTest()
+{
+    Vec3<double> test_vector(5,5,5);
+    Vec3<double> lol_2(5,5,5);
+    Vec3<double> rofl = test_vector + lol_2;
+    
+    Particle particle;
+
+    test_vector.display();
+    rofl.display();
+    std::cout << rofl.getLength() << std::endl;
+    std::cout << "lol" << std::endl;
+} 
+
+void randomGeneratorTest()
+{     
+    TEST2
+    std::random_device random_device;
+    std::uniform_real_distribution<double> die_distribution{1.0,500.0};
+
+    for(int i = 0; i < 10; i++){
+    double random_x_pos = die_distribution(random_device);
+    }
+    std::cout << random_x_pos << std::endl;
+}
