@@ -131,7 +131,5 @@ int main(int argc, char** argv)
 
     first_test();
 
-	Vec3<double> vectorTest(1.0,2.66,9.5);
-	std::cout << "VECTOR TEST:"<< vectorTest.toString() << std::endl;
 	return EXIT_SUCCESS;
 }
