@@ -33,6 +33,7 @@ void logSDLError(std::ostream &os, const std::string &msg){
 	os << msg << " error: " << SDL_GetError() << std::endl;
 }
 
+
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren){
 	//Initialize to nullptr to avoid dangling pointer issues
 	SDL_Texture *texture = nullptr;
@@ -126,5 +127,7 @@ int main(int argc, char** argv)
 SDL_DestroyRenderer(ren);
 SDL_DestroyWindow(win);
 SDL_Quit();
+Vec3<double> vectorTest(1.0,2.66,9.5);
+std::cout << "VECTOR TEST:"<< vectorTest.toString() << std::endl;
 	return EXIT_SUCCESS;
 }
