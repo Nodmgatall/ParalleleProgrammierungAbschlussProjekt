@@ -58,15 +58,15 @@ template <class T> class Vec3
             x = y = z = 0;
         }
 
-        std::string tostring()
+        std::string toString()
         {
             std::string data;
-            data + std::to_string(x);
-            data + " ";
-            data + std::to_string(y);
-            data + " ";
-            data + std::to_string(z);
-            data + " ";
+            data += std::to_string(x);
+            data += " ";
+            data += std::to_string(y);
+            data += " ";
+            data += std::to_string(z);
+            data += " ";
 
             return data;
         }
