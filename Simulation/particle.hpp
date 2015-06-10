@@ -25,7 +25,9 @@ private:
 	unsigned long number_of_particles;
 
 public:
-	/** removes single particle */
+
+	Particle();
+		/** removes single particle */
 	void remove(unsigned long vector_index);
 
 	/** returns the distance from the center of the system */
@@ -44,6 +46,12 @@ public:
 
 	/** returns the positon of given particle */
 	Vec3<double> getPostion(unsigned long particle_index);
+
+	//TODO:
+	/** returns a pointer to a copied positions Vector for saving */ 
+	Vec3<Vec3<double> > savePositionData();
+
+	void writePositionToFile(char* filename);
 
 	/** returns the mass of given particle */
 	double getMass(unsigned long particle_index);
@@ -101,5 +109,6 @@ public:
 
 	//TODO: Save funktion die die daten aus Particle in eine datei schreibt
 };
+
 
 #endif
