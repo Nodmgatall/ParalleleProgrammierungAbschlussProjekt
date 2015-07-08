@@ -8,4 +8,5 @@ void randomGeneratorTest();
 
 void vectorInitTest();
 
+void test_grav();
 #endif

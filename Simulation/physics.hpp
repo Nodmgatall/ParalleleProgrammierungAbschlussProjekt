@@ -2,7 +2,7 @@
 #define PHYSICS_HPP
 
 #include "particle.hpp"
-#include "vec3.hpp"
+#include "Util/vec3.hpp"
 
 const double G = 0.000000000066742;
 

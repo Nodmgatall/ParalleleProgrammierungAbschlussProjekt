@@ -179,6 +179,11 @@ template <class T> class Vec3
             return sqrt(dx * dx + dy * dy + dz * dz);
         }
 
+        static Vec3<T> getDistanceVector(const Vec3 &v1, const Vec3 &v2)
+        {
+            return Vec3<T>(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z);
+        }
+
           /** return the absolute value (aka length)*/
         T getLength()
         {

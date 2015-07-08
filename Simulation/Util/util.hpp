@@ -58,4 +58,18 @@ TYPE m_to_km(TYPE miles) {
     return miles / (long double) 0.62137;
 }
 
+/** Convert au to meter */
+template<typename TYPE>
+TYPE au_to_m(Type au)
+{
+   return (double)au * 149597870700.0;
+}
+
+/** Convert meter to au */
+template<typename TYPE>
+TYPE au_to_m(Type meter)
+{
+   return meter / 149597870700.0;
+}
+
 #endif //UTIL_HPP

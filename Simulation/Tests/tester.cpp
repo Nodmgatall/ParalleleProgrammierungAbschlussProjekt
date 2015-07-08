@@ -1,8 +1,10 @@
 #include "particle.hpp"
 #include "vec3.hpp"
 #include "tester.hpp"
+#include "physics.hpp"
 #include <iostream>
 #include <assert.h>
+#include <cmath>
 
 #include <random>
 #include <array>
@@ -50,10 +52,53 @@ void randomGeneratorTest()
 {     
     std::random_device random_device;
     std::uniform_real_distribution<double> die_distribution{1.0,500.0};
-
+    double random_x_pos;
     for(int i = 0; i < 10; i++)
     {
-    double random_x_pos = die_distribution(random_device);
+    random_x_pos = die_distribution(random_device);
     std::cout << random_x_pos << std::endl;
     }
+}
+
+void test_grav()
+{
+    Particle particle;
+    particle. createParticle(Vec3<double>(0,0,0),
+                             Vec3<double>(0,0,0),
+                             1.98855 * pow(10, 30),
+                             10.0);
+    particle. createParticle(Vec3<double>(149598261000,0,0),
+                             Vec3<double>(0,297800,0),
+                             5.972 * pow(10, 24),
+                             10.0);
+
+    unsigned long i = 0;
+    Vec3<double> start = Vec3<double>(0,149600000000,0);
+    Vec3<double> end;
+    unsigned long id = 1;
+     while(i< 1000)
+    //while(i < 6)
+    //while(particle.getPostion(id).getLength() > 10)
+    {
+        if(i % 1 == 0)
+        {
+            // particle.printParticle(0);
+            particle.printParticle(1);
+
+        }
+        applyGravity(particle, id, 0.006);
+         particle.move_Object(id,1);
+      //  particle.printParticle(id);
+       // particle.getPostion(id).display();
+        i++;
+    }
+    end = particle.getPostion(id);
+
+    puts("start:");
+    start.display();
+    puts("end:");
+    start.display();
+
+
+
 }

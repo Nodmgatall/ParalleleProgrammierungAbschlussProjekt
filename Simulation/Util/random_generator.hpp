@@ -18,13 +18,13 @@
 	}
 
 	template<typename T> 
-	Vec3<T> generateRandomVec3(T range_start, T range_end)
+	Vec3<T> generateRandomVec3(T length_min, T length_max)
 	{
-		double final_length = generateRandomNumber<T>(range_start,range_end);
+		double final_length = generateRandomNumber<T>(length_min,length_max);
 		Vec3<T> new_vector(
-			generateRandomNumber<T>(range_start, range_end),
-			generateRandomNumber<T>(range_start, range_end),
-			generateRandomNumber<T>(range_start, range_end)
+			generateRandomNumber<T>(-10, 10),
+			generateRandomNumber<T>(-10, 10),
+			generateRandomNumber<T>(-10, 10)
 			);
 		new_vector *= (final_length/new_vector.getLength());
 		return new_vector;

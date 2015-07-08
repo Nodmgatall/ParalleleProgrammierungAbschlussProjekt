@@ -1,13 +1,15 @@
 #ifndef PARTICLE_HPP
 #define PARTICLE_HPP
 
+#include "Util/random_generator.hpp"
+
+#include <string>
 #include <vector>
 #include <math.h>
 #include <iostream>
 #include <ctime>
 #include <utility> 
 #include <cstdlib>
-#include "random_generator.hpp"
 
 // center object has to be at <0.0.0>
 /**
@@ -44,6 +46,9 @@ public:
 	/** returns the velocity vector of given particle */
 	Vec3<double> getVelocityVector(unsigned long particle_index);
 
+	/** adds a acceleration vector to the velocity vectof of specified object*/
+	void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
+
 	/** returns the positon of given particle */
 	Vec3<double> getPostion(unsigned long particle_index);
 
@@ -51,7 +56,7 @@ public:
 	/** returns a pointer to a copied positions Vector for saving */ 
 	Vec3<Vec3<double> > savePositionData();
 
-	void writePositionToFile(char* filename);
+	void writePositionToFile(std::string filename);
 
 	/** returns the mass of given particle */
 	double getMass(unsigned long particle_index);
@@ -64,7 +69,7 @@ public:
 
 	/**
 		Discription:\n
-			Generates a new particle witch random atributes \n
+			Generates a new particle witch random atributes within ranges \n
 		Return value:\n
 			returns the index of the new Particle
 	*/
@@ -73,6 +78,16 @@ public:
 		std::pair<double,double> range_velocity,
 		std::pair<double,double> range_mass,
 		std::pair<double,double> range_radius);
+	/**	
+		Discription:\n
+			Generates a new particle witch random atributes form range 0 to max_<atr> \n
+		Return value:\n
+			returns the index of the new Particle
+
+	*/
+	unsigned long generateRandomParticle(
+		double max_pos, double max_velo,
+		double max_mass, double max_radius);
 
 	/**
 		Discription:\n

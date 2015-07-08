@@ -1,8 +1,10 @@
 PRIO1
-gravitaions algo;
+gravitaions algo; DONE
 write to file testen;
+ctypes!!!
+conversion functions;
 
-PRION NOT EVEN THERE YET!
+PRIO NOT EVEN THERE YET!
 
 collision
 	octree
@@ -16,10 +18,13 @@ simple sequential algorithm impl
 PRIO2
 class visualiser;
 	function get data;
+
 visualierung
-	erste impl -> DRAW trinangle within window with specified pos
+	erste impl -> DRAW trinangle within window with specified pos DONE
 	2nd impl -> 3d fun
 	3rd impl -> moving window
 	draw line behind particle for n iterations
 
 UPDATE DOCUMENTATION
+
+various planet generation functions
