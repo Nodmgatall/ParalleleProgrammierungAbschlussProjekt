@@ -18,7 +18,7 @@ class Visualizer
         SDL_Window *m_window;
         
         void init_SDL();
-        void load_object_data_from_file();
+        void load_object_data_from_file(std::string filepath);
         void load_textures();
         void render_texture(SDL_Texture *tex, int x, int y, int z);
         void main_loop(double dt);
