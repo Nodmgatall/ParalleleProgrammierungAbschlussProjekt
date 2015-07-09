@@ -21,7 +21,7 @@ class Visualizer
         void load_object_data_from_file();
         void load_textures();
         void render_texture(SDL_Texture *tex, int x, int y, int z);
-        void main_loop();
+        void main_loop(double dt);
         void update();
     
     public:

@@ -5,48 +5,67 @@
 #include <iostream>
 #include <string>
 
-void main_loop()
+void Visualizer::main_loop(double dt = 1)
 {
+    int lol = 0;
+    unsigned long interation_number = 0;
     while(m_running == true)
     {
         update();
-        draw();
+        draw(interation_number, dt);
+    std::cout << lol++ << std::endl;
     }
-
+    SDL_DestroyRenderer(m_renderer);
+    SDL_DestroyWindow(m_window);
+    SDL_Quit();
 }
 
-void update()
+void Visualizer::update()
 {
     SDL_Event event;
     while(SDL_PollEvent(&event))
     {
-        if(event.type == SDL_Quit)
+        if(event.type == SDL_QUIT)
         {
             m_running = false;
         }
+        else if(event.type == SDL_KEYUP)
         {
-
-        }
-        if(state[SDL_SCANCODE_ESC])
-        {
-
+            switch(event.key.keysym.sym)
+            {
+                case SDLK_ESCAPE:
+                    m_running = false;
+                break;
+            }
         }
     }
 }
 
-void Visualizer::Visualizer()
+Visualizer::Visualizer()
 {
+    m_screen_width = 200;
+    m_screen_height = 200;
     init_SDL();
+    load_textures();
+    main_loop(1);
 }
+
+Visualizer::~Visualizer(){}
+
 void Visualizer::draw(unsigned long interation_number, double dt)
 {
-    for(unsigned long index = 0; index < m_object_positions[interation_number].size(); ++index)
-    {
-        render_texture(m_resource_manager.get_texture("Triangle_Green"),
-                (int)m_object_positions[interation_number][index].getX(),
-                (int)m_object_positions[interation_number][index].getY(),
-                (int)m_object_positions[interation_number][index].getZ());
-    }
+    SDL_RenderClear(m_renderer);
+    render_texture(m_resource_manager.get_texture("Triangle_Green"),100,100,100);
+    std::cout << "here1" << std::endl;
+//    for(unsigned long index = 0; index != 0|| index < m_object_positions[interation_number].size(); ++index)
+//    {
+//        render_texture(m_resource_manager.get_texture("Triangle_Green"),
+//                (int)m_object_positions[interation_number][index].getX(),
+//                (int)m_object_positions[interation_number][index].getY(),
+//                (int)m_object_positions[interation_number][index].getZ());
+//    }
+    std::cout << "here2" << std::endl;
+    SDL_RenderPresent(m_renderer);
 }
 void Visualizer::load_textures()
 {
