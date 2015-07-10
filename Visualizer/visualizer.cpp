@@ -11,7 +11,6 @@
 
 void Visualizer::main_loop(double dt = 1)
 {
-    unsigned long interation_number = 0;
     while(m_running == true)
     {
         update();
@@ -62,7 +61,6 @@ void Visualizer::update()
 
                 case SDLK_r:
                     m_iteration_number = 0;
-                    m_running = false;
                 break;
             }
         }
