@@ -50,6 +50,15 @@ class OctreeNode
         /** Insert data into tree */
         void insert(void * data);
 
+        /** Return node's origin */
+        Vec3<double> getOrigin();
+
+        /** Return node's radii */
+        Vec3<double> getRadii();
+
+        /** Return pointer to node's children */
+        OctreeNode& getChildren();
+
         // TODO: probably going to need more functions...
 };
 
