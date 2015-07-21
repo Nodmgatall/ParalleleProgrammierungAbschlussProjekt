@@ -167,12 +167,12 @@ void Particle::writePositionToFile(std::string filename)
     std::ofstream file(filename, std::ofstream::app);
     if(file.is_open())
     {
-        file << " >";
 
         for(unsigned long i = 0; i < number_of_particles; i++)
         {
-            file << "   " << positions[i].toString() << "\n";
+            file << positions[i].toString() << "\n";
         }
+        file << ">\n";
     }
 }
 
