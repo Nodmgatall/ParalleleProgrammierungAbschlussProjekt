@@ -61,6 +61,7 @@ void Visualizer::update()
 
                 case SDLK_r:
                     m_iteration_number = 0;
+                    draw_main_loop(m_iteration_number,1);
                 break;
             }
         }
@@ -86,9 +87,9 @@ void Visualizer::draw_main_loop(unsigned long iteration_number, double dt)
 {
     unsigned long scale = 5000000000;
     SDL_RenderClear(m_renderer);
+        std::cout << m_iteration_number << std::endl;
     for(unsigned long index = 0;index < m_object_positions[m_iteration_number].size(); ++index)
     {
-        std::cout << index << std::endl;
         render_texture(m_resource_manager.get_texture("Triangle_Green"),
                 (int)(m_object_positions[m_iteration_number][index].getX()/scale + 800),
                 (int)(m_object_positions[m_iteration_number][index].getY()/scale + 450),
@@ -168,6 +169,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
             }
             else 
             {
+                std::cout << s << std::endl;
                 std::string x,y,z;
                 std::stringstream ss(s);
                 getline(ss,x,' ');
