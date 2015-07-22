@@ -9,16 +9,23 @@
 #include <sstream>
 #include <fstream>
 
+const unsigned c_scroll_velo = 100;
+
 void Visualizer::main_loop(double dt = 1)
 {
     while(m_running == true)
     {
         update();
-        draw_main_loop(m_iteration_number, dt);
+        draw_main_loop(dt);
         m_iteration_number++;
+        if(m_iteration_number == m_object_positions.size())
+        {
+            m_iteration_number = 0;
+        }
         SDL_Delay(10);
-    //std::cout << lol++ << std::endl;
+        //std::cout << lol++ << std::endl;
     }
+    m_resource_manager.shutdown();
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
     SDL_Quit();
@@ -37,33 +44,60 @@ void Visualizer::update()
     SDL_Event event;
     while(SDL_PollEvent(&event))
     {
-        if(event.type == SDL_QUIT)
+        switch(event.type)
         {
-            m_running = false;
-            m_pause = false;
-        }
-        else if(event.type == SDL_KEYUP)
-        {
-            switch(event.key.keysym.sym)
-            {
-                case SDLK_ESCAPE:
-                    if(m_pause == false)
-                    {
+            case SDL_QUIT:
+                m_running = false;
+                m_pause = false;
+                break;
+
+            case SDL_MOUSEWHEEL:
+                std::cout << event.wheel.y <<  std::endl;
+                m_scale += event.wheel.y * 100000000; 
+                break;
+
+            case SDL_KEYUP:
+
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_DOWN:
+                        m_camera.y -= c_scroll_velo;
+                        break;
+
+                    case SDLK_UP:
+                        m_camera.y += c_scroll_velo;
+                        break;
+
+                    case SDLK_LEFT:
+                        m_camera.x -= c_scroll_velo;
+                        break;
+
+                    case SDLK_RIGHT:
+                        m_camera.x += c_scroll_velo;
+                        break;
+
+                    case SDLK_ESCAPE:
                         m_running = false;
-                    }
-                    m_pause = false;
-                break;
+                        break;
 
-                case SDLK_p:
-                    m_pause = !m_pause;
-                    pause_loop();
-                break;
+                    case SDLK_s:
+                        if(m_pause == true)
+                        {
+                            m_iteration_number++;
+                            draw_main_loop(1);
+                        }
+                        break;
 
-                case SDLK_r:
-                    m_iteration_number = 0;
-                    draw_main_loop(m_iteration_number,1);
-                break;
-            }
+                    case SDLK_p:
+                        m_pause = !m_pause;
+                        pause_loop();
+                        break;
+
+                    case SDLK_r:
+                        m_iteration_number = 0;
+                        draw_main_loop(1);
+                        break;
+                }
         }
     }
 }
@@ -75,25 +109,43 @@ Visualizer::Visualizer()
     m_iteration_number = 0;
     m_screen_width = 1600;
     m_screen_height = 900;
+    m_scale = 5000000000;
     load_object_data_from_file("test.txt");
     init_SDL();
     load_textures();
     main_loop(1);
 }
 
-Visualizer::~Visualizer(){}
-
-void Visualizer::draw_main_loop(unsigned long iteration_number, double dt)
+Visualizer::Visualizer(std::string filename)
 {
-    unsigned long scale = 5000000000;
+    m_pause = false;
+    m_running = true;
+    m_iteration_number = 0;
+    m_screen_width = 1600;
+    m_screen_height = 900;
+    m_camera = {-m_screen_width/2, m_screen_height/2, m_screen_width, m_screen_height};
+    m_scale = 5000000000;
+    load_object_data_from_file(filename);
+    init_SDL();
+    load_textures();
+    main_loop(1);
+}
+
+Visualizer::~Visualizer()
+{
+    SDL_Quit();
+}
+
+void Visualizer::draw_main_loop(double dt)
+{
     SDL_RenderClear(m_renderer);
-        std::cout << m_iteration_number << std::endl;
-    for(unsigned long index = 0;index < m_object_positions[m_iteration_number].size(); ++index)
+    //std::cout << m_iteration_number << std::endl;
+    for(unsigned long index = 0; index < m_object_positions[m_iteration_number].size(); ++index)
     {
         render_texture(m_resource_manager.get_texture("Triangle_Green"),
-                (int)(m_object_positions[m_iteration_number][index].getX()/scale + 800),
-                (int)(m_object_positions[m_iteration_number][index].getY()/scale + 450),
-                (int)m_object_positions[m_iteration_number][index].getZ()/scale);
+                (int)(m_object_positions[m_iteration_number][index].getX()/m_scale - m_camera.x),
+                (int)(m_object_positions[m_iteration_number][index].getY()/m_scale + m_camera.y),
+                (int)m_object_positions[m_iteration_number][index].getZ()/m_scale);
     }
     SDL_RenderPresent(m_renderer);
 }
@@ -125,8 +177,6 @@ void Visualizer::init_SDL()
         std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
         exit(EXIT_FAILURE);
     }
-
-
 
     m_window = SDL_CreateWindow("Hello World!", 100, 100, m_screen_width, m_screen_height, SDL_WINDOW_SHOWN);
 
@@ -162,8 +212,8 @@ void Visualizer::load_object_data_from_file(std::string filepath)
             {
                 std::cout << "new it" << std::endl;
                 m_object_positions.push_back(it_vector);
-        std::cout << it_vector.size() << std::endl;
-        std::cout << m_object_positions.size() << std::endl;
+                //std::cout << it_vector.size() << std::endl;
+                //std::cout << m_object_positions.size() << std::endl;
                 it_vector.clear();
                 it_number++;
             }
@@ -177,7 +227,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
                 getline(ss,z,' ');
                 it_vector.push_back(Vec3<double>(std::stod(x),std::stod(y),std::stod(z)));
                 std::cout << it_vector.back().toString() << std::endl;
-            
+
             }
         }
         file.close();

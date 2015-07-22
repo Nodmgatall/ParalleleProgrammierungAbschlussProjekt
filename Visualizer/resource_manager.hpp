@@ -21,18 +21,6 @@ public:
         for(auto e : m_textures) {
             SDL_DestroyTexture(e.second);
         }
-
-        for(auto e : m_sounds) {
-            Mix_FreeChunk(e.second);
-        }
-
-        for(auto e : m_music) {
-            Mix_FreeMusic(e.second);
-        }
-
-        for(auto e : m_fonts) {
-            TTF_CloseFont(e.second);
-        }
     }
 
     /***/

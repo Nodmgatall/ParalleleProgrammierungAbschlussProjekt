@@ -14,10 +14,12 @@ class Visualizer
         int m_screen_height;
         bool m_running;
         bool m_pause;
+        unsigned long m_scale;
         unsigned long m_iteration_number;
         ResourceManager m_resource_manager;
         SDL_Renderer *m_renderer;
         SDL_Window *m_window;
+        SDL_Rect m_camera;
         
         void init_SDL();
         void load_object_data_from_file(std::string filepath);
@@ -31,9 +33,10 @@ class Visualizer
         
         Visualizer();
         Visualizer(int screen_height, int sreen_width);
+        Visualizer(std::string filename);
         ~Visualizer();
         
-        void draw_main_loop(unsigned long iteration_number, double dt);
+        void draw_main_loop(double dt);
 };
 
 #endif
