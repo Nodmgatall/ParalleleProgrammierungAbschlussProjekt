@@ -20,11 +20,11 @@
 class Particle
 {
 private:
-	std::vector<Vec3<double> > velocity_vectors;
-	std::vector<Vec3<double> > positions;
-	std::vector<double> masses;
-	std::vector<double> radiuses;
-	unsigned long number_of_particles;
+	std::vector<Vec3<double> > m_velocity_vectors;
+	std::vector<Vec3<double> > m_positions;
+	std::vector<double> m_masses;
+	std::vector<double> m_radiuses;
+	unsigned long m_number_of_particels;
 
 public:
 
@@ -53,7 +53,7 @@ public:
 	Vec3<double> getPostion(unsigned long particle_index);
 
 	//TODO:
-	/** returns a pointer to a copied positions Vector for saving */ 
+	/** returns a pointer to a copied m_positions Vector for saving */ 
 	Vec3<Vec3<double> > savePositionData();
 
 	void writePositionToFile(std::string filename);
@@ -110,7 +110,7 @@ public:
 		Example output:\n
 		ParicleID: 0\n
 		Distance from center: 58984654.079628\n
-		Position:\n
+		Position:\nobjekt
 		        X: 2656945.474053\n
 		        Y: 46291973.436072\n
 		        Z: 36457965.563581\n
@@ -126,6 +126,10 @@ public:
 
 	/** prints all particles to the console */
 	void printAllParticles();
+    
+    void calculate_collision(unsigned long obj_id_1, unsigned long obj_id_2);
+
+    void merge_objects(unsigned long obj_id_1, unsigned long obj_id_2);
 
 	//TODO: Save funktion die die daten aus Particle in eine datei schreibt
 };

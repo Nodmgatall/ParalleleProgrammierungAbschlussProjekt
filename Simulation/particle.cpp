@@ -17,75 +17,83 @@
 
 Particle::Particle()
 {
-    number_of_particles = 0;
+    m_number_of_particels = 0;
 
 }
 void Particle::remove(unsigned long vector_index)
 {
-    velocity_vectors.erase(velocity_vectors.begin() + vector_index);
-    positions.erase(positions.begin() + vector_index);
-    masses.erase(masses.begin() + vector_index);
-    radiuses.erase(radiuses.begin() + vector_index);
-    number_of_particles--;
+    m_velocity_vectors.erase(m_velocity_vectors.begin() + vector_index);
+    m_positions.erase(m_positions.begin() + vector_index);
+    m_masses.erase(m_masses.begin() + vector_index);
+    m_radiuses.erase(m_radiuses.begin() + vector_index);
+    m_number_of_particels--;
 }
 
 double Particle::get_distance_to_center(unsigned long particle_index)
 {
-    return positions[particle_index].getLength();
+    return m_positions[particle_index].getLength();
 }
 
 // move each object by their velocity, if the stepsize is equal to 1second 
 void Particle::move_Object(unsigned long particle_index, double step_size = 0.00000001)
 {
-    //positions[particle_index].display();
-    positions[particle_index] += velocity_vectors[particle_index]/step_size;
-    //positions[particle_index].display();
+    //m_positions[particle_index].display();
+    m_positions[particle_index] += m_velocity_vectors[particle_index]/step_size;
+    //m_positions[particle_index].display();
 
 }
 
 double Particle::getDistanceOfTwoObjects(unsigned long ob1, unsigned long ob2)
 {
-    return Vec3<double>::getDistance(positions[ob1], positions[ob2]);
+    return Vec3<double>::getDistance(m_positions[ob1], m_positions[ob2]);
 }
 
 Vec3<double> Particle::getVelocityVector(unsigned long particle_index)
 {
-    return velocity_vectors[particle_index];	
+    return m_velocity_vectors[particle_index];	
 }
 
 void Particle::addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector)
 {
-    velocity_vectors[particle_index] += accelerationVector;
+    m_velocity_vectors[particle_index] += accelerationVector;
 }
 
 Vec3<double> Particle::getPostion(unsigned long particle_index)
 {
-    return positions[particle_index];
+    return m_positions[particle_index];
 }
 
 double Particle::getMass(unsigned long particle_index)
 {
-    return masses[particle_index];
+    return m_masses[particle_index];
 }
 
 double Particle::getRadius(unsigned long particle_index)
 {
-    return radiuses[particle_index];
+    return m_radiuses[particle_index];
 }
 
 unsigned long Particle::getNumberOfParticles()
 {
-    return number_of_particles;
+    return m_number_of_particels;
 }
 
 Vec3<double> Particle::calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector)
 {
+    //Step1: calculate a vector v1 that in combination with pos_vec describes a plane from which
+    //we can calculate a vector v2 that is in an 90 deg angle to pos vec and on the plane that
+    //is described by pos_vec and (0,0,1)
     Vec3<double> ort_vec = Vec3<double>::crossProduct(pos_vec, Vec3<double>(0,0,1));
-    ort_vec = Vec3<double>::crossProduct(ort_vec,pos_vec);
-    ort_vec = Vec3<double>::crossProduct(ort_vec,pos_vec);
-    ort_vec.normalise();
-    ort_vec *= velocity_vector.getLength();
-    return ort_vec;
+    //Step2: calculate v2 
+    Vec3<double>v1 = Vec3<double>::crossProduct(ort_vec,pos_vec);
+    //Step3: now we calculate the vector that hat a 90 deg angle to pos_vec
+    //and has a 90 deg angele to the plane described by pos_vec and v2
+    Vec3<double> v2 = Vec3<double>::crossProduct(v1,pos_vec);
+    //Step4: Normalise v2 
+    v2.normalise();
+    //Step4: Give v2 the wanted length and so the wanted velocity
+    v2 *= velocity_vector.getLength();
+    return v2;
 }
 
 
@@ -143,12 +151,12 @@ unsigned long Particle::createParticle(
         double m,
         double r )
 {
-    velocity_vectors.push_back(v);
-    positions.push_back(p);
-    masses.push_back(m);
-    radiuses.push_back(r);
-    number_of_particles++;
-    return number_of_particles - 1;
+    m_velocity_vectors.push_back(v);
+    m_positions.push_back(p);
+    m_masses.push_back(m);
+    m_radiuses.push_back(r);
+    m_number_of_particels++;
+    return m_number_of_particels - 1;
 }
 
 
@@ -156,21 +164,21 @@ void Particle::printParticle(unsigned long particle_index)
 {
     printf("ParicleID: %lu\nDistance from center: %f\nPosition:\n	X: %f\n	Y: %f\n	Z: %f\nVelocity: %f\n	X: %f\n	Y: %f\n	Z: %f\nMass: %f\nRadius %f\n\n",
             particle_index,
-            positions[particle_index].getLength(),
-            positions[particle_index].getX(),
-            positions[particle_index].getY(),
-            positions[particle_index].getZ(),
-            velocity_vectors[particle_index].getLength(),
-            velocity_vectors[particle_index].getX(),
-            velocity_vectors[particle_index].getY(),
-            velocity_vectors[particle_index].getZ(),
-            masses[particle_index],
-            radiuses[particle_index]);
+            m_positions[particle_index].getLength(),
+            m_positions[particle_index].getX(),
+            m_positions[particle_index].getY(),
+            m_positions[particle_index].getZ(),
+            m_velocity_vectors[particle_index].getLength(),
+            m_velocity_vectors[particle_index].getX(),
+            m_velocity_vectors[particle_index].getY(),
+            m_velocity_vectors[particle_index].getZ(),
+            m_masses[particle_index],
+            m_radiuses[particle_index]);
 }
 
 void Particle::printAllParticles()
 {
-    for(unsigned long i = 0; i <  number_of_particles; i++)
+    for(unsigned long i = 0; i <  m_number_of_particels; i++)
     {
         printParticle(i);
     }
@@ -183,14 +191,35 @@ void Particle::writePositionToFile(std::string filename)
     if(file.is_open())
     {
 
-        for(unsigned long i = 0; i < number_of_particles; i++)
+        for(unsigned long i = 0; i < m_number_of_particels; i++)
         {
-            file << positions[i].toString() << "\n";
+            file << m_positions[i].toString() << "\n";
         }
         file << ">\n";
     }
 }
 
+void Particle::calculate_collision(unsigned long obj_id_1, unsigned long obj_id_2)
+{
+    if(obj_id_1 == 0)
+    {
+        remove(obj_id_2);
+        return;
+    }
+    if(obj_id_2 == 0)
+    {
+        remove(obj_id_1);
+        return;
+    }
+    double impulse_obj_1 = (m_velocity_vectors[obj_id_1] * m_masses[obj_id_1]).getLength();
+    double impulse_obj_2 = (m_velocity_vectors[obj_id_2] * m_masses[obj_id_2]).getLength();
+    impulse_obj_1 = impulse_obj_2;
+    impulse_obj_2 = impulse_obj_1;
+}
 
-
-//TODO: Save funktion die die daten aus Particle in eine datei schreibt
+void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
+{
+    remove(obj_id_1);
+    remove(obj_id_2);
+    return;
+}
