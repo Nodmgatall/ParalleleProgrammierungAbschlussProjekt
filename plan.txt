@@ -28,3 +28,8 @@ visualierung
 UPDATE DOCUMENTATION
 
 various planet generation functions
+
+
+change hardcoded file to command input
+
+remove vis from sim

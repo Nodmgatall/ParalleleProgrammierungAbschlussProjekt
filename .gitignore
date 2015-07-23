@@ -36,3 +36,9 @@
 *.vrb
 *.pygtex
 *.pygstyle
+
+#text files
+*.txt
+
+#valgrinf data
+vgcore.*

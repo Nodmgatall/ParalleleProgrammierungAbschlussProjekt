@@ -66,6 +66,11 @@ public:
 
 	/** returns the number of existing particles */
 	unsigned long getNumberOfParticles();
+    
+    /** 
+     * calculates the vector that is on the same plane as pos_vec and velocity_vector
+     * that is orthogonal to pos_vec*/
+    Vec3<double> calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector);
 
 	/**
 		Discription:\n

@@ -210,7 +210,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
         {
             if (s == ">")
             {
-                std::cout << "new it" << std::endl;
+                std::cout << "new it "<< it_number << std::endl;
                 m_object_positions.push_back(it_vector);
                 //std::cout << it_vector.size() << std::endl;
                 //std::cout << m_object_positions.size() << std::endl;
@@ -219,14 +219,14 @@ void Visualizer::load_object_data_from_file(std::string filepath)
             }
             else 
             {
-                std::cout << s << std::endl;
+                //std::cout << s << std::endl;
                 std::string x,y,z;
                 std::stringstream ss(s);
                 getline(ss,x,' ');
                 getline(ss,y,' ');
                 getline(ss,z,' ');
                 it_vector.push_back(Vec3<double>(std::stod(x),std::stod(y),std::stod(z)));
-                std::cout << it_vector.back().toString() << std::endl;
+                //std::cout << it_vector.back().toString() << std::endl;
 
             }
         }

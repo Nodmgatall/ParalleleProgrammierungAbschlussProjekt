@@ -78,6 +78,17 @@ unsigned long Particle::getNumberOfParticles()
     return number_of_particles;
 }
 
+Vec3<double> Particle::calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector)
+{
+    Vec3<double> ort_vec = Vec3<double>::crossProduct(pos_vec, Vec3<double>(0,0,1));
+    ort_vec = Vec3<double>::crossProduct(ort_vec,pos_vec);
+    ort_vec = Vec3<double>::crossProduct(ort_vec,pos_vec);
+    ort_vec.normalise();
+    ort_vec *= velocity_vector.getLength();
+    return ort_vec;
+}
+
+
 unsigned long Particle::generateRandomParticle(double max_pos, double max_velo,
         double max_mass, double max_radius)
 {
@@ -86,9 +97,11 @@ unsigned long Particle::generateRandomParticle(double max_pos, double max_velo,
     double new_mass = generateRandomNumber<double>(0,max_mass);
     double new_radius = generateRandomNumber<double>(0,max_radius);
 
+    //new_position.setZ(0);
+    //new_velocity_vector.setZ(0);
     return createParticle(
             new_position,
-            new_velocity_vector,
+            calculate_ortogonal_vector_to_pos_vec(new_position,new_velocity_vector),
             new_mass,
             new_radius);
 
@@ -113,9 +126,11 @@ unsigned long Particle::generateRandomParticle(
             range_radius.first,
             range_radius.second);
 
+    //new_position.setZ(0);
+    //new_velocity_vector.setZ(0);
     return createParticle(
             new_position,
-            new_velocity_vector,
+            calculate_ortogonal_vector_to_pos_vec(new_position,new_velocity_vector),
             new_mass,
             new_radius);
 
