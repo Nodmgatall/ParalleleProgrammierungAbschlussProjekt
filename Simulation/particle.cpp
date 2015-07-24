@@ -18,6 +18,7 @@
 Particle::Particle()
 {
     m_number_of_particels = 0;
+    m_max_id = 0;
 
 }
 void Particle::remove(unsigned long vector_index)
@@ -26,8 +27,77 @@ void Particle::remove(unsigned long vector_index)
     m_positions.erase(m_positions.begin() + vector_index);
     m_masses.erase(m_masses.begin() + vector_index);
     m_radiuses.erase(m_radiuses.begin() + vector_index);
+    m_used_ids.erase(m_used_ids.begin() + vector_index);
     m_number_of_particels--;
+    return;
 }
+
+void Particle::remove_by_id(unsigned long particle_id)
+{
+    unsigned long vector_index = get_vector_index(particle_id);
+    remove(vector_index);
+    return;
+}
+
+
+unsigned long Particle::get_vector_index(unsigned long id)
+{
+    unsigned long sub_vector_size;
+    unsigned long index;
+    unsigned long sub_vector_end = id;
+
+    if(id > m_used_ids.size())
+    {
+        sub_vector_end = m_used_ids.size();
+    }
+
+    if(m_used_ids[sub_vector_end] == id)
+    {
+        std::cout << "wanted: "<< id << "    simple deleted: "<< m_used_ids[id] << std::endl;
+        //m_used_ids.erase(m_used_ids.begin() + sub_vector_end);
+        return sub_vector_end;
+    }
+
+    sub_vector_size = id / 2;
+    index = 0;
+    while(index < sub_vector_end)
+    {
+        //std::cout << "sub_vector_size "<< sub_vector_size << std::endl;
+        for(int i = 0; i < 10 ; i ++)
+        {
+            int rofl;
+            int lol = 0;
+            lol = i;
+        
+            rofl = lol;
+            lol = rofl;
+        }
+        unsigned long current_index = index + sub_vector_size; 
+        if(m_used_ids[current_index] == id)
+        {
+            std::cout << "wanted: " << id << "   Deleted: " << m_used_ids[current_index] << std::endl;
+            //m_used_ids.erase(m_used_ids.begin() + current_index);
+            return current_index; 
+        }
+        else
+        {
+            if(m_used_ids[current_index] < id)
+            {
+                //std::cout << "current_index > id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
+                index = current_index + 1;
+            }
+            else
+            {
+                //std::cout << "current_index < id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
+                sub_vector_end = current_index;   
+            }
+            sub_vector_size = sub_vector_size / 2;
+        }
+    }
+    std::cout << "end" << std::endl;
+    return m_max_id + 1;
+}
+
 
 double Particle::get_distance_to_center(unsigned long particle_index)
 {
@@ -81,7 +151,7 @@ unsigned long Particle::getNumberOfParticles()
 Vec3<double> Particle::calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector)
 {
     //Step1: calculate a vector v1 that in combination with pos_vec describes a plane from which
-    //we can calculate a vector v2 that is in an 90 deg angle to pos vec and on the plane that
+    //we can calculate a vector v2 that is in an 90 deg angle to pos vec and is kon the plane that
     //is described by pos_vec and (0,0,1)
     Vec3<double> ort_vec = Vec3<double>::crossProduct(pos_vec, Vec3<double>(0,0,1));
     //Step2: calculate v2 
@@ -155,7 +225,9 @@ unsigned long Particle::createParticle(
     m_positions.push_back(p);
     m_masses.push_back(m);
     m_radiuses.push_back(r);
+    m_used_ids.push_back(m_max_id);
     m_number_of_particels++;
+    m_max_id++;
     return m_number_of_particels - 1;
 }
 
@@ -213,6 +285,7 @@ void Particle::calculate_collision(unsigned long obj_id_1, unsigned long obj_id_
     }
     double impulse_obj_1 = (m_velocity_vectors[obj_id_1] * m_masses[obj_id_1]).getLength();
     double impulse_obj_2 = (m_velocity_vectors[obj_id_2] * m_masses[obj_id_2]).getLength();
+    //To remove "not used error"
     impulse_obj_1 = impulse_obj_2;
     impulse_obj_2 = impulse_obj_1;
 }

@@ -5,6 +5,7 @@
 #include "resource_manager.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
+#include <set>
 class Visualizer
 {
     private:
@@ -14,20 +15,27 @@ class Visualizer
         int m_screen_height;
         bool m_running;
         bool m_pause;
+        bool m_input;
+        std::set<unsigned long> m_line_draw_active;
         unsigned long m_scale;
         unsigned long m_iteration_number;
         ResourceManager m_resource_manager;
         SDL_Renderer *m_renderer;
         SDL_Window *m_window;
         SDL_Rect m_camera;
+        SDL_Rect m_background;
         
         void init_SDL();
         void load_object_data_from_file(std::string filepath);
         void load_textures();
-        void render_texture(SDL_Texture *tex, int x, int y, int z);
+        void render_texture(SDL_Texture *tex, int x, int y, int z, int p_width, int p_height);
         void main_loop(double dt);
         void pause_loop();
         void update();
+        void draw_all_trajectory_lines();
+        void draw_trajectory_line(unsigned long obj_id);
+        void handle_console_input(std::string input);
+        void clear_trajectory_lines();
     
     public:
         

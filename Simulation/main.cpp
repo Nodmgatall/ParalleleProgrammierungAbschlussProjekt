@@ -39,12 +39,15 @@ int main(int argc, char** argv)
                              5.972 * pow(10, 24),
                              10.0);
 
+    std::cout << "Generating " << number_of_objects << " Objects" << std::endl;
     for(unsigned long i = 0; i < number_of_objects; i++)
     {
+        
         particle.generateRandomParticle(149598261000 * 20, 40000,5.972 * pow(10, 24) * 6, 100000000000000000);
-    } 
+    }
+    std::cout << "Generating done" << std::endl;
     
-    for(unsigned long i = 0; i < number_of_iterations; i++)
+    for(unsigned long i = number_of_iterations; i < number_of_iterations; i++)
     {
         particle.writePositionToFile(argv[3]);
         std::cout << "Iteration " << i << " of" << number_of_iterations << std::endl;

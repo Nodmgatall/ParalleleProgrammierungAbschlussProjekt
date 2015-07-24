@@ -24,13 +24,17 @@ private:
 	std::vector<Vec3<double> > m_positions;
 	std::vector<double> m_masses;
 	std::vector<double> m_radiuses;
+    std::vector<unsigned long> m_used_ids;
 	unsigned long m_number_of_particels;
+    unsigned long m_max_id;
 
 public:
 
 	Particle();
 		/** removes single particle */
 	void remove(unsigned long vector_index);
+
+    void remove_by_id(unsigned long particle_id);
 
 	/** returns the distance from the center of the system */
 	double get_distance_to_center(unsigned long particle_index);
@@ -131,6 +135,7 @@ public:
 
     void merge_objects(unsigned long obj_id_1, unsigned long obj_id_2);
 
+    unsigned long get_vector_index(unsigned long id);
 	//TODO: Save funktion die die daten aus Particle in eine datei schreibt
 };
 
