@@ -1,4 +1,4 @@
-SDL2_LIBS = $(shell sdl2-config --libs --cflags) -lSDL2_image
+SDL2_LIBS = $(shell sdl2-config --libs --cflags) -lSDL2_image -lSDL2_ttf
 
 all:
 	g++ -g -Werror -pedantic -Wall -Wextra -Wno-error=unused-parameter -std=c++14 -o Visualizer.x *.cpp $(SDL2_LIBS)

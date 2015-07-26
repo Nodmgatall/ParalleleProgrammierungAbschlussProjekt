@@ -3,6 +3,7 @@
 #include "resource_manager.hpp"
 #include "vec3.hpp"
 #include <SDL2/SDL.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <string>
 #include <math.h>
@@ -42,6 +43,18 @@ void Visualizer::pause_loop()
     }
 }
 
+void Visualizer::draw_text(std::string text, int pos_x, int pos_y)
+{
+    SDL_Color color{255,255,255,255};
+    SDL_Rect rect{pos_x, pos_y,12 * (int)text.length(),12};
+    SDL_Surface *font_surf = TTF_RenderText_Blended(m_resource_manager.get_font("data-latin"), text.c_str(), color);
+    SDL_Texture *font_tex = SDL_CreateTextureFromSurface(m_renderer, font_surf);
+    SDL_RenderCopy(m_renderer, font_tex, nullptr, &rect);
+    SDL_FreeSurface(font_surf);
+    SDL_DestroyTexture(font_tex);
+}
+
+
 void Visualizer::update()
 {
 
@@ -69,6 +82,10 @@ void Visualizer::update()
                     command += event.text.text;
                     std::cout << command << std::endl;
                 }
+                break;
+            case SDL_WINDOWEVENT_RESIZED:
+                m_screen_width = event.window.data1;
+                m_screen_height = event.window.data2;
                 break;
 
             case SDL_KEYUP:
@@ -128,6 +145,14 @@ void Visualizer::update()
                         m_iteration_number = 0;
                         draw_main_loop(1);
                         break;
+
+                    case SDLK_x:
+                        m_perspective = 'x';
+                        break;
+
+                    case SDLK_y:
+                        m_perspective = 'y';
+                        break;
                 }
         }
     }
@@ -156,11 +181,16 @@ void Visualizer::handle_console_input(std::string input)
         clear_trajectory_lines();
     }
 
+    if(strcmp(token_vector[0], "drawIDs") == 0)
+    {
+        m_draw_ids = !m_draw_ids;
+    }
+
 
     if(strcmp(token_vector[0], "showTrajectory") == 0 
             || strcmp(token_vector[0], "st") == 0)
     {
-                std::cout << token_vector.size() << "TEST "<< std::endl;
+        std::cout << token_vector.size() << "TEST "<< std::endl;
         bool is_all_digit = true;
         unsigned long particle_id;
 
@@ -215,7 +245,7 @@ Visualizer::Visualizer()
     init_SDL();
     load_textures();
     main_loop(1);
-}
+    ;}
 
 Visualizer::Visualizer(std::string filename)
 {
@@ -225,12 +255,14 @@ Visualizer::Visualizer(std::string filename)
     m_screen_width = 900;
     m_screen_height = 900;
     m_input = false;
+    m_perspective = 'x';
     m_camera = {-m_screen_width/2, m_screen_height/2, m_screen_width, m_screen_height};
     m_scale = 5000000000;
     load_object_data_from_file(filename);
     init_SDL();
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
     load_textures();
+    load_fonts();
     main_loop(1);
 }
 
@@ -254,15 +286,23 @@ void Visualizer::draw_all_trajectory_lines()
 
 void Visualizer::draw_trajectory_line(unsigned long particle_id)
 {
+    double coord2;
     std::vector<SDL_Point> line;
     for(unsigned long index = 0;  index < m_object_positions.size(); index++)
     {
         //std::cout << m_object_positions[index][obj_id].getX() / m_scale - m_camera.x << std::endl;
         //std::cout << m_object_positions[index][obj_id].getY() / m_scale + m_camera.y << std::endl;
-
+        if(m_perspective == 'x')
+        {
+            coord2 = m_object_positions[index][particle_id].getY();
+        }
+        else
+        {
+            coord2 = m_object_positions[index][particle_id].getZ(); 
+        }
         SDL_Point new_point = {
-            (int)((m_object_positions[index][particle_id].getX() + 8)/ m_scale - m_camera.x),
-            (int)((m_object_positions[index][particle_id].getY() + 8 )/ m_scale + m_camera.y)};
+            (int)((m_object_positions[index][particle_id].getX())/ m_scale - m_camera.x),
+            (int)((coord2)/ m_scale + m_camera.y)};
         line.push_back(new_point);
     }
     SDL_Point *line_array = &line[0];
@@ -271,17 +311,40 @@ void Visualizer::draw_trajectory_line(unsigned long particle_id)
 
 void Visualizer::draw_main_loop(double dt)
 {
+    std::cout << m_camera.x << std::endl;
+    std::cout << m_camera.y << std::endl;
+    int pos_x;
+    int pos_y;
+    // int pos_z;
     SDL_RenderClear(m_renderer);
     //std::cout << m_iteration_number << std::endl;
     render_texture(m_resource_manager.get_texture("Background"),
             0,0,0,1920,1080);
     draw_all_trajectory_lines();
+
     for(unsigned long index = 0; index < m_object_positions[m_iteration_number].size(); ++index)
     {
-        render_texture(m_resource_manager.get_texture("Triangle_Green"),
-                (int)(m_object_positions[m_iteration_number][index].getX()/m_scale - m_camera.x),
-                (int)(m_object_positions[m_iteration_number][index].getY()/m_scale + m_camera.y),
-                (int)m_object_positions[m_iteration_number][index].getZ()/m_scale,16,16);
+        if(m_perspective == 'x')
+        {
+            pos_y = m_object_positions[m_iteration_number][index].getY()/ m_scale + m_camera.y;
+        }
+        else
+        {
+            pos_y = m_object_positions[m_iteration_number][index].getZ()/ m_scale + m_camera.y ;       
+        }
+        pos_x = (int)(m_object_positions[m_iteration_number][index].getX()/m_scale - m_camera.x) ;
+
+        render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x, pos_y, 0, 16, 16);
+
+        if(m_draw_ids)
+        {
+            draw_text(std::to_string(index), pos_x + 18, pos_y);
+        }
+
+    }
+    if(m_input && command != "")
+    {
+        draw_text(command, 100, 100);
     }
     SDL_RenderPresent(m_renderer);
 }
@@ -294,11 +357,20 @@ void Visualizer::load_textures()
     m_resource_manager.load_texture("Background",
             "Textures/Background.bmp",
             m_renderer);
+    m_resource_manager.load_texture("ConBack","Textures/ConsoleBackground.bmp", m_renderer);
+}
+
+void Visualizer::load_fonts()
+{
+    m_resource_manager.load_font("data-unifon", "Fonts/data-unifon.ttf",32);
+    m_resource_manager.load_font("data-latin", "Fonts/data-latin.ttf",32);
+    m_resource_manager.load_font("aero", "Fonts/Aero.ttf",64);
+
 }
 
 void Visualizer::render_texture(SDL_Texture *texture, int x, int y, int z,int p_width, int p_height)
 {
-    //Setup the destination rectangle to be at the position we want
+    //Setup the destination rectangle to be at the position we w64t
     SDL_Rect dst;
     dst.x = x;
     dst.y = y;
@@ -315,8 +387,11 @@ void Visualizer::init_SDL()
         exit(EXIT_FAILURE);
     }
 
-    m_window = SDL_CreateWindow("Hello World!", 100, 100, m_screen_width, m_screen_height, SDL_WINDOW_SHOWN);
-
+    if(TTF_Init() == -1)
+    {
+        std::cout << "TFF_Init failure: " << TTF_GetError() << std::endl;
+    }
+    m_window = SDL_CreateWindow("Hello World!", 100, 100, m_screen_width, m_screen_height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (m_window == nullptr)
     {
         std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
@@ -332,7 +407,11 @@ void Visualizer::init_SDL()
         SDL_Quit();
         exit(EXIT_FAILURE);
     }
+
+
+
 }
+
 
 void Visualizer::load_object_data_from_file(std::string filepath)
 {
@@ -350,7 +429,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
                 std::cout << "new it "<< it_number << std::endl;
                 m_object_positions.push_back(it_vector);
                 //std::cout << it_vector.size() << std::endl;
-                //std::cout << m_object_positions.size() << std::endl;
+                //stT::cout << m_object_positions.size() << std::endl;
                 it_vector.clear();
                 it_number++;
             }
