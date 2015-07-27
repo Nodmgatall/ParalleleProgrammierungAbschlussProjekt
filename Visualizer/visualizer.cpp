@@ -520,10 +520,6 @@ void Visualizer::display_data(unsigned long particle_id)
     draw_text(std::to_string(m_object_masses[m_iteration_number][particle_id] / 100000000000000) + " x 10^15", pos_x + 60, pos_y + 84, color);
     draw_text("Radius:", pos_x + 20, pos_y + 96, color);
     draw_text(std::to_string(m_object_radiuses[m_iteration_number][particle_id] / 100000000000000) + " x 10^15", pos_x + 60, pos_y + 108, color);
-
-
-
-
 }
 
 void Visualizer::draw_data()
