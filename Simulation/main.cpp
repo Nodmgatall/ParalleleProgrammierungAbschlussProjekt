@@ -47,11 +47,11 @@ int main(int argc, char** argv)
     }
     std::cout << "Generating done" << std::endl;
     
-    for(unsigned long i = number_of_iterations; i < number_of_iterations; i++)
+    for(unsigned long i = 0; i < number_of_iterations; i++)
     {
         particle.writePositionToFile(argv[3]);
         std::cout << "Iteration " << i << " of" << number_of_iterations << std::endl;
-        for (unsigned long i = 0; i < number_of_objects; i++)
+        for (unsigned long i = 0; i < number_of_objects - 1; i++)
         {
             applyGravity(particle,i+1,dt);
             particle.move_Object(i+1,dt);

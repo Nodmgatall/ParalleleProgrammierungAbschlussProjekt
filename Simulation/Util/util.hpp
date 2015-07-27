@@ -67,7 +67,7 @@ TYPE au_to_m(Type au)
 
 /** Convert meter to au */
 template<typename TYPE>
-TYPE au_to_m(Type meter)
+TYPE m_to_au(Type meter)
 {
    return meter / 149597870700.0;
 }

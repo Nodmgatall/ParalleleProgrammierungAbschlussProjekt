@@ -12,6 +12,9 @@ class Visualizer
     private:
     
         std::vector<std::vector<Vec3<double> > > m_object_positions;
+        std::vector<std::vector<Vec3<double> > > m_object_velocities;
+        std::vector<std::vector<double> > m_object_masses;
+        std::vector<std::vector<double> > m_object_radiuses;
         int m_screen_width;
         int m_screen_height;
         bool m_running;
@@ -19,7 +22,10 @@ class Visualizer
         bool m_input;
         char m_perspective;
         bool m_draw_ids;
+        bool m_console_is_open;
+        bool m_draw_it_number;
         std::set<unsigned long> m_line_draw_active;
+        std::set<unsigned long> m_display_data_active;
         unsigned long m_scale;
         unsigned long m_iteration_number;
         ResourceManager m_resource_manager;
@@ -42,7 +48,12 @@ class Visualizer
         void draw_trajectory_line(unsigned long obj_id);
         void handle_console_input(std::string input);
         void clear_trajectory_lines();
-        void draw_text(std::string text, int pos_x, int pos_y);
+        void draw_text(std::string text, int pos_x, int pos_y, SDL_Color color);
+        void display_data(unsigned long particle_id);
+        void draw_data();
+        void display_grav_range(unsigned long id, double min_force);
+
+        bool is_all_digits(char *text);
     
     public:
         

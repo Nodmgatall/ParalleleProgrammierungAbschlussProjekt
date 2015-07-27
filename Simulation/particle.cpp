@@ -265,7 +265,7 @@ void Particle::writePositionToFile(std::string filename)
 
         for(unsigned long i = 0; i < m_number_of_particels; i++)
         {
-            file << m_positions[i].toString() << "\n";
+            file << m_positions[i].toString() + m_velocity_vectors[i].toString() + std::to_string(m_masses[i]) + " " + std::to_string(m_radiuses[i]) + "\n";
         }
         file << ">\n";
     }
