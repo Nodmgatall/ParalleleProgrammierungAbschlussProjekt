@@ -39,6 +39,9 @@ Visualizer::Visualizer(std::string filename)
     m_perspective = 'x';
     m_console_is_open = false;
     m_draw_it_number = false;
+    m_rotation_active = false;
+    m_x_rot_deg = 0.0;
+    m_y_rot_deg = 0.0;
     m_camera = {-m_screen_width/2, m_screen_height/2, m_screen_width, m_screen_height};
     m_scale = 5000000000;
     load_object_data_from_file(filename);
@@ -53,7 +56,6 @@ Visualizer::~Visualizer()
 {
     SDL_Quit();
 }
-
 
 void Visualizer::init_SDL()
 {
@@ -160,10 +162,34 @@ void Visualizer::update()
                 //m_screen_height = event.window.data2;
                 break;
 
+            case SDL_MOUSEMOTION:
+                if(m_rotation_active)
+                {
+                    //VERSUCH VON VIEW ROTATION ...i
+                    //int x_rel =  event.motion.xrel;
+                    //int y_rel = event.motion.yrel;
+                    //std::cout << x_rel << std::endl;
+                    //std::cout << y_rel << std::endl;
+                    //if(x_rel != 0)
+                    //{
+                    //    m_x_rot_deg += 0.01 * x_rel;
+                    //}
+                    //if(y_rel != 0)
+                    //{
+                     //   m_y_rot_deg += 0.1 * y_rel;
+                    //}
+                        //m_x_rot_deg += event.motion.x ;
+                }
+                break;
+
             case SDL_KEYUP:
 
                 switch(event.key.keysym.sym)
                 {
+                    case SDLK_LCTRL:
+                        m_rotation_active = !m_rotation_active;
+                        break;
+
                     case SDLK_RETURN:
                         if(m_input == false)
                         {
@@ -232,7 +258,7 @@ void Visualizer::update()
                             m_iteration_number = 0;
                             draw_main_loop(1);
                         }
-                            break;
+                        break;
 
                     case SDLK_x:
                         m_perspective = 'x';
@@ -270,13 +296,13 @@ void Visualizer::handle_console_input(std::string input)
     {
         return;
     }
-    
+
     if(strcmp(token_vector[0], "draw_it_number") == 0 || strcmp(token_vector[0], "din") == 0)
     {
         m_draw_it_number = !m_draw_it_number;
         return;
     }
-    
+
     if(strcmp(token_vector[0], "display_data") == 0 || strcmp(token_vector[0], "dd") == 0)
     {
         unsigned long particle_id;
@@ -286,7 +312,7 @@ void Visualizer::handle_console_input(std::string input)
             std::cout << "Error: To many arguments. Needed arguments: 1 Given arguments: " << token_vector.size() - 1 << std::endl;
             return;
         }
-        
+
         if(token_vector.size() < 2)
         {
             std::cout << "Error: Missing arguments. Needed arguments: 1 Given arguments: " << token_vector.size() - 1 << std::endl;
@@ -295,18 +321,18 @@ void Visualizer::handle_console_input(std::string input)
 
         if(!is_all_digits(token_vector[1]))
         {
-             std::cout << "Error: argument 1 has non digit parts." <<         std::endl;
-             return;
+            std::cout << "Error: argument 1 has non digit parts." <<         std::endl;
+            return;
         }
 
         particle_id = atoi(token_vector[1]);
-        
+
         if(particle_id >= m_object_positions.size())
         {
             std::cout << "Error: Argument 1 is too large, should be smaller than " << m_object_positions.size() - 1 << std::endl;
             return;
         }
-        
+
         auto it = m_display_data_active.find(particle_id);
         if(it != m_display_data_active.end())
         {
@@ -315,7 +341,7 @@ void Visualizer::handle_console_input(std::string input)
         }
 
         m_display_data_active.insert(particle_id);
-    
+
         return;
     }
 
@@ -332,7 +358,7 @@ void Visualizer::handle_console_input(std::string input)
             std::cout << "Error: To many arguments. Needed arguments: 1 Given arguments: " << token_vector.size() - 1 << std::endl;
             return;
         }
-        
+
         if(!is_all_digits(token_vector[1]))
         {
             std::cout << "Error: argument 1 has non digit parts." << std::endl;
@@ -340,15 +366,15 @@ void Visualizer::handle_console_input(std::string input)
         }
 
         unsigned long new_it_number = atoi(token_vector[1]);
-       
+
         if(new_it_number > m_object_positions.size())
         {
             std::cout << "Error: iteration number to large. Max iteration is: " << m_object_positions.size() - 1 << std::endl;
             return;
         }
-        
+
         m_iteration_number = new_it_number;
-        
+
         return;
     }
 
@@ -388,7 +414,7 @@ void Visualizer::handle_console_input(std::string input)
         return;
 
     }
-    
+
     if(strcmp(token_vector[0], "clear_trajectory") == 0 
             || strcmp(token_vector[0], "ct") == 0)
     {
@@ -406,14 +432,14 @@ bool Visualizer::is_all_digits(char *text)
 
     int string_length = strlen(text); 
 
-        for(int i = 0; i < string_length - 2; i++)
+    for(int i = 0; i < string_length - 2; i++)
+    {
+        if(!isdigit(text[i]))
         {
-            if(!isdigit(text[i]))
-            {
-                return false;
-            }
+            return false;
         }
-        return true;
+    }
+    return true;
 
 }
 
@@ -432,13 +458,14 @@ void Visualizer::draw_main_loop(double dt)
     {
         if(m_perspective == 'x')
         {
-            pos_y = m_object_positions[m_iteration_number][index].getY()/ m_scale + m_camera.y;
+            pos_y = (m_object_positions[m_iteration_number][index].getY()/ m_scale) + m_camera.y;
         }
         else
         {
-            pos_y = m_object_positions[m_iteration_number][index].getZ()/ m_scale + m_camera.y ;       
+            pos_y = (m_object_positions[m_iteration_number][index].getZ()/ m_scale) + m_camera.y;
+
         }
-        pos_x = (int)(m_object_positions[m_iteration_number][index].getX()/m_scale - m_camera.x) ;
+        pos_x = (int)(m_object_positions[m_iteration_number][index].getX()/m_scale) - m_camera.x;
 
         render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x, pos_y, 0, 16, 16);
 
@@ -479,7 +506,7 @@ void Visualizer::draw_all_trajectory_lines()
 
 void Visualizer::display_grav_range(unsigned long id, double min_force)
 {
-    
+
 }
 
 void Visualizer::display_data(unsigned long particle_id)
@@ -547,8 +574,8 @@ void Visualizer::draw_trajectory_line(unsigned long particle_id)
             coord2 = m_object_positions[index][particle_id].getZ(); 
         }
         SDL_Point new_point = {
-            (int)((m_object_positions[index][particle_id].getX())/ m_scale - m_camera.x),
-            (int)((coord2)/ m_scale + m_camera.y)};
+            (int)(((m_object_positions[index][particle_id].getX())/ m_scale) - m_camera.x),
+            (int)(((coord2)/ m_scale ) + m_camera.y)};
         line.push_back(new_point);
     }
     SDL_Point *line_array = &line[0];

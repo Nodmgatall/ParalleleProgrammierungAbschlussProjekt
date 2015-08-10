@@ -1,5 +1,6 @@
 #include "Util/random_generator.hpp"
 #include "particle.hpp"
+#include "physics.hpp"
 
 #include <string>
 #include <vector>
@@ -9,7 +10,7 @@
 #include <utility> 
 #include <cstdlib>
 #include <fstream>
-
+#include <sstream>
 
 
 //TODO SWITCH TO UINTX_T
@@ -17,7 +18,7 @@
 
 Particle::Particle()
 {
-    m_number_of_particels = 0;
+    m_number_of_particles = 0;
     m_max_id = 0;
 
 }
@@ -28,7 +29,7 @@ void Particle::remove(unsigned long vector_index)
     m_masses.erase(m_masses.begin() + vector_index);
     m_radiuses.erase(m_radiuses.begin() + vector_index);
     m_used_ids.erase(m_used_ids.begin() + vector_index);
-    m_number_of_particels--;
+    m_number_of_particles--;
     return;
 }
 
@@ -68,7 +69,7 @@ unsigned long Particle::get_vector_index(unsigned long id)
             int rofl;
             int lol = 0;
             lol = i;
-        
+
             rofl = lol;
             lol = rofl;
         }
@@ -145,7 +146,7 @@ double Particle::getRadius(unsigned long particle_index)
 
 unsigned long Particle::getNumberOfParticles()
 {
-    return m_number_of_particels;
+    return m_number_of_particles;
 }
 
 Vec3<double> Particle::calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector)
@@ -226,9 +227,9 @@ unsigned long Particle::createParticle(
     m_masses.push_back(m);
     m_radiuses.push_back(r);
     m_used_ids.push_back(m_max_id);
-    m_number_of_particels++;
+    m_number_of_particles++;
     m_max_id++;
-    return m_number_of_particels - 1;
+    return m_number_of_particles - 1;
 }
 
 
@@ -250,12 +251,14 @@ void Particle::printParticle(unsigned long particle_index)
 
 void Particle::printAllParticles()
 {
-    for(unsigned long i = 0; i <  m_number_of_particels; i++)
+    for(unsigned long i = 0; i <  m_number_of_particles; i++)
     {
         printParticle(i);
     }
 
 }
+
+
 
 void Particle::writePositionToFile(std::string filename)
 {
@@ -263,7 +266,7 @@ void Particle::writePositionToFile(std::string filename)
     if(file.is_open())
     {
 
-        for(unsigned long i = 0; i < m_number_of_particels; i++)
+        for(unsigned long i = 0; i < m_number_of_particles; i++)
         {
             file << m_positions[i].toString() + m_velocity_vectors[i].toString() + std::to_string(m_masses[i]) + " " + std::to_string(m_radiuses[i]) + "\n";
         }
@@ -296,3 +299,51 @@ void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
     remove(obj_id_2);
     return;
 }
+
+void Particle::load_data_from_file(std::string filepath)
+{
+    std::ifstream file(filepath);
+    std::string s;
+        //std::string c;
+    if(file.is_open())
+    {
+        while(getline(file,s))
+        {
+            if (s == ">")
+            {
+                file.close();
+                return;
+            }
+            else 
+            {
+                //std::cout << s << std::endl;
+                std::string x, y, z, velo_x, velo_y, velo_z, mass, radius;
+                std::stringstream ss(s);
+                getline(ss,x,' ');
+                getline(ss,y,' ');
+                getline(ss,z,' ');
+                getline(ss,velo_x,' ');
+                getline(ss,velo_y,' ');
+                getline(ss,velo_z,' ');
+                getline(ss,mass,' ');
+                getline(ss,radius,' ');
+
+                m_positions.push_back(Vec3<double>(std::stod(x),std::stod(y),std::stod(z)));
+                m_velocity_vectors.push_back(Vec3<double>(std::stod(velo_x),std::stod(velo_y), std::stod(velo_z)));
+                m_masses.push_back(std::stod(mass));
+                m_radiuses.push_back(std::stod(radius));
+                std::cout << m_positions.back().toString() << std::endl;
+                m_number_of_particles++;
+
+            }
+        }
+    }
+    else
+    {
+        std::cout << filepath <<" could not be opened" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+}
+
+

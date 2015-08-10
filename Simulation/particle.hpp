@@ -25,7 +25,7 @@ class Particle
         std::vector<double> m_masses;
         std::vector<double> m_radiuses;
         std::vector<unsigned long> m_used_ids;
-        unsigned long m_number_of_particels;
+        unsigned long m_number_of_particles;
         unsigned long m_max_id;
 
     public:

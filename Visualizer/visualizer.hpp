@@ -24,6 +24,9 @@ class Visualizer
         bool m_draw_ids;
         bool m_console_is_open;
         bool m_draw_it_number;
+        bool m_rotation_active;
+        double m_x_rot_deg;
+        double m_y_rot_deg;
         std::set<unsigned long> m_line_draw_active;
         std::set<unsigned long> m_display_data_active;
         unsigned long m_scale;
