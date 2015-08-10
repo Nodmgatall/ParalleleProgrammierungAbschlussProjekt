@@ -3,13 +3,14 @@
  * With modifications by ourselves.
  */
 
-#ifndef OCTREE_NODE_HPP
-#define OCTREE_NODE_HPP
+#ifndef OCTREE_HPP
+#define OCTREE_HPP
 
 #include <vector>
 #include "../Util/vec3.hpp"
+#include "OctreePoint.hpp"
 
-class OctreeNode
+class Octree
 {
     private:
         // TODO: maybe use ints instead of doubles for all positions?
@@ -22,24 +23,23 @@ class OctreeNode
         Vec3<double> radii;
 
         /** Pointers to this node's children */
-        OctreeNode *children[8];
+        Octree *children[8];
 
-        // TODO: might replace with own datatype
         /** Data stored in this node (NULL if it's an interior node) */
-        void * data;
+        OctreePoint *data;
 
     public:
         /** Default constructor */
-        OctreeNode();
+        Octree();
 
         /** Constructor, given an origin and radii */
-        OctreeNode(Vec3<double>& origin, Vec3<double>& radii);
+        Octree(const Vec3<double>& origin, const Vec3<double>& radii);
 
         /** Copy-constructor */
-        OctreeNode(const OctreeNode& copy);
+        Octree(const Octree& copy);
 
         /** Destructor */
-        ~OctreeNode();
+        ~Octree();
 
         /** Figure out which octant would contain the given point */
         int getOctant(const Vec3<double>& point);
@@ -48,7 +48,7 @@ class OctreeNode
         bool isLeafNode();
 
         /** Insert data into tree */
-        void insert(void * data);
+        void insert(OctreePoint* point);
 
         /** Return node's origin */
         Vec3<double> getOrigin();
@@ -56,10 +56,10 @@ class OctreeNode
         /** Return node's radii */
         Vec3<double> getRadii();
 
-        /** Return pointer to node's children */
-        OctreeNode& getChildren();
+        /** Get stored data */
+        const void * getData();
 
         // TODO: probably going to need more functions...
 };
 
-#endif //OCTREE_NODE_HPP
+#endif //OCTREE_HPP
