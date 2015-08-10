@@ -135,3 +135,8 @@ void Octree::getPointsInBox(const Vec3<double>& bmin, const Vec3<double>& bmax,
     }
 }
 
+Octree * Octree::getChild(int num) {
+    if (num < 0 || num > 7)
+        return NULL;
+    return children[num];
+}
