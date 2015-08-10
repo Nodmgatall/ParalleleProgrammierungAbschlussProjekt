@@ -13,130 +13,133 @@
 
 // center object has to be at <0.0.0>
 /**
-	Data structure to store and manage particles.\n
-	Paritcles are stored in a std::vector<double> and are accsessed by
-	their index.
-*/
+  Data structure to store and manage particles.\n
+  Paritcles are stored in a std::vector<double> and are accsessed by
+  their index.
+  */
 class Particle
 {
-private:
-	std::vector<Vec3<double> > m_velocity_vectors;
-	std::vector<Vec3<double> > m_positions;
-	std::vector<double> m_masses;
-	std::vector<double> m_radiuses;
-    std::vector<unsigned long> m_used_ids;
-	unsigned long m_number_of_particels;
-    unsigned long m_max_id;
+    private:
+        std::vector<Vec3<double> > m_velocity_vectors;
+        std::vector<Vec3<double> > m_positions;
+        std::vector<double> m_masses;
+        std::vector<double> m_radiuses;
+        std::vector<unsigned long> m_used_ids;
+        unsigned long m_number_of_particels;
+        unsigned long m_max_id;
 
-public:
+    public:
 
-	Particle();
-		/** removes single particle */
-	void remove(unsigned long vector_index);
+        Particle();
+        /** removes single particle */
+        void remove(unsigned long vector_index);
 
-    void remove_by_id(unsigned long particle_id);
+        void remove_by_id(unsigned long particle_id);
 
-	/** returns the distance from the center of the system */
-	double get_distance_to_center(unsigned long particle_index);
+        /** returns the distance from the center of the system */
+        double get_distance_to_center(unsigned long particle_index);
 
-	/**
-		move each object by their velocity, if the stepsize is equal to 1second 
-	*/
-	void move_Object(unsigned long particle_index,double stepsize);
-	
-	/** returns the distance between two  particles */
-	double getDistanceOfTwoObjects(unsigned long ob1, unsigned long ob2);
+        /**
+          move each object by their velocity, if the stepsize is equal to 1second 
+          */
+        void move_Object(unsigned long particle_index,double stepsize);
 
-	/** returns the velocity vector of given particle */
-	Vec3<double> getVelocityVector(unsigned long particle_index);
+        /** returns the distance between two  particles */
+        double getDistanceOfTwoObjects(unsigned long ob1, unsigned long ob2);
 
-	/** adds a acceleration vector to the velocity vectof of specified object*/
-	void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
+        /** returns the velocity vector of given particle */
+        Vec3<double> getVelocityVector(unsigned long particle_index);
 
-	/** returns the positon of given particle */
-	Vec3<double> getPostion(unsigned long particle_index);
+        /** adds a acceleration vector to the velocity vectof of specified object*/
+        void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
 
-	//TODO:
-	/** returns a pointer to a copied m_positions Vector for saving */ 
-	Vec3<Vec3<double> > savePositionData();
+        /** returns the positon of given particle */
+        Vec3<double> getPostion(unsigned long particle_index);
 
-	void writePositionToFile(std::string filename);
+        //TODO:
+        /** returns a pointer to a copied m_positions Vector for saving */ 
+        Vec3<Vec3<double> > savePositionData();
 
-	/** returns the mass of given particle */
-	double getMass(unsigned long particle_index);
+        void writePositionToFile(std::string filename);
 
-	/** returns the radius of given particle */
-	double getRadius(unsigned long particle_index);
+        /** returns the mass of given particle */
+        double getMass(unsigned long particle_index);
 
-	/** returns the number of existing particles */
-	unsigned long getNumberOfParticles();
-    
-    /** 
-     * calculates the vector that is on the same plane as pos_vec and velocity_vector
-     * that is orthogonal to pos_vec*/
-    Vec3<double> calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector);
+        /** returns the radius of given particle */
+        double getRadius(unsigned long particle_index);
 
-	/**
-		Discription:\n
-			Generates a new particle witch random atributes within ranges \n
-		Return value:\n
-			returns the index of the new Particle
-	*/
-	unsigned long generateRandomParticle(
-		std::pair<double,double> range_position,
-		std::pair<double,double> range_velocity,
-		std::pair<double,double> range_mass,
-		std::pair<double,double> range_radius);
-	/**	
-		Discription:\n
-			Generates a new particle witch random atributes form range 0 to max_<atr> \n
-		Return value:\n
-			returns the index of the new Particle
+        /** returns the number of existing particles */
+        unsigned long getNumberOfParticles();
 
-	*/
-	unsigned long generateRandomParticle(
-		double max_pos, double max_velo,
-		double max_mass, double max_radius);
+        /** 
+         * calculates the vector that is on the same plane as pos_vec and velocity_vector
+         * that is orthogonal to pos_vec*/
+        Vec3<double> calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector);
 
-	/**
-		Discription:\n
-			Generates a new Particle with specified values\n
-		Return value:\n
-			returns the index of the new Particle
-	*/
-	unsigned long createParticle(
-		Vec3<double> positon,
-		Vec3<double> velocity_vector,
-		double mass,
-		double radius );
+        /**
+Discription:\n
+Generates a new particle witch random atributes within ranges \n
+Return value:\n
+returns the index of the new Particle
+*/
+        unsigned long generateRandomParticle(
+                std::pair<double,double> range_position,
+                std::pair<double,double> range_velocity,
+                std::pair<double,double> range_mass,
+                std::pair<double,double> range_radius);
+        /**	
+Discription:\n
+Generates a new particle witch random atributes form range 0 to max_<atr> \n
+Return value:\n
+returns the index of the new Particle
 
-	/** prints all data about given particle to the console 
-		Example output:\n
-		ParicleID: 0\n
-		Distance from center: 58984654.079628\n
-		Position:\nobjekt
-		        X: 2656945.474053\n
-		        Y: 46291973.436072\n
-		        Z: 36457965.563581\n
-		Velocity: 1.805316\n
-		        X: 0.730751\n
-		        Y: 1.311961\n
-		        Z: 1.001961\n
-		Mass: 2255.501134\n
-		Radius 429.489498\n
+*/
+        unsigned long generateRandomParticle(
+                double max_pos, double max_velo,
+                double max_mass, double max_radius);
 
-	*/
-	void printParticle(unsigned long particle_index);
+        /**
+Discription:\n
+Generates a new Particle with specified values\n
+Return value:\n
+returns the index of the new Particle
+*/
+        unsigned long createParticle(
+                Vec3<double> positon,
+                Vec3<double> velocity_vector,
+                double mass,
+                double radius );
 
-	/** prints all particles to the console */
-	void printAllParticles();
-    
-    void calculate_collision(unsigned long obj_id_1, unsigned long obj_id_2);
+        /** prints all data about given particle to the console 
+          Example output:\n
+ParicleID: 0\n
+Distance from center: 58984654.079628\n
+Position:\nobjekt
+X: 2656945.474053\n
+Y: 46291973.436072\n
+Z: 36457965.563581\n
+Velocity: 1.805316\n
+X: 0.730751\n
+Y: 1.311961\n
+Z: 1.001961\n
+Mass: 2255.501134\n
+Radius 429.489498\n
 
-    void merge_objects(unsigned long obj_id_1, unsigned long obj_id_2);
+*/
+        void printParticle(unsigned long particle_index);
 
-    unsigned long get_vector_index(unsigned long id);
-	//TODO: Save funktion die die daten aus Particle in eine datei schreibt
+        /** prints all particles to the console */
+        void printAllParticles();
+
+        void calculate_collision(unsigned long obj_id_1, unsigned long obj_id_2);
+
+        void merge_objects(unsigned long obj_id_1, unsigned long obj_id_2);
+
+        unsigned long get_vector_index(unsigned long id);
+
+        void load_data_from_file(std::string filepath);
+        //TODO: Save funktion die die daten aus Particle in eine datei schreibt
+        
 };
 
 

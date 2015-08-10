@@ -60,14 +60,14 @@ TYPE m_to_km(TYPE miles) {
 
 /** Convert au to meter */
 template<typename TYPE>
-TYPE au_to_m(Type au)
+TYPE au_to_m(TYPE au)
 {
    return (double)au * 149597870700.0;
 }
 
 /** Convert meter to au */
 template<typename TYPE>
-TYPE m_to_au(Type meter)
+TYPE m_to_au(TYPE meter)
 {
    return meter / 149597870700.0;
 }
