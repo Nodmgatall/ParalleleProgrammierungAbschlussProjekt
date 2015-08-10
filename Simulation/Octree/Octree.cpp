@@ -105,3 +105,33 @@ const void * Octree::getData()
 
     return data->getData();
 }
+
+void Octree::getPointsInBox(const Vec3<double>& bmin, const Vec3<double>& bmax,
+                    std::vector<OctreePoint*>& results)
+{
+    if (isLeafNode()) {
+        if (data != NULL) {
+            const Vec3<double>& p = data->getPosition();
+            if (p.getX() > bmax.getX() || p.getY() > bmax.getY() || p.getZ() > bmax.getZ()) return;
+            if (p.getX() < bmin.getX() || p.getY() < bmin.getY() || p.getZ() < bmin.getZ()) return;
+            results.push_back(data);
+        }
+    } else {
+        // We're at an interior node and need to check if this node is inside the bounding box
+        int i;
+
+        for (i = 0; i < 8; i++) {
+            // compute min/max corners of this child octant
+            Vec3<double> cmax = children[i]->getOrigin() + children[i]->getRadii();
+            Vec3<double> cmin = children[i]->getOrigin() - children[i]->getRadii();
+
+            // if the queried rectangle is outside the child's bounding box, continue
+            if (cmax.getX() < bmin.getX() || cmax.getY() < bmin.getY() || cmax.getZ() < bmin.getZ()) continue;
+            if (cmin.getX() > bmax.getX() || cmin.getY() > bmax.getY() || cmin.getZ() > bmax.getZ()) continue;
+
+            // If we've gotten this far, we know that this child is intersecting the queried box
+            children[i]->getPointsInBox(bmin, bmax, results);
+        }
+    }
+}
+

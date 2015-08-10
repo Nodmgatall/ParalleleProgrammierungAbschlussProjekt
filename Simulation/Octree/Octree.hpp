@@ -59,6 +59,10 @@ class Octree
         /** Get stored data */
         const void * getData();
 
+        /** Get all points within a box, delimited by
+            vectors bmin and bmax. Results are pushed into 'results' */
+        void getPointsInBox(const Vec3<double>& bmin, const Vec3<double>& bmax,
+                            std::vector<OctreePoint*>& results);
         // TODO: probably going to need more functions...
 };
 
