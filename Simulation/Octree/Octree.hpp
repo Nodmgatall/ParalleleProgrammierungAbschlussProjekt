@@ -63,6 +63,10 @@ class Octree
             vectors bmin and bmax. Results are pushed into 'results' */
         void getPointsInBox(const Vec3<double>& bmin, const Vec3<double>& bmax,
                             std::vector<OctreePoint*>& results);
+
+        /** Get child by index (0-7) */
+        Octree * getChild(int num);
+
         // TODO: probably going to need more functions...
 };
 
