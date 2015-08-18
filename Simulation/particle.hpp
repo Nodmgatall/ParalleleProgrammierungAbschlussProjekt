@@ -54,7 +54,7 @@ class Particle
         void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
 
         /** returns the positon of given particle */
-        Vec3<double> getPostion(unsigned long particle_index);
+        Vec3<double> getPosition(unsigned long particle_index);
 
         //TODO:
         /** returns a pointer to a copied m_positions Vector for saving */ 
