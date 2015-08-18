@@ -7,9 +7,10 @@ class OctreePoint {
     private:
         Vec3<double> position;
         double radius;
+        unsigned long index;
     public:
         OctreePoint() {/**/}
-        OctreePoint(const Vec3<double>& position, double radius) : position(position), radius(radius) {/**/}
+        OctreePoint(const Vec3<double>& position, double radius, unsigned long index) : position(position), radius(radius), index(index) {/**/}
         inline const Vec3<double>& getPosition() const {return position;}
         inline void setPosition(const Vec3<double>& p) {position = p;}
         inline double getRadius() {return radius;}

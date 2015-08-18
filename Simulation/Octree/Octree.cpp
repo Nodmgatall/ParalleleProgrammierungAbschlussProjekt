@@ -98,14 +98,6 @@ Vec3<double> Octree::getRadii()
     return radii;
 }
 
-const void * Octree::getData()
-{
-    if (!isLeafNode())
-        return NULL;
-
-    return data->getData();
-}
-
 void Octree::getPointsInBox(const Vec3<double>& bmin, const Vec3<double>& bmax,
                     std::vector<OctreePoint*>& results)
 {
