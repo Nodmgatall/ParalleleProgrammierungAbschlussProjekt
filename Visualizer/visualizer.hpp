@@ -7,6 +7,8 @@
 #include <SDL_ttf.h>
 #include <vector>
 #include <set>
+#include <map>
+
 class Visualizer
 {
     private:
@@ -27,7 +29,8 @@ class Visualizer
         bool m_rotation_active;
         double m_x_rot_deg;
         double m_y_rot_deg;
-        std::set<unsigned long> m_line_draw_active;
+        std::map<unsigned long,unsigned long> m_line_draw_active;
+        std::map<unsigned long,double> m_grav_range_draw_active;
         std::set<unsigned long> m_display_data_active;
         unsigned long m_scale;
         unsigned long m_iteration_number;
@@ -48,13 +51,15 @@ class Visualizer
         void pause_loop();
         void update();
         void draw_all_trajectory_lines();
-        void draw_trajectory_line(unsigned long obj_id);
+        void draw_trajectory_line(unsigned long obj_id, unsigned long draw_range);
         void handle_console_input(std::string input);
         void clear_trajectory_lines();
         void draw_text(std::string text, int pos_x, int pos_y, SDL_Color color);
         void display_data(unsigned long particle_id);
         void draw_data();
         void display_grav_range(unsigned long id, double min_force);
+        void draw_object_circle(unsigned long id);
+        void display_all_grav_ranges();
 
         bool is_all_digits(char *text);
     

@@ -139,6 +139,8 @@ Radius 429.489498\n
 
         void load_data_from_file(std::string filepath);
         //TODO: Save funktion die die daten aus Particle in eine datei schreibt
+        //
+        bool check_for_collision(unsigned long id_1, unsigned long id_2);
         
 };
 

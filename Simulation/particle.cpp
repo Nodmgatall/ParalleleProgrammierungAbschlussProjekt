@@ -11,8 +11,8 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
-
-
+#include <cmath>
+const double PI = 3.14159265359;
 //TODO SWITCH TO UINTX_T
 // center object has to be at <0.0.0>
 
@@ -295,6 +295,18 @@ void Particle::calculate_collision(unsigned long obj_id_1, unsigned long obj_id_
 
 void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
 {
+    Vec3<double> new_velocity = m_velocity_vectors[obj_id_2];
+    double new_mass = m_masses[obj_id_1] + m_masses[obj_id_2];
+    double new_volume = (4/3) * pow(m_radiuses[obj_id_1],3) + (4/3) * pow(m_radiuses[obj_id_2],3);
+    Vec3<double> dist_normalized = (m_positions[obj_id_1] - m_positions[obj_id_2]);
+    dist_normalized.normalise();
+    Vec3<double> new_position = m_positions[obj_id_2] + (dist_normalized * m_radiuses[obj_id_2]);
+    double new_radius = pow((new_volume * 3) / (PI * 4),(-3/2));
+    if(m_masses[obj_id_1] > m_masses[obj_id_2])
+    {
+        new_velocity = m_velocity_vectors[obj_id_1];
+    }
+    createParticle(new_position, new_velocity, new_mass, new_radius);
     remove(obj_id_1);
     remove(obj_id_2);
     return;
@@ -343,7 +355,13 @@ void Particle::load_data_from_file(std::string filepath)
         std::cout << filepath <<" could not be opened" << std::endl;
         exit(EXIT_FAILURE);
     }
-
 }
 
-
+bool Particle::check_for_collision(unsigned long id_1, unsigned long id_2)
+{
+    if((m_positions[id_1] - m_positions[id_2]).getLength() < m_radiuses[id_1] + m_radiuses[id_2])
+    {
+        return true;
+    }
+    return false;
+}

@@ -12,7 +12,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
-
 Visualizer::Visualizer()
 {
     m_pause = false;
@@ -40,6 +39,7 @@ Visualizer::Visualizer(std::string filename)
     m_console_is_open = false;
     m_draw_it_number = false;
     m_rotation_active = false;
+    m_draw_ids = false;
     m_x_rot_deg = 0.0;
     m_y_rot_deg = 0.0;
     m_camera = {-m_screen_width/2, m_screen_height/2, m_screen_width, m_screen_height};
@@ -344,6 +344,45 @@ void Visualizer::handle_console_input(std::string input)
 
         return;
     }
+    
+    if(strcmp(token_vector[0],"show_grav_range") == 0 || strcmp(token_vector[0], "sgr") == 0)
+    {
+        if(token_vector.size() < 3)
+        {
+            std::cout << "Error: missing arguments ( " << 3 - token_vector.size() << "/3 )" << std::endl;
+        }
+        
+        if(token_vector.size() > 3)
+        {
+            std::cout << "Error: too many arguments ( " << token_vector.size() - 3 << "/3 )" << std::endl; 
+        }
+
+        if(!is_all_digits(token_vector[1]))
+        {
+            std::cout << "Error: argument 1 has non digit parts." << std::endl;
+            return;
+        }
+        if(!is_all_digits(token_vector[2]))
+        {
+            std::cout << "Error: argument 2 has non digit parts." << std::endl;
+            return;
+        }
+
+        unsigned long id = strtoul(token_vector[1],NULL,0);
+        unsigned long min_force = strtod(token_vector[2],NULL);
+        std::cout << id << " " << min_force << std::endl;
+        auto it = m_grav_range_draw_active.find(id);
+        if(it != m_grav_range_draw_active.end())
+        {
+            m_grav_range_draw_active.erase(it);
+        }
+        else
+        {
+            m_grav_range_draw_active.insert(std::pair<unsigned long, double>(id,min_force));
+        }
+        return;
+    }
+
 
     if(strcmp(token_vector[0],"clear_displayed_data") == 0
             || strcmp(token_vector[0],"cdd") == 0)
@@ -378,15 +417,74 @@ void Visualizer::handle_console_input(std::string input)
         return;
     }
 
+    if(strcmp(token_vector[0], "clear_all_trajectorys") == 0 || strcmp(token_vector[0], "cat") == 0)
+    {
+        clear_trajectory_lines();
+        std::cout  << m_line_draw_active.size() << std::endl;
+        return;
+    }
+
 
     if(strcmp(token_vector[0], "show_trajectory") == 0 
             || strcmp(token_vector[0], "st") == 0)
     {
+        unsigned long particle_id;
+        unsigned long draw_length = m_object_positions.size();
+
+        if(token_vector.size() > 3)
+        {
+            std::cout << "Error: To many arguments. Needed arguments: at least 1, at most 2. Given arguments: " << token_vector.size() - 1 << std::endl;
+            return;
+        }
+        
+        if(token_vector.size() < 2)
+        {
+            std::cout << "Error: Missing arguments. Needed arguments: at 1 needed. Given arguments: " << token_vector.size() - 1 << std::endl;
+            return;
+        }
+
+        if(token_vector.size() == 3)
+        {
+
+            if(!is_all_digits(token_vector[2]))
+            {
+                std::cout << "Error: argument 2 has non digit parts." << std::endl; 
+                return;
+            }
+
+            draw_length = atoi(token_vector[2]);
+        }
+
+        if(!is_all_digits(token_vector[1]))
+        {
+            std::cout << "Error: argument 1 has non digit parts." << std::endl; 
+            return;
+        }
+        particle_id = atoi(token_vector[1]);
+
+        if(particle_id >= m_object_positions.size())
+        {
+            std::cout << "Error: Argument 1 is too large, should be smaller than " << m_object_positions.size() - 1 << std::endl;
+            return;
+        }
+        m_line_draw_active.insert(std::pair<unsigned long, unsigned long>(particle_id, draw_length));
+        return;
+    }
+
+    if(strcmp(token_vector[0], "clear_trajectory") == 0 
+            || strcmp(token_vector[0], "ct") == 0)
+    {
         unsigned long particle_id;   
 
-        if(token_vector.size() > 2)
+        if(token_vector.size() > 3)
         {
-            std::cout << "Error: To many arguments. Needed arguments: 1 Given arguments: " << token_vector.size() - 1 << std::endl;
+            std::cout << "Error: To many arguments. Needed arguments: at least 1, at most 2. Given arguments: " << token_vector.size() - 1 << std::endl;
+            return;
+        }
+
+        if(token_vector.size() < 2)
+        {
+            std::cout << "Error: Missing arguments. Needed arguments: at 1 needed. Given arguments: " << token_vector.size() - 1 << std::endl;
             return;
         }
 
@@ -397,31 +495,16 @@ void Visualizer::handle_console_input(std::string input)
         }
         particle_id = atoi(token_vector[1]);
 
-        auto it = m_line_draw_active.find(particle_id);
-        if(it != m_line_draw_active.end())
-        {
-            m_line_draw_active.erase(it);
-            return;
-        }
-
         if(particle_id >= m_object_positions.size())
         {
             std::cout << "Error: Argument 1 is too large, should be smaller than " << m_object_positions.size() - 1 << std::endl;
             return;
         }
 
-        m_line_draw_active.insert(particle_id);
+        m_line_draw_active.erase(particle_id);
         return;
 
     }
-
-    if(strcmp(token_vector[0], "clear_trajectory") == 0 
-            || strcmp(token_vector[0], "ct") == 0)
-    {
-        clear_trajectory_lines();
-        return;
-    }
-
     std::cout << "no such command known: " << command << std::endl;
     return;
 
@@ -434,6 +517,11 @@ bool Visualizer::is_all_digits(char *text)
 
     for(int i = 0; i < string_length - 2; i++)
     {
+        if(text[i] == '.')
+        {
+            i++;
+        }
+
         if(!isdigit(text[i]))
         {
             return false;
@@ -453,6 +541,7 @@ void Visualizer::draw_main_loop(double dt)
     render_texture(m_resource_manager.get_texture("Background"),
             0,0,0,1920,1080);
     draw_all_trajectory_lines();
+    display_all_grav_ranges();
 
     for(unsigned long index = 0; index < m_object_positions[m_iteration_number].size(); ++index)
     {
@@ -467,7 +556,7 @@ void Visualizer::draw_main_loop(double dt)
         }
         pos_x = (int)(m_object_positions[m_iteration_number][index].getX()/m_scale) - m_camera.x;
 
-        render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x, pos_y, 0, 16, 16);
+        render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x - 8, pos_y - 8, 0, 16, 16);
 
         if(m_draw_ids)
         {
@@ -475,7 +564,7 @@ void Visualizer::draw_main_loop(double dt)
         }
     } 
 
-    if(m_draw_it_number)
+    if(m_draw_it_number == true)
     {
         draw_text("Iteration: " + std::to_string(m_iteration_number), 50,50, {255, 255, 255, 255});
     }
@@ -497,16 +586,37 @@ void Visualizer::draw_main_loop(double dt)
 
 void Visualizer::draw_all_trajectory_lines()
 {
-    for(auto it = m_line_draw_active.begin(); it != m_line_draw_active.end(); ++it)
+    if(!m_line_draw_active.empty())
     {
-        draw_trajectory_line(*it);
+        for(auto it = m_line_draw_active.begin(); it != m_line_draw_active.end(); ++it)
+        {
+            draw_trajectory_line(it->first, it->second);
+            //std::cout << it->first << "   " << it->second << std::endl;
+        }
     }
     return;
 }
 
+void Visualizer::display_all_grav_ranges()
+{
+    for(auto it = m_grav_range_draw_active.begin(); it != m_grav_range_draw_active.end(); it++)
+    {
+        std::cout << it->first << " " << it->second<< std::endl;
+        display_grav_range(it->first,it->second);
+
+    }
+}
+
 void Visualizer::display_grav_range(unsigned long id, double min_force)
 {
-
+       double r = sqrt((m_object_masses[m_iteration_number][id] * 0.000000000066742) / min_force);
+       unsigned long x,y,z;
+       z = 0;
+       double width_height = ((r * 2) / m_scale);
+       //std::cout << m_scale << std::endl << m_object_radiuses[m_iteration_number][id] << std::endl << width_height<< std::endl;
+       x = (((m_object_positions[m_iteration_number][id].getX()/ m_scale) - (width_height/2)) - m_camera.x) ;
+       y = (((m_object_positions[m_iteration_number][id].getY()/ m_scale) - (width_height/2)) + m_camera.y);
+       render_texture(m_resource_manager.get_texture("grav_range"), x, y, z, width_height, width_height );
 }
 
 void Visualizer::display_data(unsigned long particle_id)
@@ -546,7 +656,7 @@ void Visualizer::display_data(unsigned long particle_id)
     draw_text("Mass:", pos_x + 20, pos_y + 72, color);
     draw_text(std::to_string(m_object_masses[m_iteration_number][particle_id] / 100000000000000) + " x 10^15", pos_x + 60, pos_y + 84, color);
     draw_text("Radius:", pos_x + 20, pos_y + 96, color);
-    draw_text(std::to_string(m_object_radiuses[m_iteration_number][particle_id] / 100000000000000) + " x 10^15", pos_x + 60, pos_y + 108, color);
+    draw_text(std::to_string(m_object_radiuses[m_iteration_number][particle_id]), pos_x + 60, pos_y + 108, color);
 }
 
 void Visualizer::draw_data()
@@ -557,11 +667,23 @@ void Visualizer::draw_data()
     }
 }
 
-void Visualizer::draw_trajectory_line(unsigned long particle_id)
+void Visualizer::draw_trajectory_line(unsigned long particle_id, unsigned long draw_range)
 {
     double coord2;
     std::vector<SDL_Point> line;
-    for(unsigned long index = 0;  index < m_object_positions.size(); index++)
+    unsigned long start = m_iteration_number - draw_range;
+    unsigned long end = m_iteration_number + draw_range;
+    if (m_iteration_number < draw_range)
+    {
+        start = 0;
+    }
+
+    if(m_iteration_number + draw_range > m_object_positions.size())
+    {
+        end = m_object_positions.size() - 1; 
+    }
+
+    for(unsigned long index = start;  index < end; index++)
     {
         //std::cout << m_object_positions[index][obj_id].getX() / m_scale - m_camera.x << std::endl;
         //std::cout << m_object_positions[index][obj_id].getY() / m_scale + m_camera.y << std::endl;
@@ -579,7 +701,7 @@ void Visualizer::draw_trajectory_line(unsigned long particle_id)
         line.push_back(new_point);
     }
     SDL_Point *line_array = &line[0];
-    SDL_RenderDrawPoints(m_renderer, line_array, m_object_positions.size());    
+    SDL_RenderDrawPoints(m_renderer, line_array, line.size());
 }
 
 void Visualizer::clear_trajectory_lines()
@@ -596,6 +718,20 @@ void Visualizer::load_textures()
             "Textures/Background.bmp",
             m_renderer);
     m_resource_manager.load_texture("ConBack","Textures/ConsoleBackground.bmp", m_renderer);
+
+    m_resource_manager.load_texture("Circle","Textures/circle.bmp", m_renderer);
+    m_resource_manager.load_texture("grav_range","Textures/grav_range.bmp", m_renderer);
+}
+
+void Visualizer::draw_object_circle(unsigned long id)
+{
+    unsigned long x,y,z;
+    z = 0;
+    double width_height = (((m_object_radiuses[m_iteration_number][id]) * 2) / m_scale);
+    //std::cout << m_scale << std::endl << m_object_radiuses[m_iteration_number][id] << std::endl << width_height<< std::endl;
+    x = (((m_object_positions[m_iteration_number][id].getX()/ m_scale) - (width_height/2)) - m_camera.x) ;
+    y = (((m_object_positions[m_iteration_number][id].getY()/ m_scale) - (width_height/2)) + m_camera.y);
+    render_texture(m_resource_manager.get_texture("Circle"), x, y, z, width_height, width_height );
 }
 
 void Visualizer::load_fonts()
@@ -619,6 +755,9 @@ void Visualizer::render_texture(SDL_Texture *texture, int x, int y, int z,int p_
 
 void Visualizer::load_object_data_from_file(std::string filepath)
 {
+
+    char* current_token;
+    std::vector<char *> file_name_token;
     std::ifstream file(filepath);
     std::string s;
     unsigned long it_number = 0;
@@ -626,14 +765,30 @@ void Visualizer::load_object_data_from_file(std::string filepath)
     std::vector<Vec3<double> > it_velo_vector;
     std::vector<double> it_masses;
     std::vector<double> it_radiuses;
-    //std::string c;
+    unsigned long number_of_iterations;
+    int next_bar = 1;
+    std::string bars = "";
+
+    for(int i = 0; i < 51; ++i)
+    {
+        bars = bars + " ";
+    }   
+    current_token = strtok((char *)filepath.c_str(), ".-");
+    file_name_token.push_back(current_token);
+    while(current_token != NULL)
+    {
+        current_token = strtok(NULL, ".-");
+        file_name_token.push_back(current_token);
+    }
+    number_of_iterations = strtoul(file_name_token[1],NULL,0);
+
+    std::cout << "== Loading data from file:" << std::endl;
     if(file.is_open())
     {
         while(getline(file,s))
         {
             if (s == ">")
             {
-                std::cout << "new it "<< it_number << std::endl;
                 m_object_positions.push_back(it_pos_vector);
                 m_object_velocities.push_back(it_velo_vector);
                 m_object_masses.push_back(it_masses);
@@ -645,6 +800,12 @@ void Visualizer::load_object_data_from_file(std::string filepath)
                 it_velo_vector.clear();
                 it_radiuses.clear();
                 it_number++;
+                if(m_object_positions.size() % (number_of_iterations / 50) == 0)
+                {
+                    bars.at(next_bar) = '|';
+                    next_bar ++;
+                }
+                printf("%s(%lu / %lu)\r", bars.c_str(), m_object_positions.size(), number_of_iterations);
             }
             else 
             {
@@ -670,7 +831,8 @@ void Visualizer::load_object_data_from_file(std::string filepath)
             }
         }
         file.close();
-        std::cout << "loading done" << std::endl;
+
+        std::cout << "\n == Loading done ==" << std::endl;
     }
     else
     {
