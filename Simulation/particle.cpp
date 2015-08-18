@@ -129,7 +129,7 @@ void Particle::addAccelerationVector(unsigned long particle_index, Vec3<double> 
     m_velocity_vectors[particle_index] += accelerationVector;
 }
 
-Vec3<double> Particle::getPostion(unsigned long particle_index)
+Vec3<double> Particle::getPosition(unsigned long particle_index)
 {
     return m_positions[particle_index];
 }

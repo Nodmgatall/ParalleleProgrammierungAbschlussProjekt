@@ -6,14 +6,15 @@
 class OctreePoint {
     private:
         Vec3<double> position;
-        void * data;
+        double radius;
+        unsigned long index;
     public:
         OctreePoint() {/**/}
-        OctreePoint(const Vec3<double>& position, void * data) : position(position), data(data) {/**/}
+        OctreePoint(const Vec3<double>& position, double radius, unsigned long index) : position(position), radius(radius), index(index) {/**/}
         inline const Vec3<double>& getPosition() const {return position;}
         inline void setPosition(const Vec3<double>& p) {position = p;}
-        inline const void * getData() const {return &data;}
-        inline void setData(void * d) {data = d;}
+        inline double getRadius() {return radius;}
+        inline void setRadius(double r) {radius = r;}
 };
 
 
