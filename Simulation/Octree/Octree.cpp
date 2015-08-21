@@ -5,6 +5,7 @@ Octree::Octree()
     int i;
     origin = Vec3<double>();
     radii = Vec3<double>();
+    data = NULL;
 
     for (i = 0; i < 8; i++) {
         children[i] = NULL;
@@ -36,9 +37,10 @@ Octree::~Octree()
         delete children[i];
 }
 
-int Octree::getOctant(const Vec3<double>& point)
+int Octree::getOctant(Vec3<double>& point)
 {
     int oct = 0;
+    //Vec3<double> cpypoint = point;
     // clever way of definitively returning the correct
     // number between 0 and 7.
     if(point.getX() >= origin.getX()) oct |= 4;
@@ -55,8 +57,9 @@ bool Octree::isLeafNode()
     return children[0] == NULL;
 }
 
-void Octree::insert(OctreePoint * newdata)
+void Octree::insert(OctreePoint* newdata)
 {
+    std::cerr << "Octree: begin insertion" << std::endl;
     int i;
 
     if (isLeafNode()) {
@@ -69,23 +72,26 @@ void Octree::insert(OctreePoint * newdata)
             OctreePoint * olddata = data;
             data = NULL;
 
-            for (i = 0; i < 8; i++) {
+            for (i = 0; i < 8; ++i) {
                 Vec3<double> newOrigin = origin;
 
-                newOrigin.setX(newOrigin.getX() + radii.getX() * (i&4 ? .5f : -.5f));
-                newOrigin.setY(newOrigin.getY() + radii.getY() * (i&2 ? .5f : -.5f));
-                newOrigin.setZ(newOrigin.getZ() + radii.getZ() * (i&1 ? .5f : -.5f));
+                newOrigin.setX(origin.getX() + radii.getX() * (i&4 ? .5f : -.5f));
+                newOrigin.setY(origin.getY() + radii.getY() * (i&2 ? .5f : -.5f));
+                newOrigin.setZ(origin.getZ() + radii.getZ() * (i&1 ? .5f : -.5f));
                 children[i] = new Octree(newOrigin, radii * .5f);
             }
 
             // re-insert
             children[getOctant(olddata->getPosition())]->insert(olddata);
             children[getOctant(newdata->getPosition())]->insert(newdata);
+            std::cerr << "hi" << std::endl;
         }
     } else { // we're not a leaf
+        std::cerr << "hi" << std::endl;
         i = getOctant(newdata->getPosition());
         children[i]->insert(newdata);
     }
+    std::cerr << "Octree: insertion complete" << std::endl;
 }
 
 Vec3<double> Octree::getOrigin()
@@ -98,12 +104,17 @@ Vec3<double> Octree::getRadii()
     return radii;
 }
 
+void Octree::setRadii(Vec3<double> r)
+{
+    radii = r;
+}
+
 void Octree::getPointsInBox(const Vec3<double>& bmin, const Vec3<double>& bmax,
                     std::vector<OctreePoint*>& results)
 {
     if (isLeafNode()) {
         if (data != NULL) {
-            const Vec3<double>& p = data->getPosition();
+            Vec3<double> p = data->getPosition();
             if (p.getX() > bmax.getX() || p.getY() > bmax.getY() || p.getZ() > bmax.getZ()) return;
             if (p.getX() < bmin.getX() || p.getY() < bmin.getY() || p.getZ() < bmin.getZ()) return;
             results.push_back(data);
