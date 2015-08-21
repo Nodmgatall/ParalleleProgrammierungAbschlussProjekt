@@ -1,6 +1,7 @@
 #include "simulator.hpp"
 #include "physics.hpp"
 #include "unistd.h"
+#include "Octree/Octree.hpp"
 
 #include <string.h>
 #include <stdio.h>
@@ -41,6 +42,7 @@ void Simulator::simulate()
             m_particles.move_Object(i,m_dt);
 
         }
+        collide(m_particles);
     }
     std::cout << "\n== Simulation completed ==" << std::endl;
 }
@@ -180,4 +182,81 @@ void Simulator::get_options(int argc, char** argv)
         exit(EXIT_FAILURE);
     } 
     m_name_last_iteration_save_file = m_name_output_file + ".last_iteration_save";
+}
+
+
+bool Simulator::intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB)
+{
+    // declare a bunch of variables to de-clutter the actual equation
+    double AxMin = posA.getX() - radiusA;
+    double AxMax = posA.getX() + radiusA;
+    double AyMin = posA.getY() - radiusA;
+    double AyMax = posA.getY() + radiusA;
+    double AzMin = posA.getZ() - radiusA;
+    double AzMax = posA.getZ() + radiusA;
+
+    double BxMin = posB.getX() - radiusB;
+    double BxMax = posB.getX() + radiusB;
+    double ByMin = posB.getY() - radiusB;
+    double ByMax = posB.getY() + radiusB;
+    double BzMin = posB.getZ() - radiusB;
+    double BzMax = posB.getZ() + radiusB;
+
+    // calculate result
+    return (AxMin < BxMax && AxMax > BxMin) &&
+           (AyMin < ByMax && AyMax > ByMin) &&
+           (AzMin < BzMax && AzMax > BzMin);
+}
+
+void Simulator::collide(Particle& particle)
+{
+    std::cerr << "begin collision" << std::endl;
+
+    unsigned long i; //iterator
+    double precision = 5; // precision multiplier (must be >1)
+
+    Octree * tree = new Octree(); //octree for organizing
+    tree->setRadii(Vec3<double>(1000.0, 1000.0, 1000.0)); //TODO change this to something sensible
+    std::cerr << "created Octree" << std::endl;
+
+    // build octree
+    OctreePoint * octreePoints = new OctreePoint[particle.getNumberOfParticles()];
+    for (i = 0; i < particle.getNumberOfParticles(); i++) {
+        octreePoints[i].setPosition(particle.getPosition(i));
+        octreePoints[i].setRadius(particle.getRadius(i));
+        octreePoints[i].setIndex(i);
+        tree->insert(octreePoints + 1);
+    }
+
+    std::cerr << "built Octree" << std::endl;
+
+    // determine which particles to collide with one another
+    // and perform the collision
+    for (i = 0; i < particle.getNumberOfParticles(); i++) {
+        // variable to save all points to collide with
+        std::vector<OctreePoint*> collisionPartners;
+
+        // help variable
+        double radius = particle.getRadius(i);
+        
+        // vectors for calculating box in which to consider particles
+        Vec3<double> radius_vec = Vec3<double>(radius, radius, radius);
+        Vec3<double> bmin = Vec3<double>() + particle.getPosition(i) - radius_vec * precision;
+        Vec3<double> bmax = Vec3<double>() + particle.getPosition(i) + radius_vec * precision;
+        
+        // push all points within i's vicinity into this vector
+        tree->getPointsInBox(bmin, bmax, collisionPartners);
+
+        std::cerr << "lol" << std::endl;
+
+        for (auto it = collisionPartners.begin(); it != collisionPartners.end(); ++it) {
+            if (intersects(particle.getPosition(i), particle.getRadius(i), (*it)->getPosition(), (*it)->getRadius())) {
+                /* do stuff */
+                //std::cout << "Particle " << i << " collides with particle " << (*it)->getIndex() << std::endl;
+                particle.merge_objects(i, (*it)->getIndex());
+            }
+        }
+    }
+
+    delete tree;
 }

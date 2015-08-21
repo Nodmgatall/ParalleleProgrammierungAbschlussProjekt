@@ -14,6 +14,8 @@ class Simulator
         //option flags:
         bool m_option_load_from_file;
         bool m_output_file_entered;
+        bool intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB);
+        void collide(Particle& particle);
         
     private:
         Particle m_particles;

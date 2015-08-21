@@ -12,7 +12,7 @@ static double calculateAccleration(double dist,
 	return (G * (mass_other / (dist * dist)));
 }
 
-static void applyGravity(Particle &particle, unsigned long id, double dt)
+static void __attribute__((unused)) applyGravity(Particle &particle, unsigned long id, double dt)
 {
 	Vec3<double> distance_vector;
 	Vec3<double> accleration_vector;
