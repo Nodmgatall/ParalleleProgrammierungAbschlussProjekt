@@ -259,18 +259,66 @@ void Particle::printAllParticles()
 }
 
 
-
-void Particle::writePositionToFile(std::string filename)
+void Particle::write_to_file(std::string filename, unsigned long iteration_number, std::ios_base::openmode mode)
 {
-    std::ofstream file(filename, std::ofstream::app);
+    std::ofstream file(filename, mode);
     if(file.is_open())
     {
+        std::string deleted_ids_string;
+
+        file << std::to_string(iteration_number) + " " + std::to_string(m_number_of_particles) + "\n"; 
+        if(m_deleted_ids_in_iteration.size() > 0)
+        {
+            deleted_ids_string = std::to_string(m_deleted_ids_in_iteration[0]);
+            for(unsigned long i = 1; i < m_number_of_particles; i++)
+            {
+                deleted_ids_string += " ";
+                deleted_ids_string += std::to_string(m_deleted_ids_in_iteration[i]);
+            }
+        }
+        else
+        {
+            deleted_ids_string = "NO_COLLISIONS";
+        }
+
+        file << deleted_ids_string + "\n";
 
         for(unsigned long i = 0; i < m_number_of_particles; i++)
         {
             file << m_positions[i].toString() + m_velocity_vectors[i].toString() + std::to_string(m_masses[i]) + " " + std::to_string(m_radiuses[i]) + "\n";
         }
         file << ">\n";
+    }
+}
+
+void Particle::detect_collision()
+{
+    for(unsigned long i = 1; i < m_positions.size(); i++)
+    {
+        double radius_cur = m_radiuses[i];
+        Vec3<double> pos_cur = m_positions[i];
+        for(unsigned long j = 0; j < i; j++)
+        {
+            double radius_other = m_radiuses[j];
+            Vec3<double> pos_other = m_positions[j];
+            double dist = (pos_cur - pos_other).getLength();
+            if(dist < (radius_cur + radius_other))
+            {
+            calculate_collision(i,j);
+            std::cout << dist <<"COLLISION DETECTED !!! "<< i << " "<< j << std::endl;
+            }
+        }
+        for(unsigned long j = i + 1; j < m_positions.size(); j++)
+        {
+            double radius_other = m_radiuses[j];
+            Vec3<double> pos_other = m_positions[j];
+            double dist = (pos_cur - pos_other).getLength();
+            if(dist < (radius_cur + radius_other))
+            {
+            calculate_collision(i,j);
+            std::cout << "COLLISION DETECTED !!! "<< i << " "<< j << std::endl;
+            }
+        }
     }
 }
 
@@ -312,13 +360,21 @@ void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
     return;
 }
 
-void Particle::load_data_from_file(std::string filepath)
+void Particle::load_data_from_file(std::string filepath, unsigned long &number_of_previous_iterations)
 {
     std::ifstream file(filepath);
     std::string s;
-        //std::string c;
+    std::string num_objects;
+    std::string num_iterations;
+    //std::string c;
     if(file.is_open())
     {
+        getline(file,s);
+        std::stringstream ss(s);
+        getline(ss, num_iterations, ' ');
+        number_of_previous_iterations = stoul(num_iterations,NULL,0);
+        getline(ss, num_objects,' ');
+        getline(file,s);
         while(getline(file,s))
         {
             if (s == ">")
@@ -330,7 +386,7 @@ void Particle::load_data_from_file(std::string filepath)
             {
                 //std::cout << s << std::endl;
                 std::string x, y, z, velo_x, velo_y, velo_z, mass, radius;
-                std::stringstream ss(s);
+                ss = std::stringstream(s);
                 getline(ss,x,' ');
                 getline(ss,y,' ');
                 getline(ss,z,' ');
@@ -344,7 +400,7 @@ void Particle::load_data_from_file(std::string filepath)
                 m_velocity_vectors.push_back(Vec3<double>(std::stod(velo_x),std::stod(velo_y), std::stod(velo_z)));
                 m_masses.push_back(std::stod(mass));
                 m_radiuses.push_back(std::stod(radius));
-                std::cout << m_positions.back().toString() << std::endl;
+                //std::cout << m_positions.back().toString() << std::endl;
                 m_number_of_particles++;
 
             }

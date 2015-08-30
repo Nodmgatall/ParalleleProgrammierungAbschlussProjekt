@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 Visualizer::Visualizer()
 {
     m_pause = false;
@@ -369,8 +370,10 @@ void Visualizer::handle_console_input(std::string input)
         }
 
         unsigned long id = strtoul(token_vector[1],NULL,0);
-        unsigned long min_force = strtod(token_vector[2],NULL);
-        std::cout << id << " " << min_force << std::endl;
+        double min_force;// = (double)strtod(token_vector[2],NULL);
+        std::istringstream conv(token_vector[2]);
+        conv >> min_force;
+        std::cout << min_force << " < LOLOLO > " << token_vector[2] << std::endl;
         auto it = m_grav_range_draw_active.find(id);
         if(it != m_grav_range_draw_active.end())
         {
@@ -601,7 +604,7 @@ void Visualizer::display_all_grav_ranges()
 {
     for(auto it = m_grav_range_draw_active.begin(); it != m_grav_range_draw_active.end(); it++)
     {
-        std::cout << it->first << " " << it->second<< std::endl;
+        //std::cout << it->first << " " << it->second<< std::endl;
         display_grav_range(it->first,it->second);
 
     }
@@ -609,10 +612,21 @@ void Visualizer::display_all_grav_ranges()
 
 void Visualizer::display_grav_range(unsigned long id, double min_force)
 {
-       double r = sqrt((m_object_masses[m_iteration_number][id] * 0.000000000066742) / min_force);
+       //std::cout << "START" << std::endl;
+       double sqrtM = sqrt(m_object_masses[m_iteration_number][id]);  
+       //std::cout << sqrtM << std::endl;
+       double sqrtG = sqrt(0.000000000066742);
+       //std::cout << sqrtG << std::endl;
+       double sqrtMin = sqrt(min_force);
+       //std::cout << min_force << std::endl;
+       double erg = sqrtG / sqrtMin;
+       //std::cout << erg << std::endl;
+       erg = erg * sqrtM;
+       //std::cout << erg << std::endl;
        unsigned long x,y,z;
        z = 0;
-       double width_height = ((r * 2) / m_scale);
+       double width_height = ((erg * 2) / m_scale);
+       //std::cout << width_height << std::endl;
        //std::cout << m_scale << std::endl << m_object_radiuses[m_iteration_number][id] << std::endl << width_height<< std::endl;
        x = (((m_object_positions[m_iteration_number][id].getX()/ m_scale) - (width_height/2)) - m_camera.x) ;
        y = (((m_object_positions[m_iteration_number][id].getY()/ m_scale) - (width_height/2)) + m_camera.y);
@@ -756,7 +770,6 @@ void Visualizer::render_texture(SDL_Texture *texture, int x, int y, int z,int p_
 void Visualizer::load_object_data_from_file(std::string filepath)
 {
 
-    char* current_token;
     std::vector<char *> file_name_token;
     std::ifstream file(filepath);
     std::string s;
@@ -765,26 +778,20 @@ void Visualizer::load_object_data_from_file(std::string filepath)
     std::vector<Vec3<double> > it_velo_vector;
     std::vector<double> it_masses;
     std::vector<double> it_radiuses;
-    unsigned long number_of_iterations;
-    int next_bar = 1;
+    unsigned long number_of_iterations = 9;
+    //int next_bar = 1;
     std::string bars = "";
 
     for(int i = 0; i < 51; ++i)
     {
         bars = bars + " ";
     }   
-    current_token = strtok((char *)filepath.c_str(), ".-");
-    file_name_token.push_back(current_token);
-    while(current_token != NULL)
-    {
-        current_token = strtok(NULL, ".-");
-        file_name_token.push_back(current_token);
-    }
-    number_of_iterations = strtoul(file_name_token[1],NULL,0);
-
     std::cout << "== Loading data from file:" << std::endl;
     if(file.is_open())
-    {
+    { 
+        getline(file,s);
+        getline(file,s);
+
         while(getline(file,s))
         {
             if (s == ">")
@@ -800,12 +807,14 @@ void Visualizer::load_object_data_from_file(std::string filepath)
                 it_velo_vector.clear();
                 it_radiuses.clear();
                 it_number++;
-                if(m_object_positions.size() % (number_of_iterations / 50) == 0)
-                {
-                    bars.at(next_bar) = '|';
-                    next_bar ++;
-                }
+                //if(m_object_positions.size() % (number_of_iterations / 50) == 0)
+                //{
+                //    bars.at(next_bar) = '|';
+                //    next_bar ++;
+                //}
                 printf("%s(%lu / %lu)\r", bars.c_str(), m_object_positions.size(), number_of_iterations);
+                getline(file,s);
+                getline(file,s);
             }
             else 
             {

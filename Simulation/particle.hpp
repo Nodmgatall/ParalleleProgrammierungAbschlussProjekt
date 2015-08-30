@@ -27,6 +27,7 @@ class Particle
         std::vector<unsigned long> m_used_ids;
         unsigned long m_number_of_particles;
         unsigned long m_max_id;
+        std::vector<unsigned long> m_deleted_ids_in_iteration;
 
     public:
 
@@ -60,8 +61,7 @@ class Particle
         /** returns a pointer to a copied m_positions Vector for saving */ 
         Vec3<Vec3<double> > savePositionData();
 
-        void writePositionToFile(std::string filename);
-
+        void write_to_file(std::string filename, unsigned long iteration_number, std::ios_base::openmode mode) ;
         /** returns the mass of given particle */
         double getMass(unsigned long particle_index);
 
@@ -137,10 +137,12 @@ Radius 429.489498\n
 
         unsigned long get_vector_index(unsigned long id);
 
-        void load_data_from_file(std::string filepath);
+        void load_data_from_file(std::string filepath, unsigned long &number_of_previous_iterations);
         //TODO: Save funktion die die daten aus Particle in eine datei schreibt
         //
         bool check_for_collision(unsigned long id_1, unsigned long id_2);
+
+        void detect_collision();
         
 };
 

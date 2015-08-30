@@ -6,6 +6,7 @@ lazy:
 	g++ -g -std=c++14 -o Simulation.x *.cpp $(SDL2_LIBS)
 opti:
 	g++ -g -O3 -std=c++14 -o Simulation.x *.cpp $(SDL2_LIBS)
-
+clang:
+	clang++ -g -O3 -std=c++14 -o Simulation.x *.cpp $(SDL2_LIBS)
 clean:
 	rm *.x
