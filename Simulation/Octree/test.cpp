@@ -21,14 +21,15 @@ void test2()
     assert(mytree->getOrigin().getX() == 0.0);
     assert(mytree->getRadii().getX() == 10.0);
 
-    int i = 5;
-    int * p = &i;
+    double i = 5.0;
 
-    OctreePoint *mydata = new OctreePoint(Vec3<double>(43.0, 21.0, 24.0), p);
+    OctreePoint *mydata = new OctreePoint(Vec3<double>(43.0, 21.0, 24.0), i, 7);
 
     mytree->insert(mydata);
 
-    assert(mytree->getData() != NULL);
+    std::vector<OctreePoint*> results;
+    mytree->getPointsInBox(Vec3<double>(0.0, 0.0, 0.0), Vec3<double>(45.0, 25.0, 25.0), results);
+    std::cout << results[0]->getIndex() << std::endl;
 }
 
 int main(void)

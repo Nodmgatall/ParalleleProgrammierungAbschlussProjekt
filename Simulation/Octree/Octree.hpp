@@ -42,7 +42,7 @@ class Octree
         ~Octree();
 
         /** Figure out which octant would contain the given point */
-        int getOctant(const Vec3<double>& point);
+        int getOctant(Vec3<double>& point);
 
         /** Figure out wether this node is a leaf node or not */
         bool isLeafNode();
@@ -55,6 +55,9 @@ class Octree
 
         /** Return node's radii */
         Vec3<double> getRadii();
+
+        /** Set node's radii */
+        void setRadii(Vec3<double> r);
 
         /** Get all points within a box, delimited by
             vectors bmin and bmax. Results are pushed into 'results' */
