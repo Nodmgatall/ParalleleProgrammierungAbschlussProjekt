@@ -63,11 +63,13 @@ void Octree::insert(OctreePoint* newdata)
 
     if (isLeafNode()) {
         if (data == NULL) {
+            // we're at a leaf that doesn't store any data.
+            // thus, we can simply save the data and return.
             data = newdata;
             return;
         } else {
             // we're at a leaf, but we already store data.
-            // thus, we're splitting this node into 8.
+            // thus, we're splitting this node into 8 new ones.
             OctreePoint * olddata = data;
             data = NULL;
 
@@ -84,7 +86,10 @@ void Octree::insert(OctreePoint* newdata)
             children[getOctant(olddata->getPosition())]->insert(olddata);
             children[getOctant(newdata->getPosition())]->insert(newdata);
         }
-    } else { // we're not a leaf
+    } else {
+        // we're not at a leaf, thus we try to insert the data into
+        // one of our children.
+        // This comment could have been phrased a lot more sensibly. Oh well.
         i = getOctant(newdata->getPosition());
         children[i]->insert(newdata);
     }

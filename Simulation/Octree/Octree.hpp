@@ -29,7 +29,8 @@ class Octree
         OctreePoint *data;
 
     public:
-        /** Default constructor */
+        /** Default constructor; initializes origin and radii as 0-vectors,
+            meaning one must use set-functions to give it sensical values */
         Octree();
 
         /** Constructor, given an origin and radii */
