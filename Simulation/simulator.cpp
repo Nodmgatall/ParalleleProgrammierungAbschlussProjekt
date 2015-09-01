@@ -228,6 +228,8 @@ void Simulator::collide(Particle& particle)
             if (intersects(particle.getPosition(i), particle.getRadius(i), (*it)->getPosition(), (*it)->getRadius()))
             {
                 DEBUG("Particle " << i << " collides with particle " << (*it)->getIndex() << "...");
+                DEBUG("Particle " << i << "'s position: " << particle.getPosition(i).toString());
+                DEBUG("Particle " << (*it)->getIndex() << "'s position: " << (*it)->getPosition().toString());
                 particle.merge_objects(i, (*it)->getIndex());
             }
         }
