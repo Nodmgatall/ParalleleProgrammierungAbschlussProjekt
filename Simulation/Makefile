@@ -11,7 +11,7 @@ EXECUTABLE = Simulation.x
 default: Simulation.x
 
 # optimized
-opti: CFLAGS += -O3
+opti: CFLAGS = -O3 -pedantic -std=c++14
 opti: default
 
 # parallelized
