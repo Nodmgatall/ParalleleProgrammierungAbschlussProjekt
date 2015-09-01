@@ -47,7 +47,7 @@ void Simulator::simulate()
         {
             applyGravity(m_particles,particle_index,m_dt);
             m_particles.move_Object(particle_index,m_dt);
-            m_particles.detect_collision();
+            //m_particles.detect_collision();
         }
         collide(m_particles);
         
