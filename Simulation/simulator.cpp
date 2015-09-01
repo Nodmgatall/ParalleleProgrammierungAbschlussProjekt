@@ -230,6 +230,8 @@ void Simulator::collide(Particle& particle)
                 DEBUG("Particle " << i << " collides with particle " << (*it)->getIndex() << "...");
                 DEBUG("Particle " << i << "'s position: " << particle.getPosition(i).toString());
                 DEBUG("Particle " << (*it)->getIndex() << "'s position: " << (*it)->getPosition().toString());
+
+                // When two particles collide, they merge. This is somewhat primitive but also somewhat realistic.
                 particle.merge_objects(i, (*it)->getIndex());
             }
         }
