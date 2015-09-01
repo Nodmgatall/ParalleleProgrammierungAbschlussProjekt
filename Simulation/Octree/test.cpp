@@ -30,12 +30,24 @@ void test2()
     std::vector<OctreePoint*> results;
     mytree->getPointsInBox(Vec3<double>(0.0, 0.0, 0.0), Vec3<double>(45.0, 25.0, 25.0), results);
     std::cout << results[0]->getIndex() << std::endl;
+    delete mytree;
+}
+
+void test3()
+{
+    Vec3<double> temp = Vec3<double>(0.0, 0.0, 0.0);
+    Vec3<double> origin = Vec3<double>(100.0, 100.0, 100.0);
+    Vec3<double> radii = Vec3<double>(10.0, 10.0, 10.0);
+    Octree * mytree = new Octree(origin, radii);
+    std::cout << mytree->getOctant(temp) << std::endl;
+    delete mytree;
 }
 
 int main(void)
 {
     test1();
     test2();
+    test3();
     std::cout << "Tests completed successfully!" << std::endl;
     return 0;
 }

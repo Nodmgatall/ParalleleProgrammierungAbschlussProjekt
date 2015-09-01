@@ -59,7 +59,6 @@ bool Octree::isLeafNode()
 
 void Octree::insert(OctreePoint* newdata)
 {
-    std::cerr << "Octree: begin insertion" << std::endl;
     int i;
 
     if (isLeafNode()) {
@@ -84,14 +83,11 @@ void Octree::insert(OctreePoint* newdata)
             // re-insert
             children[getOctant(olddata->getPosition())]->insert(olddata);
             children[getOctant(newdata->getPosition())]->insert(newdata);
-            std::cerr << "hi" << std::endl;
         }
     } else { // we're not a leaf
-        std::cerr << "hi" << std::endl;
         i = getOctant(newdata->getPosition());
         children[i]->insert(newdata);
     }
-    std::cerr << "Octree: insertion complete" << std::endl;
 }
 
 Vec3<double> Octree::getOrigin()

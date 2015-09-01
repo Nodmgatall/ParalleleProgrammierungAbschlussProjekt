@@ -185,7 +185,8 @@ void Simulator::collide(Particle& particle)
     double precision = 5; // precision multiplier (must be >1)
 
     Octree * tree = new Octree(); //octree for organizing
-    tree->setRadii(Vec3<double>(1000.0, 1000.0, 1000.0)); //TODO change this to something sensible
+    double lim = 1.0 * 1000.0 * 1000.0 * 1000.0 * 1000.0;
+    tree->setRadii(Vec3<double>(lim, lim, lim)); //TODO change this to something sensible
     std::cerr << "created Octree" << std::endl;
 
     // build octree
@@ -194,7 +195,7 @@ void Simulator::collide(Particle& particle)
         octreePoints[i].setPosition(particle.getPosition(i));
         octreePoints[i].setRadius(particle.getRadius(i));
         octreePoints[i].setIndex(i);
-        tree->insert(octreePoints + 1);
+        tree->insert(octreePoints + i);
     }
 
     std::cerr << "built Octree" << std::endl;
@@ -215,8 +216,6 @@ void Simulator::collide(Particle& particle)
         
         // push all points within i's vicinity into this vector
         tree->getPointsInBox(bmin, bmax, collisionPartners);
-
-        std::cerr << "lol" << std::endl;
 
         for (auto it = collisionPartners.begin(); it != collisionPartners.end(); ++it) {
             if (intersects(particle.getPosition(i), particle.getRadius(i), (*it)->getPosition(), (*it)->getRadius())) {
