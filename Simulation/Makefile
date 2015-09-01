@@ -19,7 +19,7 @@ parallel: CC = mpi++
 parallel: default
 
 # clang target, why not
-clang: CC = clang
+clang: CC = clang++
 clang: default
 
 #lazy target without any restrictions
@@ -54,7 +54,7 @@ clean:
 	rm -f *.x
 
 cleanup:
-	rm -f *.x *.simdat
+	rm -f *.x *.lis
 
 mrproper:
-	rm -f *.o *.x *.simdat
+	rm -f *.o *.x *.lis
