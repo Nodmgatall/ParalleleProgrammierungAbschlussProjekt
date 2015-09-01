@@ -1,38 +1,60 @@
-.PHONY: default clean mrproper opti parallel
+.PHONY: default clang clean cleanup mrproper opti parallel
 
 ### definitions ###
 CC = g++
 CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
-OBJS = main.o particle.o simulator.o
+OBJS = main.o particle.o simulator.o Octree.o
+EXECUTABLE = Simulation.x
 
 ### targets ###
-# default target to compile executable
+# normal
 default: Simulation.x
 
-# our executable requires a bunch of objects
-Simulation.x: ${OBJS} Octree.o
-	${CC} ${CFLAGS} ${OBJS} Octree.o -o Simulation.x
+# optimized
+opti: CFLAGS += -O3
+opti: default
 
+# parallelized
+parallel: CC = mpi++
+parallel: default
+
+# clang target, why not
+clang: CC = clang
+clang: default
+
+#lazy target without any restrictions
+lazy: CFLAGS = -g -std=c++14
+lazy: default
+
+## Final executable ##
+Simulation.x: ${OBJS}
+	${CC} ${CFLAGS} ${OBJS} -o ${EXECUTABLE}
+
+### Object files ###
+# TODO: throw all these into one target
 # Octree
-Octree.o: Octree/Octree.hpp Octree/Octree.cpp Octree/OctreePoint.hpp
-	${CC} ${CFLAGS} -c Octree/Octree.cpp
+Octree.o: Octree/Octree.cpp Octree/Octree.hpp Octree/OctreePoint.hpp
+	${CC} ${CFLAGS} -c $<
 
 # main
 main.o: main.cpp
-	${CC} ${CFLAGS} -c main.cpp
+	${CC} ${CFLAGS} -c $<
 
 # particle
-particle.o: particle.cpp
-	${CC} ${CFLAGS} -c particle.cpp
+particle.o: particle.cpp particle.hpp
+	${CC} ${CFLAGS} -c $<
 
 # simulator
-simulator.o: simulator.cpp
-	${CC} ${CFLAGS} -c simulator.cpp
+simulator.o: simulator.cpp simulator.hpp
+	${CC} ${CFLAGS} -c $<
 
 
-
+### Cleanup utils ###
 clean:
-	rm *.o *.x
+	rm -f *.x
+
+cleanup:
+	rm -f *.x *.simdat
 
 mrproper:
 	rm -f *.o *.x *.simdat
