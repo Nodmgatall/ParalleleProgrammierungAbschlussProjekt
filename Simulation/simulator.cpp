@@ -3,6 +3,8 @@
 #include "unistd.h"
 #include "Octree/Octree.hpp"
 
+#include "Util/macros.hpp"
+
 #include <string.h>
 #include <stdio.h>
 #include <fstream>
@@ -179,7 +181,7 @@ bool Simulator::intersects(Vec3<double> posA, double radiusA, Vec3<double> posB,
 
 void Simulator::collide(Particle& particle)
 {
-    std::cerr << "begin collision" << std::endl;
+    DEBUG("Begin collision...");
 
     unsigned long i; //iterator
     double precision = 5; // precision multiplier (must be >1)
@@ -187,22 +189,24 @@ void Simulator::collide(Particle& particle)
     Octree * tree = new Octree(); //octree for organizing
     double lim = 1.0 * 1000.0 * 1000.0 * 1000.0 * 1000.0;
     tree->setRadii(Vec3<double>(lim, lim, lim)); //TODO change this to something sensible
-    std::cerr << "created Octree" << std::endl;
+    DEBUG("Created octree...");
 
     // build octree
     OctreePoint * octreePoints = new OctreePoint[particle.getNumberOfParticles()];
-    for (i = 0; i < particle.getNumberOfParticles(); i++) {
+    for (i = 0; i < particle.getNumberOfParticles(); i++)
+    {
         octreePoints[i].setPosition(particle.getPosition(i));
         octreePoints[i].setRadius(particle.getRadius(i));
         octreePoints[i].setIndex(i);
         tree->insert(octreePoints + i);
     }
 
-    std::cerr << "built Octree" << std::endl;
+    DEBUG("Assembled octree...");
 
     // determine which particles to collide with one another
     // and perform the collision
-    for (i = 0; i < particle.getNumberOfParticles(); i++) {
+    for (i = 0; i < particle.getNumberOfParticles(); i++)
+    {
         // variable to save all points to collide with
         std::vector<OctreePoint*> collisionPartners;
 
@@ -217,14 +221,20 @@ void Simulator::collide(Particle& particle)
         // push all points within i's vicinity into this vector
         tree->getPointsInBox(bmin, bmax, collisionPartners);
 
-        for (auto it = collisionPartners.begin(); it != collisionPartners.end(); ++it) {
-            if (intersects(particle.getPosition(i), particle.getRadius(i), (*it)->getPosition(), (*it)->getRadius())) {
-                /* do stuff */
-                //std::cout << "Particle " << i << " collides with particle " << (*it)->getIndex() << std::endl;
+        for (auto it = collisionPartners.begin(); it != collisionPartners.end(); ++it)
+        {
+            if (i == (*it)->getIndex()) continue; // things can't collide with themselves
+
+            if (intersects(particle.getPosition(i), particle.getRadius(i), (*it)->getPosition(), (*it)->getRadius()))
+            {
+                DEBUG("Particle " << i << " collides with particle " << (*it)->getIndex() << "...");
                 particle.merge_objects(i, (*it)->getIndex());
             }
         }
+        DEBUG("Collision done for particle " << i << "!");
     }
+
+    DEBUG("Collision done!");
 
     delete tree;
 }
