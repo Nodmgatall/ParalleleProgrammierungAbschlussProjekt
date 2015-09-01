@@ -10,6 +10,10 @@ EXECUTABLE = Simulation.x
 # normal
 default: Simulation.x
 
+# debug
+debug: CFLAGS += -DDEBUG_BUILD
+debug: default
+
 # optimized
 opti: CFLAGS = -O3 -pedantic -std=c++14
 opti: default
