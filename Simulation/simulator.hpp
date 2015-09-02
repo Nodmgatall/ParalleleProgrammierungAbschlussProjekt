@@ -9,15 +9,12 @@ class Simulator
         void simulate();
         void set_up_simulation();
         void get_options(int argc, char** argv);
-        template<class Archive>
-        void serialize(Archive & archive);
-        void archive_particles();
 
             //option flags:
         bool m_option_load_from_file;
         bool m_output_file_entered;
-        bool intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB);
-        void collide(Particle& particle);
+        //bool intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB);
+        //void collide(Particle& particle);
         
     private:
         Particle m_particles;

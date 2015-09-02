@@ -49,9 +49,8 @@ void Simulator::simulate()
         {
             applyGravity(m_particles,particle_index,m_dt);
             m_particles.move_Object(particle_index,m_dt);
-            //m_particles.detect_collision();
+            m_particles.sort_and_sweep();
         }
-        collide(m_particles);
         
         //Wrtite simulation data to file and in last iteration save last iteration
         if(current_iteration == m_number_of_iterations - 1)
@@ -69,7 +68,7 @@ void Simulator::simulate()
  * */
 void Simulator::set_up_simulation()
 {
-    m_dt = 0.000024;
+    m_dt = 0.00024;
     if(m_option_load_from_file)
     {
         std::cout << "loading of file " << m_name_input_file << " done" << std::endl;
@@ -155,7 +154,7 @@ void Simulator::get_options(int argc, char** argv)
 
 }
 
-
+/*
 bool Simulator::intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB)
 {
     // declare a bunch of variables to de-clutter the actual equation
@@ -178,6 +177,7 @@ bool Simulator::intersects(Vec3<double> posA, double radiusA, Vec3<double> posB,
            (AyMin < ByMax && AyMax > ByMin) &&
            (AzMin < BzMax && AzMax > BzMin);
 }
+
 
 void Simulator::collide(Particle& particle)
 {
@@ -240,3 +240,5 @@ void Simulator::collide(Particle& particle)
 
     delete tree;
 }
+
+*/

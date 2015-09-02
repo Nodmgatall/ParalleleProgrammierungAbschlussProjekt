@@ -10,6 +10,7 @@
 #include <ctime>
 #include <utility> 
 #include <cstdlib>
+#include <map>
 
 // center object has to be at <0.0.0>
 /**
@@ -24,7 +25,7 @@ class Particle
         std::vector<Vec3<double> > m_positions;
         std::vector<double> m_masses;
         std::vector<double> m_radiuses;
-        std::vector<unsigned long> m_used_ids;
+        std::vector<unsigned long> m_ids;
         unsigned long m_number_of_particles;
         unsigned long m_max_id;
         std::vector<unsigned long> m_deleted_ids_in_iteration;
@@ -35,7 +36,7 @@ class Particle
         /** removes single particle */
         void remove(unsigned long vector_index);
 
-        void remove_by_id(unsigned long particle_id);
+    //void remove_by_id(unsigned long particle_id);
 
         /** returns the distance from the center of the system */
         double get_distance_to_center(unsigned long particle_index);
@@ -143,6 +144,10 @@ Radius 429.489498\n
         bool check_for_collision(unsigned long id_1, unsigned long id_2);
 
         void detect_collision();
+
+        void particle_bubble_sort();
+
+        void sort_and_sweep();
         
 };
 

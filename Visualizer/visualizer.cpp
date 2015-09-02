@@ -40,6 +40,7 @@ Visualizer::Visualizer(std::string filename)
     m_console_is_open = false;
     m_draw_it_number = false;
     m_rotation_active = false;
+    m_draw_number_of_particles = false;
     m_draw_ids = false;
     m_x_rot_deg = 0.0;
     m_y_rot_deg = 0.0;
@@ -304,6 +305,11 @@ void Visualizer::handle_console_input(std::string input)
         return;
     }
 
+    if(strcmp(token_vector[0], "spn") == 0)
+    {
+        m_draw_number_of_particles = !m_draw_number_of_particles;
+    }
+
     if(strcmp(token_vector[0], "display_data") == 0 || strcmp(token_vector[0], "dd") == 0)
     {
         unsigned long particle_id;
@@ -563,13 +569,18 @@ void Visualizer::draw_main_loop(double dt)
 
         if(m_draw_ids)
         {
-            draw_text(std::to_string(index), pos_x + 18 , pos_y - 18, {255, 255, 255, 255});
+            draw_text(std::to_string(m_object_ids[m_iteration_number][index]), pos_x + 18 , pos_y - 18, {255, 255, 255, 255});
         }
-    } 
+    }
+    
+    if(m_draw_number_of_particles == true)
+    {
+        draw_text("Number of particles:" + std::to_string(m_object_positions[m_iteration_number].size()), 50 ,150,{255, 255, 255 ,255});
+    }
 
     if(m_draw_it_number == true)
     {
-        draw_text("Iteration: " + std::to_string(m_iteration_number), 50,50, {255, 255, 255, 255});
+        draw_text("Iteration: " + std::to_string(m_iteration_number), 50, 100, {255, 255, 255, 255});
     }
 
     draw_data();
@@ -582,7 +593,7 @@ void Visualizer::draw_main_loop(double dt)
 
     if(m_input && command != "")
     {
-        draw_text(command, 100, 100, {255, 255 ,255 ,255});
+        draw_text(command, 50, 50, {255, 255 ,255 ,255});
     }
     SDL_RenderPresent(m_renderer);
 }
@@ -778,6 +789,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
     std::vector<Vec3<double> > it_velo_vector;
     std::vector<double> it_masses;
     std::vector<double> it_radiuses;
+    std::vector<unsigned long> it_ids;
     unsigned long number_of_iterations = 9;
     //int next_bar = 1;
     std::string bars = "";
@@ -796,6 +808,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
         {
             if (s == ">")
             {
+                m_object_ids.push_back(it_ids);
                 m_object_positions.push_back(it_pos_vector);
                 m_object_velocities.push_back(it_velo_vector);
                 m_object_masses.push_back(it_masses);
@@ -806,6 +819,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
                 it_masses.clear();
                 it_velo_vector.clear();
                 it_radiuses.clear();
+                it_ids.clear();
                 it_number++;
                 //if(m_object_positions.size() % (number_of_iterations / 50) == 0)
                 //{
@@ -819,8 +833,9 @@ void Visualizer::load_object_data_from_file(std::string filepath)
             else 
             {
                 //std::cout << s << std::endl;
-                std::string x,y,z,velo_x,velo_y,velo_z,mass, radius;
+                std::string id, x, y, z, velo_x, velo_y, velo_z, mass, radius;
                 std::stringstream ss(s);
+                getline(ss,x,' ');
                 getline(ss,x,' ');
                 getline(ss,y,' ');
                 getline(ss,z,' ');
@@ -830,7 +845,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
                 getline(ss,mass,' ');
                 getline(ss,radius,' ');
 
-
+                it_ids.push_back(std::strtoul(id.c_str(), NULL, 0));
                 it_pos_vector.push_back(Vec3<double>(std::stod(x),std::stod(y),std::stod(z)));
                 it_velo_vector.push_back(Vec3<double>(std::stod(velo_x),std::stod(velo_y), std::stod(velo_z)));
                 it_masses.push_back(std::stod(mass));

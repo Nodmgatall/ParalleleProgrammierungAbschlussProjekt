@@ -17,6 +17,7 @@ class Visualizer
         std::vector<std::vector<Vec3<double> > > m_object_velocities;
         std::vector<std::vector<double> > m_object_masses;
         std::vector<std::vector<double> > m_object_radiuses;
+        std::vector<std::vector<unsigned long> >m_object_ids;
         int m_screen_width;
         int m_screen_height;
         bool m_running;
@@ -27,6 +28,7 @@ class Visualizer
         bool m_console_is_open;
         bool m_draw_it_number;
         bool m_rotation_active;
+        bool m_draw_number_of_particles;
         double m_x_rot_deg;
         double m_y_rot_deg;
         std::map<unsigned long,unsigned long> m_line_draw_active;
