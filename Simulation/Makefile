@@ -19,8 +19,9 @@ opti: CFLAGS = -O3 -pedantic -std=c++14
 opti: default
 
 # parallelized
-parallel: CC = mpi++
-parallel: default
+parallel: OBJS = main-par.o particle.o simulator.o Octree.o
+parallel: CC = mpic++
+parallel: main-par.o default
 
 # clang target, why not
 clang: CC = clang++
@@ -42,6 +43,10 @@ Octree.o: Octree/Octree.cpp Octree/Octree.hpp Octree/OctreePoint.hpp
 
 # main
 main.o: main.cpp
+	${CC} ${CFLAGS} -c $<
+
+# parallelized main
+main-par.o: main-par.cpp
 	${CC} ${CFLAGS} -c $<
 
 # particle
