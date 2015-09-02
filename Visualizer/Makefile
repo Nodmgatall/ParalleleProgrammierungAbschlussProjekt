@@ -1,8 +1,45 @@
-SDL2_LIBS = $(shell sdl2-config --libs --cflags) -lSDL2_image -lSDL2_ttf
+.PHONY: clang clean default lazy opti
+SHELL = /bin/sh
 
-all:
-	g++ -g -Werror -pedantic -Wall -Wextra -Wno-error=unused-parameter -std=c++14 -o Visualizer.x *.cpp $(SDL2_LIBS)
-lazy:
-	g++ -g -std=c++14 -o Simulation.x *.cpp $(SDL2_LIBS)
+### definitions ###
+CC = g++
+CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
+OBJS = main.o visualizer.o
+EXECUTABLE = Visualizer.x
+
+## SDL stuff ##
+SDL2_LIBS = $(shell sdl2-config --libs --cflags) -lSDL2_image -lSDL2_ttf
+# append SDL2 flags to CFLAGS
+CFLAGS += ${SDL2_LIBS}
+
+### targets ###
+# normal
+default: Visualizer.x
+
+# optimized
+opti: CFLAGS = -O3 -pedantic -std=c++14
+opti: default
+
+# lazy
+lazy: CFLAGS = -g -std=c++14
+lazy: default
+
+# clang
+clang: CC = clang++
+clang: default
+
+## Final executable ##
+Visualizer.x: ${OBJS}
+	${CC} ${CFLAGS} ${OBJS} -o ${EXECUTABLE}
+
+### Object files ###
+# all in one
+%.o: %.cpp
+	${CC} ${CFLAGS} -c $<
+
+### clean targets ###
 clean:
-	rm *.x
+	rm -f *.x
+
+mrproper:
+	rm -f *.o *.x

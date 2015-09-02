@@ -19,7 +19,7 @@ opti: CFLAGS = -O3 -pedantic -std=c++14
 opti: default
 
 # parallelized
-parallel: CC = mpi++
+parallel: CC = mpic++
 parallel: default
 
 # clang target, why not

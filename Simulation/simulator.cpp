@@ -118,6 +118,12 @@ bool is_all_digits(char *text)
 
 void Simulator::get_options(int argc, char** argv)
 {
+    if (argc != 4)
+    {
+        std::cerr << "Error: invalid number of arguments!" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     if(strcmp(argv[1], "load") == 0)
     {       
         m_option_load_from_file = true;
@@ -230,6 +236,8 @@ void Simulator::collide(Particle& particle)
                 DEBUG("Particle " << i << " collides with particle " << (*it)->getIndex() << "...");
                 DEBUG("Particle " << i << "'s position: " << particle.getPosition(i).toString());
                 DEBUG("Particle " << (*it)->getIndex() << "'s position: " << (*it)->getPosition().toString());
+
+                // When two particles collide, they merge. This is somewhat primitive but also somewhat realistic.
                 particle.merge_objects(i, (*it)->getIndex());
             }
         }

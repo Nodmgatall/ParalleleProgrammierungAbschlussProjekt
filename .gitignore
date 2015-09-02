@@ -1,3 +1,6 @@
+# Custom text files
+*.lis
+
 # Compiled Object files
 *.slo
 *.lo
@@ -27,6 +30,7 @@
 *.out
 *.app
 *.x
+
 # Latex files
 *.aux
 *.log
