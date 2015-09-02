@@ -119,6 +119,12 @@ bool is_all_digits(char *text)
 
 void Simulator::get_options(int argc, char** argv)
 {
+    if (argc != 4)
+    {
+        std::cerr << "Error: invalid number of arguments!" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     if(strcmp(argv[1], "load") == 0)
     {       
         m_option_load_from_file = true;
