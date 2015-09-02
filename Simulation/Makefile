@@ -1,9 +1,10 @@
 .PHONY: default clang clean cleanup mrproper opti parallel
 
 ### definitions ###
-CC = g++
+CC = mpic++
 CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
-OBJS = main.o particle.o simulator.o Octree.o
+LFLAGS = -lboost_mpi
+OBJS = main.o particle.o simulator.o
 EXECUTABLE = Simulation.x
 
 ### targets ###
@@ -18,27 +19,19 @@ debug: default
 opti: CFLAGS = -O3 -pedantic -std=c++14
 opti: default
 
-# parallelized
-parallel: CC = mpic++
-parallel: default
-
-# clang target, why not
-clang: CC = clang++
-clang: default
-
 #lazy target without any restrictions
 lazy: CFLAGS = -g -std=c++14
 lazy: default
 
 ## Final executable ##
 Simulation.x: ${OBJS}
-	${CC} ${CFLAGS} ${OBJS} -o ${EXECUTABLE}
+	${CC} ${CFLAGS} ${LFLAGS} ${OBJS} -o ${EXECUTABLE}
 
 ### Object files ###
 # TODO: throw all these into one target
 # Octree
-Octree.o: Octree/Octree.cpp Octree/Octree.hpp Octree/OctreePoint.hpp
-	${CC} ${CFLAGS} -c $<
+#Octree.o: Octree/Octree.cpp Octree/Octree.hpp Octree/OctreePoint.hpp
+#	${CC} ${CFLAGS} -c $<
 
 # main
 main.o: main.cpp
