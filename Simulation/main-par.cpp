@@ -36,10 +36,15 @@ int main(int argc, char **argv)
     // every CPU has it's own Simulator
     Simulator simulator;
 
-    // only CPU #0 processes options and sets up the simulation
+    // it's simpler to just have all processes do
+    // get_options, because otherwise we might need to send
+    // that information around, and it's only a tiny overhead to do it
+    // redundantly.
+    simulator.get_options(argc, argv);
+
+    // only CPU #0 sets up the simulation
     if (rank == 0)
     {
-        simulator.get_options(argc, argv);
         simulator.set_up_simulation();
     }
 
