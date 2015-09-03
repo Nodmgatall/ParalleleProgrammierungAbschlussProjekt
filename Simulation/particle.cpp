@@ -481,3 +481,18 @@ void Particle::sort_and_sweep()
         } 
     }
 }
+
+template<class Archive>
+void Particle::serialize(Archive & ar, __attribute__((unused)) const unsigned int version)
+{
+    ar & m_velocity_vectors;
+    ar & m_positions;
+    ar & m_masses;
+    ar & m_radiuses;
+    ar & m_ids;
+
+    ar & m_number_of_particles;
+    ar & m_max_id;
+
+    ar & m_deleted_ids_in_iteration;
+}

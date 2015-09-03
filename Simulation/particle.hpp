@@ -12,6 +12,13 @@
 #include <cstdlib>
 #include <map>
 
+// boost's serialization stuff for vectors
+#include <boost/serialization/vector.hpp>
+
+// boost's archive stuff for serialization
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
 // center object has to be at <0.0.0>
 /**
   Data structure to store and manage particles.\n
@@ -21,6 +28,12 @@
 class Particle
 {
     private:
+        // members needed for serialization
+        friend class boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive & ar, const unsigned int version);
+
+        // 'regular' class members
         std::vector<Vec3<double> > m_velocity_vectors;
         std::vector<Vec3<double> > m_positions;
         std::vector<double> m_masses;
