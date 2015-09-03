@@ -1,5 +1,5 @@
 /*  This class is from: http://r3dux.org/2012/12/vec3-a-simple-vector-class-in-c/
-    only the length function is written by us
+ *  the length and serialization functions are written by us
 */
 
 #ifndef VEC3_HPP
@@ -9,11 +9,24 @@
 #include <cmath>
 #include <string>
 
+// added by us: serialization headers
+#include <boost/serialization/access.hpp>
+
 template <class T> class Vec3
 {
     private:
         // A Vec3 simply has three properties called x, y and z
         T x, y, z;
+
+        // added by us: serialization stuff
+        friend class boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive & ar, __attribute__((unused)) unsigned int version)
+        {
+            ar & x;
+            ar & y;
+            ar & z;
+        }
 
     public:
         // ------------ Constructors ------------
