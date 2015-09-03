@@ -125,6 +125,32 @@ Vec3<double> Particle::getVelocityVector(unsigned long particle_index)
     return m_velocity_vectors[particle_index];	
 }
 
+// TODO: maybe do this with pointer/reference or somehow differently??
+std::vector<Vec3<double>> Particle::getVelocities()
+{
+    return m_velocity_vectors;
+}
+
+std::vector<double> Particle::getMasses()
+{
+    return m_masses;
+}
+
+std::vector<double> Particle::getRadiuses()
+{
+    return m_radiuses;
+}
+
+std::vector<unsigned long> Particle::getIDs()
+{
+    return m_ids;
+}
+
+std::vector<unsigned long> Particle::getDeletedIDs()
+{
+    return m_deleted_ids_in_iteration;
+}
+
 void Particle::addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector)
 {
     m_velocity_vectors[particle_index] += accelerationVector;
@@ -133,6 +159,12 @@ void Particle::addAccelerationVector(unsigned long particle_index, Vec3<double> 
 Vec3<double> Particle::getPosition(unsigned long particle_index)
 {
     return m_positions[particle_index];
+}
+
+// TODO: same as getVelocityVectors()
+std::vector<Vec3<double>> Particle::getPositions()
+{
+    return m_positions;
 }
 
 double Particle::getMass(unsigned long particle_index)

@@ -65,11 +65,29 @@ class Particle
         /** returns the velocity vector of given particle */
         Vec3<double> getVelocityVector(unsigned long particle_index);
 
+        /** returns the entire vector containing the velocity vectors */
+        std::vector<Vec3<double>> getVelocities();
+
         /** adds a acceleration vector to the velocity vectof of specified object*/
         void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
 
         /** returns the positon of given particle */
         Vec3<double> getPosition(unsigned long particle_index);
+
+        /** returns the entire vector containing the position vectors */
+        std::vector<Vec3<double>> getPositions();
+
+        /** returns the entire vector containing the masses */
+        std::vector<double> getMasses();
+
+        /** returns the entire vector containing the radiuses */
+        std::vector<double> getRadiuses();
+
+        /** returns the entire vector containing the IDs */
+        std::vector<unsigned long> getIDs();
+
+        /** returns the entire vector containing the deleted IDs in the last iteration */
+        std::vector<unsigned long> getDeletedIDs();
 
         //TODO:
         /** returns a pointer to a copied m_positions Vector for saving */ 
