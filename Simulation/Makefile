@@ -3,7 +3,7 @@
 ### definitions ###
 CC = mpic++
 CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
-LFLAGS = -lboost_mpi
+LFLAGS = -lboost_mpi -lboost_serialization
 OBJS = main.o particle.o simulator.o
 EXECUTABLE = Simulation.x
 

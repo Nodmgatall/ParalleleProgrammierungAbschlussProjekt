@@ -5,9 +5,14 @@
 
 #include "Util/macros.hpp"
 
+#include "globals.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <fstream>
+
+#include <boost/mpi.hpp>
+
 Simulator::Simulator()
 {
     m_option_load_from_file = false;
@@ -19,30 +24,30 @@ Simulator::Simulator()
  * */
 void Simulator::simulate()
 {
-    std::cout << "== Simulating ==" << std::endl;
+    DEBUG("== Simulating ==");
  
     // Setup for progress bar
-    int next_bar = 1;
-    std::string bars = "";
+    //int next_bar = 1;
+    //std::string bars = "";
 
-    for(int i = 0; i  < 51; i++)
-    {
-        bars = bars + " "; 
-    }
+    //for(int i = 0; i  < 51; i++)
+    //{
+    //    bars = bars + " "; 
+    //}
     
     // Simulation loop
     for(unsigned long current_iteration = 1; current_iteration < m_number_of_iterations; current_iteration++)
     {
         //Print loading bar
-        printf("%s(%lu / %lu)\r", bars.c_str(),current_iteration, m_number_of_iterations);
+        //printf("%s(%lu / %lu)\r", bars.c_str(),current_iteration, m_number_of_iterations);
         
         //Change loading bar to represent simulation progress
-        if(m_number_of_iterations >= 50 && current_iteration % (m_number_of_iterations / 50) == 0) 
-        {
-            bars.at(next_bar) = '|';
-            next_bar++;
-        }
-        fflush(stdout);
+        //if(m_number_of_iterations >= 50 && current_iteration % (m_number_of_iterations / 50) == 0) 
+        //{
+        //    bars.at(next_bar) = '|';
+        //    next_bar++;
+        //}
+        //fflush(stdout);
         
         //Actual simulation
         for (unsigned long particle_index = 1; particle_index < m_particles.getNumberOfParticles() - 1; particle_index++)
@@ -60,7 +65,7 @@ void Simulator::simulate()
 
         m_particles.write_to_file(m_name_output_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::app | std::ofstream::binary);
     }
-    std::cout << "\n== Simulation completed ==" << std::endl;
+    DEBUG("== Simulation complete! ==");
 }
 /**
  * Generates random objects or loads data.
@@ -68,6 +73,15 @@ void Simulator::simulate()
  * */
 void Simulator::set_up_simulation()
 {
+    // only rank 0 sets up the simulation
+    // if another rank has gotten this far, something went wrong
+    if (rank != 0)
+    {
+        std::cerr << "set_up_simulation() was called by unauthorized process with rank "
+            << rank << std::endl;
+        return;
+    }
+
     m_dt = 0.00024;
     if(m_option_load_from_file)
     {
@@ -98,6 +112,16 @@ void Simulator::set_up_simulation()
         std::cout << "Generating done" << std::endl;
     }
 
+    std::ofstream ofs("temparchive");
+
+    {
+        boost::archive::binary_oarchive oa(ofs);
+        oa << m_particles;
+    }
+
+
+    boost::mpi::communicator world;
+    boost::mpi::broadcast(world, m_particles, 0); // fingers crossed!
 }
 
 bool is_all_digits(char *text)

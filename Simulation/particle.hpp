@@ -16,8 +16,8 @@
 #include <boost/serialization/vector.hpp>
 
 // boost's archive stuff for serialization
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 
 // center object has to be at <0.0.0>
 /**

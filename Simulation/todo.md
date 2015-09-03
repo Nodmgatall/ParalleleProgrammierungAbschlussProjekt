@@ -1,15 +1,16 @@
 === boost.mpi ===
-*re-write what we have using boost's mpi stuff
-*write everything else using boost
+* re-write what we have using boost's mpi stuff
+* write everything else using boost
 
 === serialize! ===
-* serialize particles class (lol fuck)
+* serialize particles class
+* pretty much done
 
 === Big three! ===
-*move
-*collide
-*applyGravity
+* move
+* collide
+* applyGravity
 
 === other stuff ===
-*simulate -> scatter from 0 to all other processes
-*lots of other stuff I guess
+* simulate -> scatter from 0 to all other processes
+* lots of other stuff I guess

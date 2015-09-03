@@ -20,6 +20,9 @@
 #include <boost/mpi.hpp>
 #include <mpi.h>
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+
 // global mpi variables
 int rank;
 int worldsize;
@@ -43,7 +46,7 @@ int main(int argc, char **argv)
     // as inefficient. get_options takes no time at all...
     simulator.get_options(argc, argv);
 
-    // only rank 0 sets up the simulation and then scatters it
+    // only rank 0 sets up the simulation and then broadcasts it
     if (rank == 0)
         simulator.set_up_simulation();
 

@@ -24,8 +24,13 @@ static void __attribute__((unused)) applyGravity(Particle &particle, unsigned lo
 
 	pos_vec_curr = particle.getPosition(id);
 
-	for(unsigned int i = 0; i < id; i++)
+	for(unsigned int i = 0; i < num_particles; i++)
 	{
+        // a particle doesn't exert gravitational force upon itself
+        // ... maybe it does, but we're simplifying.
+        if (i == id)
+            continue;
+
 		pos_vec_other = particle.getPosition(i);
 		distance_vector = pos_vec_other - pos_vec_curr;
 		force = calculateAccleration(distance_vector.getLength(),particle.getMass(i));
@@ -35,17 +40,17 @@ static void __attribute__((unused)) applyGravity(Particle &particle, unsigned lo
 		// accleration_vector.display();
 		particle.addAccelerationVector(id,accleration_vector);
 	}
-	for(unsigned int i = id + 1; i < num_particles; i++)
-	{
-		pos_vec_other = particle.getPosition(i);
-		distance_vector = pos_vec_other - pos_vec_curr;
-		force = calculateAccleration(distance_vector.getLength(),particle.getMass(i));
-		distance_vector.normalise();
-		accleration_vector = distance_vector * force / dt;
-		// puts("acc: ");
-		// accleration_vector.display();
-		particle.addAccelerationVector(id,accleration_vector);
-	}
+	//for(unsigned int i = id + 1; i < num_particles; i++)
+	//{
+	//	pos_vec_other = particle.getPosition(i);
+	//	distance_vector = pos_vec_other - pos_vec_curr;
+	//	force = calculateAccleration(distance_vector.getLength(),particle.getMass(i));
+	//	distance_vector.normalise();
+	//	accleration_vector = distance_vector * force / dt;
+	//	// puts("acc: ");
+	//	// accleration_vector.display();
+	//	particle.addAccelerationVector(id,accleration_vector);
+	//}
 }
 
 // static void applyGravity(Particle &particle, unsigned long id, std::vector<unsigned long> id_vector)
