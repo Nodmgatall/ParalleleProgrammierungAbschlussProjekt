@@ -2,6 +2,9 @@
 *re-write what we have using boost's mpi stuff
 *write everything else using boost
 
+=== serialize! ===
+* serialize particles class (lol fuck)
+
 === Big three! ===
 *move
 *collide
