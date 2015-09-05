@@ -38,26 +38,22 @@ void Simulator::simulate()
     // Simulation loop
     for(unsigned long current_iteration = 1; current_iteration < m_number_of_iterations; current_iteration++)
     {
-        //Print loading bar
-        //printf("%s(%lu / %lu)\r", bars.c_str(),current_iteration, m_number_of_iterations);
         
-        //Change loading bar to represent simulation progress
-        //if(m_number_of_iterations >= 50 && current_iteration % (m_number_of_iterations / 50) == 0) 
-        //{
-        //    bars.at(next_bar) = '|';
-        //    next_bar++;
-        //}
-        //fflush(stdout);
-        
-        //Actual simulation
+        // Simulation
         for (unsigned long particle_index = 1; particle_index < m_particles.getNumberOfParticles() - 1; particle_index++)
         {
+            // TODO: parallelize
             applyGravity(m_particles,particle_index,m_dt);
+
+            // TODO: parallelize
             m_particles.move_Object(particle_index,m_dt);
+
+            // TODO: send stuff to #0, 'sort and sweep', broadcast to all
             m_particles.sort_and_sweep();
         }
         
-        //Wrtite simulation data to file and in last iteration save last iteration
+        //Write simulation data to file and in last iteration save last iteration
+        // TODO: only do this as #0
         if(current_iteration == m_number_of_iterations - 1)
         {
             m_particles.write_to_file(m_name_last_iteration_save_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::trunc | std::ofstream::binary);
@@ -112,6 +108,8 @@ void Simulator::set_up_simulation()
         std::cout << "Generating done" << std::endl;
     }
 
+    // TODO: properly broadcast (i.e. no need for manual archive creation;
+    //       boost::mpi::broadcast should serialize automatically
     std::ofstream ofs("temparchive");
 
     {
