@@ -47,6 +47,7 @@ int main(int argc, char **argv)
     simulator.get_options(argc, argv);
 
     // only rank 0 sets up the simulation and then broadcasts it
+    // (broadcasting happens in set_up_simulation())
     if (rank == 0)
         simulator.set_up_simulation();
 
