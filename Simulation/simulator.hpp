@@ -2,6 +2,7 @@
 #define SIMULATOR_HPP
 
 #include "particle.hpp"
+
 class Simulator
 {
     public:
@@ -17,6 +18,7 @@ class Simulator
         //void collide(Particle& particle);
         
     private:
+        friend class boost::serialization::access;
         Particle m_particles;
         unsigned long m_number_of_iterations;
         unsigned long m_number_of_particles;

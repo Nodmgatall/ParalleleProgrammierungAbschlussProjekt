@@ -12,6 +12,22 @@
 #include <fstream>
 
 #include <boost/mpi.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/vector.hpp>
+
+/*
+ * Definitions for MPI sending
+ * These are pretty much arbitrary and not entirely necessary,
+ * but they make the code more readable
+ */
+#define VELOCITY_TAG 0
+#define POSITION_TAG 1
+#define MASS_TAG 2
+#define RADIUS_TAG 3
+#define ID_TAG 4
+#define ID_DEL_TAG 5
+#define INDEX_TAG 6
 
 Simulator::Simulator()
 {
@@ -25,34 +41,146 @@ Simulator::Simulator()
 void Simulator::simulate()
 {
     DEBUG("== Simulating ==");
- 
-    // Setup for progress bar
-    //int next_bar = 1;
-    //std::string bars = "";
 
-    //for(int i = 0; i  < 51; i++)
-    //{
-    //    bars = bars + " "; 
-    //}
+    /*
+     * Utility variables
+     * (iterators and whatnot)
+     */
+    int i;
+
+    /*
+     * Sending and receiving variables
+     */
+    unsigned long receive_particle_index;
+    Vec3<double> receive_velocity;
+    Vec3<double> receive_position;
+    double receive_mass;
+    double receive_radius;
+    //unsigned long receive_id;
+    //unsigned long receive_id_deleted;
+    //std::vector<Vec3<double>> receive_velocities;
+    //std::vector<Vec3<double>> receive_positions;
+    //std::vector<double> receive_masses;
+    //std::vector<double> receive_radiuses;
+    //std::vector<unsigned long> receive_ids;
+    //std::vector<unsigned long> receive_ids_deleted;
+
+    /*
+     * Aggregation variables
+     * FYI: to append vector b to vector a:
+     *      a.insert(a.end(), b.begin(), b.end());
+     */
+    std::vector<Vec3<double> > aggregate_velocities;
+    std::vector<Vec3<double> > aggregate_positions;
+    std::vector<double> aggregate_masses;
+    std::vector<double> aggregate_radiuses;
+    std::vector<unsigned long> aggregate_ids;
+    std::vector<unsigned long> aggregate_ids_deleted;
+ 
+    /*
+     * MPI communicator
+     * default constructor creates a communicator that contains all processes
+     */
+    boost::mpi::communicator world; // basically equivalent to MPI_COMM_WORLD
+
+    /* 
+     * calculate number of particles simulated by each rank 
+     */
+    unsigned long particles_per_rank = m_particles.getNumberOfParticles() / worldsize; //integer division!
+    unsigned long rest = m_particles.getNumberOfParticles() % worldsize; // remaining particles
+    unsigned long start_particle; // particle that this rank start simulating at
+    unsigned long end_particle; // particle that this rank stops simulating at
+
+    /* example calculation (in sort-of pseudo-code):
+     * 100 particles
+     * 10 processes
+     * start_particle[rank0] = 0 * 10 + 1 = 1; checks out, because we ignore the sun at particles[0]
+     * end_particle[rank0] = (0 + 1) * 10 = 10; checks out as well
+     *
+     * start_particle[rank1] = 1 * 10 + 1 = 11; picks up where last rank left off, perfect.
+     * end_particles[rank1] = (1 + 1) * 10 = 20; simulates same number of particles as rank 0
+     *
+     * This can be continued for all ranks, with the result that all particles will be simulated.
+     * The formula checks out. See below for solution for particles % processes != 0
+     */
+    start_particle = rank * particles_per_rank + 1;
+    end_particle = (rank + 1) * particles_per_rank;
+
+    // primitively add remaining particles to be simulated by last rank
+    // TODO: do this less primitively! Although dividing these evenly across ranks
+    // is a bit of a pain, it can probably increase performance by quite a bit,
+    // given an uncompatible particle/process ratio
+    if (rank == worldsize - 1)
+    {
+        end_particle += rest;
+    }
     
     // Simulation loop
+    // TODO: how does every process know when to end?
     for(unsigned long current_iteration = 1; current_iteration < m_number_of_iterations; current_iteration++)
     {
         
         // Simulation
-        for (unsigned long particle_index = 1; particle_index < m_particles.getNumberOfParticles() - 1; particle_index++)
+        for (unsigned long particle_index = start_particle; particle_index <= end_particle; particle_index++)
         {
             // TODO: parallelize
+            // DONE: the function itself does not need to be parallelized
+            //       this loop is divided evenly across processes
             applyGravity(m_particles,particle_index,m_dt);
 
             // TODO: parallelize
+            // DONE: same as applyGravity()
             m_particles.move_Object(particle_index,m_dt);
 
-            // TODO: send stuff to #0, 'sort and sweep', broadcast to all
-            m_particles.sort_and_sweep();
+            // if we're any rank but 0, send our computed information
+            if (rank != 0)
+            {
+                world.send(0, INDEX_TAG, particle_index);
+                world.send(0, VELOCITY_TAG, m_particles.getVelocityVector(particle_index));
+                world.send(0, POSITION_TAG, m_particles.getPosition(particle_index));
+                world.send(0, MASS_TAG, m_particles.getMass(particle_index));
+                world.send(0, RADIUS_TAG, m_particles.getRadius(particle_index));
+                //world.send(0, ID_TAG, m_particles.getID(particle_index));
+                //world.send(0, ID_DEL_TAG, m_particles.getDeletedIDs());
+            }
+            // if we're rank 0, receive it all, obviously
+            else if (rank == 0 && worldsize > 1)
+            {
+                for (i = 1; i < worldsize; ++i)
+                {
+                    // receive index to alter
+                    world.recv(i, INDEX_TAG, receive_particle_index);
+
+                    // receive and alter velocity
+                    world.recv(i, VELOCITY_TAG, receive_velocity);
+                    m_particles.setVelocityVector(receive_particle_index, receive_velocity);
+
+                    // receive and alter position
+                    world.recv(i, POSITION_TAG, receive_position);
+                    m_particles.setPosition(receive_particle_index, receive_position);
+                    
+                    // receive and alter mass
+                    world.recv(i, MASS_TAG, receive_mass);
+                    m_particles.setMass(receive_particle_index, receive_mass);
+
+                    // receive and alter radius
+                    world.recv(i, RADIUS_TAG, receive_radius);
+                    m_particles.setRadius(receive_particle_index, receive_radius);
+
+                    // receive and alter id
+                    // world.recv(i, ID_TAG, receive_id);
+                    // m_particles.setID(particle_index, receive_id);
+                }
+                m_particles.sort_and_sweep();
+                boost::mpi::broadcast(world, m_particles, 0);
+            }
+            else // we're not actually doing anything in parallel here, since we seem to only have 1 process...
+            { /* do nothing */ }
+
+            // TODO
         }
         
-        //Write simulation data to file and in last iteration save last iteration
+        //i Write simulation data to file and in last iteration save last iteration
         // TODO: only do this as #0
         if(current_iteration == m_number_of_iterations - 1)
         {
@@ -63,6 +191,7 @@ void Simulator::simulate()
     }
     DEBUG("== Simulation complete! ==");
 }
+
 /**
  * Generates random objects or loads data.
  *
