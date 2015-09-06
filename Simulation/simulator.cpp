@@ -239,13 +239,6 @@ void Simulator::set_up_simulation()
 
     // TODO: properly broadcast (i.e. no need for manual archive creation;
     //       boost::mpi::broadcast should serialize automatically
-    std::ofstream ofs("temparchive");
-
-    {
-        boost::archive::binary_oarchive oa(ofs);
-        oa << m_particles;
-    }
-
 
     boost::mpi::communicator world;
     boost::mpi::broadcast(world, m_particles, 0); // fingers crossed!
