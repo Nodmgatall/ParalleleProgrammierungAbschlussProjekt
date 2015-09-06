@@ -31,8 +31,19 @@ class Particle
         // members needed for serialization
         friend class boost::serialization::access;
         template<class Archive>
-        void serialize(Archive & ar, const unsigned int version);
-
+        void serialize(Archive & ar, __attribute__((unused)) unsigned int version)
+        {
+            ar & m_velocity_vectors;
+            ar & m_positions;
+            ar & m_masses;
+            ar & m_radiuses;
+            ar & m_ids;
+        
+            ar & m_number_of_particles;
+            ar & m_max_id;
+        
+            ar & m_deleted_ids_in_iteration;
+        }
         // 'regular' class members
         std::vector<Vec3<double> > m_velocity_vectors;
         std::vector<Vec3<double> > m_positions;
@@ -44,7 +55,6 @@ class Particle
         std::vector<unsigned long> m_deleted_ids_in_iteration;
 
     public:
-
         Particle();
         /** removes single particle */
         void remove(unsigned long vector_index);
@@ -65,14 +75,38 @@ class Particle
         /** returns the velocity vector of given particle */
         Vec3<double> getVelocityVector(unsigned long particle_index);
 
-        /** returns the entire vector containing the velocity vectors */
-        std::vector<Vec3<double>> getVelocities();
-
         /** adds a acceleration vector to the velocity vectof of specified object*/
         void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
 
         /** returns the positon of given particle */
         Vec3<double> getPosition(unsigned long particle_index);
+
+        /** returns the id of given particle */
+        unsigned long getID(unsigned long particle_index);
+
+        /*
+         * Setters for individual information
+         */
+
+        /** sets the velocity vector of given particle */
+        void setVelocityVector(unsigned long particle_index, Vec3<double> vel_vec);
+
+        /** sets the position of given particle */
+        void setPosition(unsigned long particle_index, Vec3<double> pos_vec);
+
+        /** sets the radius of given particle */
+        void setRadius(unsigned long particle_index, double rad);
+
+        /** sets the mass of given particle */
+        void setMass(unsigned long particle_index, double mass);
+        
+
+        /*
+         * Getters for entire information vectors
+         */
+
+        /** returns the entire vector containing the velocity vectors */
+        std::vector<Vec3<double>> getVelocities();
 
         /** returns the entire vector containing the position vectors */
         std::vector<Vec3<double>> getPositions();
@@ -88,6 +122,28 @@ class Particle
 
         /** returns the entire vector containing the deleted IDs in the last iteration */
         std::vector<unsigned long> getDeletedIDs();
+
+        /*
+         * Setters for entire information vectors
+         */
+        
+        /** sets the entire velocity vector of given particle instance */
+        void setVelocities(std::vector<Vec3<double>> vel_vec);
+
+        /** sets the entire position vector of given particle instance */
+        void setPositions(std::vector<Vec3<double>> pos_vec);
+
+        /** sets the entire mass vector of given particle instance */
+        void setMasses(std::vector<double> mass_vec);
+
+        /** sets the entire radius vector of given particle instance */
+        void setRadiuses(std::vector<double> rad_vec);
+
+        /** sets the entire ID vector of given particle instance */
+        void setIDs(std::vector<unsigned long> id_vec);
+
+        /** sets the entire deleted IDs vector of given particle instance */
+        void setDeletedIDs(std::vector<unsigned long> del_vec);
 
         //TODO:
         /** returns a pointer to a copied m_positions Vector for saving */ 
@@ -179,6 +235,10 @@ Radius 429.489498\n
         void particle_bubble_sort();
 
         void sort_and_sweep();
+
+        /** Like sort_and_sweep(), but without the sort. Note: never call without having sorted before!!
+            This function exists for parallelization reasons and its existence is dirty and shameful. */
+        void sweep();
         
 };
 

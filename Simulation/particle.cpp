@@ -1,6 +1,10 @@
 #include "Util/random_generator.hpp"
 #include "particle.hpp"
 #include "physics.hpp"
+#include "Util/macros.hpp"
+
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 
 #include <string>
 #include <vector>
@@ -125,6 +129,34 @@ Vec3<double> Particle::getVelocityVector(unsigned long particle_index)
     return m_velocity_vectors[particle_index];	
 }
 
+/*
+ * Setters for individual information
+ */
+void Particle::setVelocityVector(unsigned long particle_index, Vec3<double> vel_vec)
+{
+    m_velocity_vectors[particle_index] = vel_vec;
+}
+
+void Particle::setPosition(unsigned long particle_index, Vec3<double> pos_vec)
+{
+    m_positions[particle_index] = pos_vec;
+}
+
+void Particle::setRadius(unsigned long particle_index, double rad)
+{
+    m_radiuses[particle_index] = rad;
+}
+
+void Particle::setMass(unsigned long particle_index, double mass)
+{
+    m_masses[particle_index] = mass;
+}
+
+unsigned long Particle::getID(unsigned long particle_index)
+{
+    return m_ids[particle_index];
+}
+
 // TODO: maybe do this with pointer/reference or somehow differently??
 std::vector<Vec3<double>> Particle::getVelocities()
 {
@@ -165,6 +197,40 @@ Vec3<double> Particle::getPosition(unsigned long particle_index)
 std::vector<Vec3<double>> Particle::getPositions()
 {
     return m_positions;
+}
+
+/*
+ * Setters for entire information vectors
+ */
+
+void Particle::setVelocities(std::vector<Vec3<double>> vel_vec)
+{
+    m_velocity_vectors = vel_vec;
+}
+
+void Particle::setPositions(std::vector<Vec3<double>> pos_vec)
+{
+    m_positions = pos_vec;
+}
+
+void Particle::setMasses(std::vector<double> mass_vec)
+{
+    m_masses = mass_vec;
+}
+
+void Particle::setRadiuses(std::vector<double> rad_vec)
+{
+    m_radiuses = rad_vec;
+}
+
+void Particle::setIDs(std::vector<unsigned long> id_vec)
+{
+    m_ids = id_vec;
+}
+
+void Particle::setDeletedIDs(std::vector<unsigned long> del_vec)
+{
+    m_deleted_ids_in_iteration = del_vec;
 }
 
 double Particle::getMass(unsigned long particle_index)
@@ -508,23 +574,35 @@ void Particle::sort_and_sweep()
     {
         if(check_for_collision(i, i-1))
         {
-            std::cout << "Collision Detected: " << i << " " << i - 1 << std::endl;
+            DEBUG("Collision Detected: " << i << " " << i - 1);
             merge_objects(i,i-1);
         } 
     }
 }
 
-template<class Archive>
-void Particle::serialize(Archive & ar, __attribute__((unused)) const unsigned int version)
+void Particle::sweep()
 {
-    ar & m_velocity_vectors;
-    ar & m_positions;
-    ar & m_masses;
-    ar & m_radiuses;
-    ar & m_ids;
-
-    ar & m_number_of_particles;
-    ar & m_max_id;
-
-    ar & m_deleted_ids_in_iteration;
+    for (unsigned long i = 1; i < m_positions.size(); ++i)
+    {
+        if (check_for_collision(i, i-1))
+        {
+            DEBUG("Collision detected: " << i << " " << i - 1);
+            merge_objects(i,i-1);
+        }
+    }
 }
+
+//template<class Archive>
+//void Particle::serialize(Archive & ar, unsigned int version)
+//{
+//    ar & m_velocity_vectors;
+//    ar & m_positions;
+//    ar & m_masses;
+//    ar & m_radiuses;
+//    ar & m_ids;
+//
+//    ar & m_number_of_particles;
+//    ar & m_max_id;
+//
+//    ar & m_deleted_ids_in_iteration;
+//}
