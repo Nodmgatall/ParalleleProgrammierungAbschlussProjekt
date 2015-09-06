@@ -25,7 +25,7 @@ lazy: default
 
 ## Final executable ##
 Simulation.x: ${OBJS}
-	${CC} ${CFLAGS} ${LFLAGS} ${OBJS} -o ${EXECUTABLE}
+	${CC} ${CFLAGS} ${OBJS} -o ${EXECUTABLE} ${LFLAGS}
 
 ### Object files ###
 # TODO: throw all these into one target
@@ -35,15 +35,15 @@ Simulation.x: ${OBJS}
 
 # main
 main.o: main.cpp
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -c $< ${LFLAGS}
 
 # particle
 particle.o: particle.cpp particle.hpp
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -c $< ${LFLAGS}
 
 # simulator
 simulator.o: simulator.cpp simulator.hpp
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -c $< ${LFLAGS}
 
 
 ### Cleanup utils ###
