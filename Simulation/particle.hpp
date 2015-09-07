@@ -28,6 +28,8 @@ class Particle
         std::vector<unsigned long> m_ids;
         unsigned long m_number_of_particles;
         unsigned long m_max_id;
+        double m_dt;
+        unsigned long m_time_simulated;
         std::vector<unsigned long> m_deleted_ids_in_iteration;
 
     public:
@@ -35,8 +37,13 @@ class Particle
         Particle();
         /** removes single particle */
         void remove(unsigned long vector_index);
+        
+        double get_dt();
 
+        double get_time_simulated();
     //void remove_by_id(unsigned long particle_id);
+
+        std::pair<double,double> calculate_possible_collison_point(unsigned long index_1, unsigned long index_2);
 
         /** returns the distance from the center of the system */
         double get_distance_to_center(unsigned long particle_index);
@@ -44,7 +51,7 @@ class Particle
         /**
           move each object by their velocity, if the stepsize is equal to 1second 
           */
-        void move_Object(unsigned long particle_index,double stepsize);
+        void move_Object(unsigned long particle_index);
 
         /** returns the distance between two  particles */
         double getDistanceOfTwoObjects(unsigned long ob1, unsigned long ob2);
@@ -149,6 +156,8 @@ Radius 429.489498\n
 
         void sort_and_sweep();
         
+        bool limit(unsigned long index_1, unsigned long index_2);
+
 };
 
 

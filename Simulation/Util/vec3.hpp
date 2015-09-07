@@ -204,6 +204,13 @@ template <class T> class Vec3
             return Vec3<T>(x + vector.x, y + vector.y, z + vector.z);
         }
 
+        bool operator==(const Vec3 &vector) const
+        {
+           if(x == vector.x && y == vector.y && z == vector.z)
+               return true;
+           return false;
+        }
+
         // Overloaded add and asssign operator to add Vec3s together
         void operator+=(const Vec3 &vector)
         {

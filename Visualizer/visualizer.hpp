@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <string>
 
 class Visualizer
 {
@@ -18,6 +19,7 @@ class Visualizer
         std::vector<std::vector<double> > m_object_masses;
         std::vector<std::vector<double> > m_object_radiuses;
         std::vector<std::vector<unsigned long> >m_object_ids;
+        std::vector<double> m_iteration_dts;
         int m_screen_width;
         int m_screen_height;
         bool m_running;
@@ -29,11 +31,15 @@ class Visualizer
         bool m_draw_it_number;
         bool m_rotation_active;
         bool m_draw_number_of_particles;
+        bool m_draw_dt;
+        bool m_draw_time_simulated;
         double m_x_rot_deg;
         double m_y_rot_deg;
+        std::vector<std::map<unsigned long, unsigned long>>  m_object_id_maps;
         std::map<unsigned long,unsigned long> m_line_draw_active;
         std::map<unsigned long,double> m_grav_range_draw_active;
         std::set<unsigned long> m_display_data_active;
+        double m_time_simulated;
         unsigned long m_scale;
         unsigned long m_iteration_number;
         ResourceManager m_resource_manager;
@@ -49,11 +55,11 @@ class Visualizer
         void load_textures();
         void load_fonts();
         void render_texture(SDL_Texture *tex, int x, int y, int z, int p_width, int p_height);
-        void main_loop(double dt);
+        void main_loop();
         void pause_loop();
         void update();
         void draw_all_trajectory_lines();
-        void draw_trajectory_line(unsigned long obj_id, unsigned long draw_range);
+        void generate_trajectory_line(unsigned long obj_id, unsigned long draw_range);
         void handle_console_input(std::string input);
         void clear_trajectory_lines();
         void draw_text(std::string text, int pos_x, int pos_y, SDL_Color color);
@@ -62,6 +68,7 @@ class Visualizer
         void display_grav_range(unsigned long id, double min_force);
         void draw_object_circle(unsigned long id);
         void display_all_grav_ranges();
+        std::string format_seconds_to_time(double time);
 
         bool is_all_digits(char *text);
     
@@ -72,7 +79,7 @@ class Visualizer
         Visualizer(std::string filename);
         ~Visualizer();
         
-        void draw_main_loop(double dt);
+        void draw_main_loop();
 };
 
 #endif
