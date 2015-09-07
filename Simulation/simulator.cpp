@@ -40,7 +40,7 @@ Simulator::Simulator()
  * */
 void Simulator::simulate()
 {
-    DEBUG("== Simulating ==");
+    DEBUG("Begin simulation!");
 
     /*
      * Utility variables
@@ -119,6 +119,7 @@ void Simulator::simulate()
     // TODO: how does every process know when to end?
     for(unsigned long current_iteration = 1; current_iteration < m_number_of_iterations; current_iteration++)
     {
+        DEBUG("Simulating iteration " << current_iteration);
         
         // Simulation
         for (unsigned long particle_index = start_particle; particle_index <= end_particle; particle_index++)
@@ -172,7 +173,7 @@ void Simulator::simulate()
                     // m_particles.setID(particle_index, receive_id);
                 }
                 m_particles.sort_and_sweep();
-                boost::mpi::broadcast(world, m_particles, 0);
+                broadcast(world, m_particles, 0);
             }
             else // we're not actually doing anything in parallel here, since we seem to only have 1 process...
             { /* do nothing */ }
@@ -182,14 +183,19 @@ void Simulator::simulate()
         
         //i Write simulation data to file and in last iteration save last iteration
         // TODO: only do this as #0
-        if(current_iteration == m_number_of_iterations - 1)
+        if (rank == 0)
         {
-            m_particles.write_to_file(m_name_last_iteration_save_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::trunc | std::ofstream::binary);
+            if(current_iteration == m_number_of_iterations - 1)
+            {
+                m_particles.write_to_file(m_name_last_iteration_save_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::trunc | std::ofstream::binary);
+            }
+
+            m_particles.write_to_file(m_name_output_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::app | std::ofstream::binary);
         }
 
-        m_particles.write_to_file(m_name_output_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::app | std::ofstream::binary);
+        world.barrier();
     }
-    DEBUG("== Simulation complete! ==");
+    DEBUG("Simulation complete!");
 }
 
 /**
@@ -204,10 +210,12 @@ void Simulator::set_up_simulation()
     {
         std::cerr << "set_up_simulation() was called by unauthorized process with rank "
             << rank << std::endl;
-        return;
+        boost::mpi::environment::abort(EXIT_FAILURE);
     }
 
     m_dt = 0.00024;
+
+    // TODO: this might go wrong on the cluster
     if(m_option_load_from_file)
     {
         std::cout << "loading of file " << m_name_input_file << " done" << std::endl;
@@ -234,14 +242,32 @@ void Simulator::set_up_simulation()
         {
             m_particles.generateRandomParticle(149598261000, 40000,5.972 * pow(10, 24) * 6, 6371000 * 6);
         }
-        std::cout << "Generating done" << std::endl;
+        DEBUG("Simulation set-up: particle generation done!");
     }
 
-    // TODO: properly broadcast (i.e. no need for manual archive creation;
-    //       boost::mpi::broadcast should serialize automatically
+    // calculate size of m_particles for debugging purposes
+#ifdef DEBUG_BUILD
+    unsigned long total_size = 0;
+    std::vector<Vec3<double> > vel_vecs = m_particles.getVelocities();
+    for (std::vector<Vec3<double> >::iterator it = vel_vecs.begin(); it != vel_vecs.end(); ++it)
+    {
+        total_size += sizeof(Vec3<double>);
+    }
+    total_size *= 2; // approximate addition of positions
+    total_size += m_particles.getNumberOfParticles() * sizeof(double) * 2;
+    total_size += m_particles.getNumberOfParticles() * sizeof(unsigned long) * 2;
+    total_size += sizeof(unsigned long) * 2;
 
+    std::cerr << "Total size of Particle object: " << total_size << std::endl;
+#endif
+    // send particles to other processes
+    // TODO: works fine for <56 particles
+    //       seems to produce a deadlock for >=56 particles
+    //       ?????????????
     boost::mpi::communicator world;
-    boost::mpi::broadcast(world, m_particles, 0); // fingers crossed!
+    broadcast(world, m_particles, 0);
+    DEBUG("Successfully broadcast particles to other processes!");
+    DEBUG("Setup complete!");
 }
 
 bool is_all_digits(char *text)
