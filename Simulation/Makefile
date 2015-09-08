@@ -3,7 +3,7 @@
 ### definitions ###
 CC = g++
 CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
-OBJS = main.o particle.o simulator.o Octree.o
+OBJS = main.o particle.o simulator.o
 EXECUTABLE = Simulation.x
 
 ### targets ###
