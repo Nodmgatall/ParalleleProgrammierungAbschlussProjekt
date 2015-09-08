@@ -1,4 +1,4 @@
-.PHONY: default clang clean cleanup mrproper opti parallel
+.PHONY: default clean cleanup mrproper opti parallel
 
 ### definitions ###
 CC = mpic++

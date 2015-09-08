@@ -1,4 +1,4 @@
-.PHONY: default clang clean cleanup mrproper opti parallel
+.PHONY: default clean cleanup mrproper opti parallel
 #mpic++ -I/home/krabbe/boost_1_59_0 -L/home/krabbe/boost_1_59_0/stage/lib -o test.x lol.cpp -Wl,-Bstatic -lboost_mpi -lboost_serialization -Wl,-Bdynamic -lmpi_cxx -lmpi -lgcc_s
 
 ### definitions ###
