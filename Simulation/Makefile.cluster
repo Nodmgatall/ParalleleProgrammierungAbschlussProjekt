@@ -3,7 +3,7 @@
 
 ### definitions ###
 CC = mpic++
-CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
+CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++11
 IFLAGS = -I/home/krabbe/boost_1_59_0 -L/home/krabbe/boost_1_59_0/stage/lib
 LFLAGS = -Wl,-Bstatic -lboost_mpi -lboost_serialization -Wl,-Bdynamic -lmpi_cxx -lmpi -lgcc_s
 OBJS = main.o particle.o simulator.o
@@ -18,11 +18,11 @@ debug: CFLAGS += -DDEBUG_BUILD
 debug: default
 
 # optimized
-opti: CFLAGS = -O3 -pedantic -std=c++14
+opti: CFLAGS = -O3 -pedantic -std=c++11
 opti: default
 
 #lazy target without any restrictions
-lazy: CFLAGS = -g -std=c++14
+lazy: CFLAGS = -g -std=c++11
 lazy: default
 
 ## Final executable ##

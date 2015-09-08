@@ -16,7 +16,6 @@
 #include <random>
 #include <array>
 #include <utility>
-#include <SDL2/SDL.h>
 #include <stdlib.h>
 
 #include <boost/mpi.hpp>
