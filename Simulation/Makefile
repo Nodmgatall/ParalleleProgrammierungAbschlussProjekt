@@ -37,8 +37,8 @@ Simulation.x: ${OBJS}
 ### Object files ###
 # TODO: throw all these into one target
 # Octree
-Octree.o: Octree/Octree.cpp Octree/Octree.hpp Octree/OctreePoint.hpp
-	${CC} ${CFLAGS} -c $<
+#Octree.o: Octree/Octree.cpp Octree/Octree.hpp Octree/OctreePoint.hpp
+#	${CC} ${CFLAGS} -c $<
 
 # main
 main.o: main.cpp
