@@ -1,9 +1,9 @@
 .PHONY: default clean cleanup mrproper opti parallel
 
 ### definitions ###
-CC = mpic++
-CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
-LFLAGS = -lboost_mpi -lboost_serialization
+CC = g++
+CFLAGS = -g -pthread -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14 -static-libgcc -static-libstdc++ -I/home/tronje/boost_prefix/include
+LFLAGS = -L. -lmpi_cxx -lmpi -L/home/tronje/boost_prefix/lib -Wl,--enable-new-dtags -Wl,-Bstatic -lboost_mpi -lboost_serialization
 OBJS = main.o particle.o simulator.o
 EXECUTABLE = Simulation.x
 

@@ -2,10 +2,10 @@
 #mpic++ -I/home/krabbe/boost_1_59_0 -L/home/krabbe/boost_1_59_0/stage/lib -o test.x lol.cpp -Wl,-Bstatic -lboost_mpi -lboost_serialization -Wl,-Bdynamic -lmpi_cxx -lmpi -lgcc_s
 
 ### definitions ###
-CC = mpic++
-CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++11
-IFLAGS = -I/home/krabbe/boost_1_59_0 -L/home/krabbe/boost_1_59_0/stage/lib
-LFLAGS = -Wl,-Bstatic -lboost_mpi -lboost_serialization -Wl,-Bdynamic -lmpi_cxx -lmpi -lgcc_s
+CC = g++
+CFLAGS = -g -pthread -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++11 -static-libgcc -static-libstdc++ -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fstack-check
+IFLAGS = -I/home/tronje/boost_prefix/include -L/home/tronje/boost_prefix/lib -L/usr/lib/openmpi
+LFLAGS = -Wl,-rpath -Wl,/usr/lib/openmpi -Wl,--enable-new-dtags -Wl,-Bstatic -lboost_mpi -lboost_serialization -Wl,-Bdynamic -lmpi_cxx -lmpi -lgcc_s
 OBJS = main.o particle.o simulator.o
 EXECUTABLE = Simulation.x
 
