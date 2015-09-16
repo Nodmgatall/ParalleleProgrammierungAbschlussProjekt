@@ -495,7 +495,7 @@ double Particle::particle_bubble_sort()
 {
     bool all_done = false;
     unsigned long swaps = 0;
-    unsigned long xswaps = 0;
+    unsigned long __attribute__((unused)) xswaps = 0;
     unsigned long runs = 0;
     double max_velo = 0;
     while(!all_done)
