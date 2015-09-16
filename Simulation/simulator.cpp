@@ -50,9 +50,8 @@ void Simulator::simulate()
         //Actual simulation
         
         m_particles.apply_gravity(1);
-        m_particles.move_objects(1);
         m_particles.sort_and_sweep();
-        
+        m_particles.move_objects(1);
         //Wrtite simulation data to file and in last iteration save last iteration
         if(current_iteration == m_number_of_iterations - 1)
         {

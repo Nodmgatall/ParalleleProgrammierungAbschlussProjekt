@@ -550,7 +550,6 @@ void Particle::sort_and_sweep()
 
             double time_of_closest_approach = get_time_of_closest_approach(m_positions[i], m_velocity_vectors[i]/m_dt, m_positions[j - 1], m_velocity_vectors[j - 1]/m_dt);
 
-            if(time_of_closest_approach < 1 && time_of_closest_approach > 0)std::cout << "time:" << time_of_closest_approach << std::endl;
             if(check_for_collision(i, j -1, time_of_closest_approach))
             {
                 std::cout << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << std::endl;

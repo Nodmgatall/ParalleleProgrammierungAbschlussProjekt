@@ -60,6 +60,7 @@ class Particle
           move each object by their velocity, if the stepsize is equal to 1second 
           */
         void move_Object(unsigned long particle_index);
+
         void move_objects(unsigned long start_idx = 1, unsigned long end_idx = 0);
 
             /** returns the velocity vector of given particle */

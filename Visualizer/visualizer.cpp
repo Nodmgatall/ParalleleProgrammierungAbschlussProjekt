@@ -779,7 +779,7 @@ void Visualizer::display_data(unsigned long particle_id)
     draw_text("Mass:", pos_x + 20, pos_y + 72, color);
     draw_text(std::to_string(m_object_masses[m_iteration_number][particle_index] / 100000000000000) + " x 10^15", pos_x + 60, pos_y + 84, color);
     draw_text("Radius:", pos_x + 20, pos_y + 96, color);
-    draw_text(std::to_string(m_object_radiuses[m_iteration_number][particle_index]), pos_x + 60, pos_y + 108, color);
+    draw_text(std::to_string(m_object_radiuses[m_iteration_number][particle_index]/149597870700.0), pos_x + 60, pos_y + 108, color);
 }
 
 void Visualizer::draw_data()
@@ -985,7 +985,7 @@ std::string Visualizer::format_seconds_to_time(double time)
 
     return (std::to_string(p->tm_year) + " " + std::to_string(p ->tm_yday) + " " + std::to_string(p -> tm_hour) + " " + std::to_string(p -> tm_min));
 }
-
+/*
 void Visualizer::load_particle_archive_from_file(std::string filename)
 {
     std::ifstream ifs("../Simulation/archive.test",std::ios::binary);
@@ -1045,3 +1045,5 @@ void Visualizer::load_particle_archive_from_file(std::string filename)
         std::cout << it_pos_vector.size() << std::endl;
     }
 }
+
+*/
