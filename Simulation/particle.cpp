@@ -332,57 +332,6 @@ void Particle::write_to_file(std::string filename, unsigned long iteration_numbe
     }
 }
 
-/*
-   void Particle::detect_collision();
-   {
-   for(unsigned long i = 1; i < m_positions.size(); i++)
-   {
-   double radius_cur = m_radiuses[i];
-   Vec3<double> pos_cur = m_positions[i];
-   for(unsigned long j = 0; j < i; j++)
-   {
-   double radius_other = m_radiuses[j];
-   Vec3<double> pos_other = m_positions[j];
-   double dist = (pos_cur - pos_other).getLength();
-   if(dist < (radius_cur + radius_other))
-   {
-   calculate_collision(i,j);
-   std::cout << dist <<"COLLISION DETECTED !!! "<< i << " "<< j << std::endl;
-   }
-   }
-   for(unsigned long j = i + 1; j < m_positions.size(); j++)
-   {
-   double radius_other = m_radiuses[j];
-   Vec3<double> pos_other = m_positions[j];
-   double dist = (pos_cur - pos_other).getLength();
-   if(dist < (radius_cur + radius_other))
-   {
-   calculate_collision(i,j);
-   std::cout << "COLLISION DETECTED !!! "<< i << " "<< j << std::endl;
-   }
-   }
-   }
-   }
-
-   void Particle::calculate_collision(unsigned long obj_id_1, unsigned long obj_id_2)
-   {
-   if(obj_id_1 == 0)
-   {
-   remove(obj_id_2);
-   return;
-   }
-   if(obj_id_2 == 0)
-   {
-   remove(obj_id_1);
-   return;
-   }
-   double impulse_obj_1 = (m_velocity_vectors[obj_id_1] * m_masses[obj_id_1]).getLength();
-   double impulse_obj_2 = (m_velocity_vectors[obj_id_2] * m_masses[obj_id_2]).getLength();
-//To remove "not used error"
-impulse_obj_1 = impulse_obj_2;
-impulse_obj_2 = impulse_obj_1;
-}
-*/
 void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
 {
     if(obj_id_1 == 0)
@@ -401,16 +350,18 @@ void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
     double new_volume = (4/3) * pow(m_radiuses[obj_id_1],3) + (4/3) * pow(m_radiuses[obj_id_2],3);
     Vec3<double> dist_normalized = (m_positions[obj_id_1] - m_positions[obj_id_2]);
     dist_normalized.normalise();
-    Vec3<double> new_position = m_positions[obj_id_2] + (dist_normalized * m_radiuses[obj_id_2]);
+    //Vec3<double> new_position = m_positions[obj_id_2] + (dist_normalized * m_radiuses[obj_id_2]);
     double new_radius = pow((new_volume * 3) / (PI * 4),(-3/2));
     if(m_masses[obj_id_1] > m_masses[obj_id_2])
     {
         new_velocity = m_velocity_vectors[obj_id_1];
     }
-    createParticle(new_position, new_velocity, new_mass, new_radius);
+   
+    m_masses[obj_id_2] = new_mass;
+    m_velocity_vectors[obj_id_2] = new_velocity;
+    m_radiuses[obj_id_2] = new_radius;
     std::cout << m_max_id - 1 << std::endl;
     remove(obj_id_1);
-    remove(obj_id_2);
     return;
 }
 
@@ -491,23 +442,23 @@ void swap(std::vector<Type> &vec, unsigned long idx1, unsigned long idx2)
 
 }
 
-double Particle::particle_bubble_sort()
+void Particle::particle_bubble_sort(unsigned long idx_start, unsigned long idx_end)
 {
+    if(idx_end == 0)
+    {
+        idx_end = m_positions.size();   
+    }
     bool all_done = false;
-    unsigned long swaps = 0;
-    unsigned long xswaps = 0;
-    unsigned long runs = 0;
-    double max_velo = 0;
+    m_max_velo = 0;
+
     while(!all_done)
     {
-        runs++;
         all_done = true;
-        for(unsigned long i = 2; i < m_positions.size(); i++)
+        for(unsigned long i = idx_start + 1; i < idx_end; i++)
         {
-            max_velo = std::fmax(m_velocity_vectors[i].getLength(), max_velo);
+            m_max_velo = std::fmax(m_velocity_vectors[i].getLength(), m_max_velo);
             if(m_positions[i].getLength() < m_positions[i-1].getLength())
             {
-                                swaps++;
                 all_done = false;
                 //std::cout << "swaped: " << i << " " <<  i-1 << std::endl; 
                 swap<Vec3<double>>(m_positions, i, i-1);
@@ -520,7 +471,6 @@ double Particle::particle_bubble_sort()
     }
     //std::cout << "runs: " << runs << " " << "swaps: " << swaps << std::endl; 
     //std::cout << "xswaps: "<< xswaps << std::endl; 
-    return max_velo;
 }
 
 double Particle::get_dt()
@@ -529,33 +479,32 @@ double Particle::get_dt()
 }
 
 
-bool Particle::limit(unsigned long index_1, unsigned long index_2, double max_velo)
+bool Particle::limit(unsigned long index_1, unsigned long index_2)
 {
     double dist = fabs(m_positions[index_1].getLength() - m_positions[index_2].getLength());
 
-    return dist > m_radiuses[index_1] + m_radiuses[index_2] + max_velo * 2;
+    return dist > m_radiuses[index_1] + m_radiuses[index_2] + m_max_velo * 2;
 }
 
-void Particle::sort_and_sweep()
+void Particle::detect_collision()
 {
-    m_dt = 0.00027;
     unsigned long j; 
-    double max_velo = particle_bubble_sort();
-    //std::cout << "MaxVelo: "<< max_velo << std::endl;
+    double time_of_closest_approach;
     for(unsigned long i = 1; i < m_positions.size(); i++)
     {
         j = i;
-        while( j > 0 && !limit(i, j-1, max_velo))
+        while( j > 0 && !limit(i, j-1))
         {
 
-            double time_of_closest_approach = get_time_of_closest_approach(m_positions[i], m_velocity_vectors[i]/m_dt, m_positions[j - 1], m_velocity_vectors[j - 1]/m_dt);
+            time_of_closest_approach = get_time_of_closest_approach(m_positions[i], m_velocity_vectors[i]/m_dt, m_positions[j - 1], m_velocity_vectors[j - 1]/m_dt);
 
             if(check_for_collision(i, j -1, time_of_closest_approach))
             {
                 std::cout << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << std::endl;
                 merge_objects(i,j-1);
                 i--;
-            }            j--;
+            }            
+            j--;
         }
     }
 

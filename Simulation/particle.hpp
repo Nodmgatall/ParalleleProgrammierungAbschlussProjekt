@@ -37,6 +37,7 @@ class Particle
         unsigned long m_number_of_particles;
         unsigned long m_max_id;
         double m_dt;
+        double m_max_velo = 0;
         unsigned long m_time_simulated;
         std::vector<unsigned long> m_deleted_ids_in_iteration;
 
@@ -72,7 +73,8 @@ class Particle
         /** returns the positon of given particle */
         Vec3<double> getPosition(unsigned long particle_index);
 
-        //TODO:
+        //TODO:createParticle(new_position, new_velocity, new_mass, new_radius);
+
         /** returns a pointer to a copied m_positions Vector for saving */ 
         Vec3<Vec3<double> > savePositionData();
 
@@ -161,11 +163,11 @@ Radius 429.489498\n
 
         void detect_collision();
 
-        double particle_bubble_sort();
+        void particle_bubble_sort(unsigned long start_idx = 0, unsigned long end_idx = 0);
 
-        void sort_and_sweep();
+        void detect_collision();
 
-        bool limit(unsigned long index_1, unsigned long index_2, double max_velo);
+        bool limit(unsigned long index_1, unsigned long index_2);
 
         void write_archive_to_file(std::string filename, unsigned long it_num);
 

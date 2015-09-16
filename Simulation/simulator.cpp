@@ -30,6 +30,9 @@ std::string set_up_loading_bar()
 /**
  * Starts the simulation
  * */
+
+
+
 void Simulator::simulate()
 {
     unsigned long current_iteration = 0;
@@ -43,14 +46,14 @@ void Simulator::simulate()
         //std::cout << "im here" << std::endl;
         //Print loading bar
         printf("(%lu / %lu) %lu \r",(unsigned long)m_particles.get_time_simulated(), (unsigned long)m_number_of_iterations, current_iteration);
-       
+
 
         fflush(stdout);
-        
+
         //Actual simulation
-        
+        m_particles.particle_bubble_sort();
         m_particles.apply_gravity(1);
-        m_particles.sort_and_sweep();
+        m_particles.detect_collision();
         m_particles.move_objects(1);
         //Wrtite simulation data to file and in last iteration save last iteration
         if(current_iteration == m_number_of_iterations - 1)
@@ -63,7 +66,7 @@ void Simulator::simulate()
         current_iteration++;
     }
     std::cout << "\n== Simulation completed ==" << std::endl;
-    }
+}
 
 /**
  * Generates random objects or loads data.
@@ -186,32 +189,32 @@ void Simulator::get_options(int argc, char** argv)
 }
 // THIS IS SP... , i mean, DEAD CODE!
 /*
-bool Simulator::intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB)
-{
-    // declare a bunch of variables to de-clutter the actual equation
-    double AxMin = posA.getX() - radiusA;
-    double AxMax = posA.getX() + radiusA;
-    0double AyMin = posA.getY() - radiusA;
-    double AyMax = posA.getY() + radiusA;
-    double AzMin = posA.getZ() - radiusA;
-    double AzMax = posA.getZ() + radiusA;
+   bool Simulator::intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB)
+   {
+        // declare a bunch of variables to de-clutter the actual equation
+        double AxMin = posA.getX() - radiusA;
+        double AxMax = posA.getX() + radiusA;
+        0double AyMin = posA.getY() - radiusA;
+        double AyMax = posA.getY() + radiusA;
+        double AzMin = posA.getZ() - radiusA;
+        double AzMax = posA.getZ() + radiusA;
 
-    double BxMin = posB.getX() - radiusB;
-    double BxMax = posB.getX() + radiusB;
-    double ByMin = posB.getY() - radiusB;
-    double ByMax = posB.getY() + radiusB;
-    double BzMin = posB.getZ() - radiusB;
-    double BzMax = posB.getZ() + radiusB;
+        double BxMin = posB.getX() - radiusB;
+        double BxMax = posB.getX() + radiusB;
+        double ByMin = posB.getY() - radiusB;
+        double ByMax = posB.getY() + radiusB;
+        double BzMin = posB.getZ() - radiusB;
+        double BzMax = posB.getZ() + radiusB;
 
     // calculate result
     return (AxMin < BxMax && AxMax > BxMin) &&
-           (AyMin < ByMax && AyMax > ByMin) &&
-           (AzMin < BzMax && AzMax > BzMin);
-}
+    (AyMin < ByMax && AyMax > ByMin) &&
+    (AzMin < BzMax && AzMax > BzMin);
+    }
 
 
-void Simulator::collide(Particle& particle)
-{
+    void Simulator::collide(Particle& particle)
+    {
     DEBUG("Begin collision...");
 
     unsigned long i; //iterator
@@ -222,56 +225,56 @@ void Simulator::collide(Particle& particle)
     tree->setRadii(Vec3<double>(lim, lim, lim)); //TODO change this to something sensible
     DEBUG("Created octree...");
 
-    // build octree
-    OctreePoint * octreePoints = new OctreePoint[particle.getNumberOfParticles()];
-    for (i = 0; i < particle.getNumberOfParticles(); i++)
-    {
+        // build octree
+        OctreePoint * octreePoints = new OctreePoint[particle.getNumberOfParticles()];
+        for (i = 0; i < particle.getNumberOfParticles(); i++)
+        {
         octreePoints[i].setPosition(particle.getPosition(i));
         octreePoints[i].setRadius(particle.getRadius(i));
         octreePoints[i].setIndex(i);
         tree->insert(octreePoints + i);
-    }
+        }
 
-    DEBUG("Assembled octree...");
+        DEBUG("Assembled octree...");
 
-    // determine which particles to collide with one another
-    // and perform the collision
-    for (i = 0; i < particle.getNumberOfParticles(); i++)
-    {
+        // determine which particles to collide with one another
+        // and perform the collision
+        for (i = 0; i < particle.getNumberOfParticles(); i++)
+        {
         // variable to save all points to collide with
         std::vector<OctreePoint*> collisionPartners;
 
         // help variable
         double radius = particle.getRadius(i);
-        
+
         // vectors for calculating box in which to consider particles
         Vec3<double> radius_vec = Vec3<double>(radius, radius, radius);
         Vec3<double> bmin = Vec3<double>() + particle.getPosition(i) - radius_vec * precision;
         Vec3<double> bmax = Vec3<double>() + particle.getPosition(i) + radius_vec * precision;
-        
-        // push all points within i's vicinity into this vector
-        tree->getPointsInBox(bmin, bmax, collisionPartners);
 
-        for (auto it = collisionPartners.begin(); it != collisionPartners.end(); ++it)
-        {
+            // push all points within i's vicinity into this vector
+            tree->getPointsInBox(bmin, bmax, collisionPartners);
+
+            for (auto it = collisionPartners.begin(); it != collisionPartners.end(); ++it)
+            {
             if (i == (*it)->getIndex()) continue; // things can't collide with themselves
 
-            if (intersects(particle.getPosition(i), particle.getRadius(i), (*it)->getPosition(), (*it)->getRadius()))
-            {
-                DEBUG("Particle " << i << " collides with particle " << (*it)->getIndex() << "...");
-                DEBUG("Particle " << i << "'s position: " << particle.getPosition(i).toString());
-                DEBUG("Particle " << (*it)->getIndex() << "'s position: " << (*it)->getPosition().toString());
+if (intersects(particle.getPosition(i), particle.getRadius(i), (*it)->getPosition(), (*it)->getRadius()))
+{
+    DEBUG("Particle " << i << " collides with particle " << (*it)->getIndex() << "...");
+    DEBUG("Particle " << i << "'s position: " << particle.getPosition(i).toString());
+    DEBUG("Particle " << (*it)->getIndex() << "'s position: " << (*it)->getPosition().toString());
 
-                // When two particles collide, they merge. This is somewhat primitive but also somewhat realistic.
-                particle.merge_objects(i, (*it)->getIndex());
-            }
-        }
-        DEBUG("Collision done for particle " << i << "!");
-    }
+    // When two particles collide, they merge. This is somewhat primitive but also somewhat realistic.
+    particle.merge_objects(i, (*it)->getIndex());
+}
+}
+DEBUG("Collision done for particle " << i << "!");
+}
 
-    DEBUG("Collision done!");
+DEBUG("Collision done!");
 
-    delete tree;
+delete tree;
 }
 set_up_simulation
 */
@@ -285,23 +288,23 @@ void Simulator::setup_test(int test_id)
         m_number_of_iterations = 60* 60 *24 * 100;
         m_number_of_particles = 3;
         case 1:
-            m_particles.createParticle(Vec3<double>(0,0,0),
-                    Vec3<double>(0,0,0),
-                    0,
-                    0);
+        m_particles.createParticle(Vec3<double>(0,0,0),
+                Vec3<double>(0,0,0),
+                0,
+                0);
 
-            //EARTH
-            m_particles.createParticle(Vec3<double>(AU,0,0),
-                    Vec3<double>(10000,0,0),
-                    5.972 * pow(10, 24),
-                    6371000.0);
-            //EARTH
-            m_particles.createParticle(Vec3<double>(-AU,0,0),
-                    Vec3<double>(-10000,0,0),
-                    5.972 * pow(10, 24),
-                    6371000.0);
+        //EARTH
+        m_particles.createParticle(Vec3<double>(AU,0,0),
+                Vec3<double>(10000,0,0),
+                5.972 * pow(10, 24),
+                6371000.0);
+        //EARTH
+        m_particles.createParticle(Vec3<double>(-AU,0,0),
+                Vec3<double>(-10000,0,0),
+                5.972 * pow(10, 24),
+                6371000.0);
 
-            break;
+        break;
     }
 }
 
