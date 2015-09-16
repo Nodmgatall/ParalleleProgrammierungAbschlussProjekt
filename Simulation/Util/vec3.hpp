@@ -9,7 +9,10 @@
 #include <cmath>
 #include <string>
 
-#include <boost/serialization/access.hpp>
+#include <cstddef>
+#include <mpi.h>
+
+MPI::Datatype MPI_Vec3;
 
 template <class T> class Vec3
 {
@@ -18,6 +21,20 @@ template <class T> class Vec3
         T x, y, z;
     public:
         // ------------ Constructors ------------
+        /// only works for doubles... very hacky
+        static void create_mpi_type()
+        {
+            int counts[3] = {1, 1, 1};
+            MPI::Aint displacements[3] = {
+                offsetof(Vec3, x),
+                offsetof(Vec3, y),
+                offsetof(Vec3, z)
+            };
+            MPI::Datatype types[3] = {MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE};
+
+            MPI_Vec3 = MPI::Datatype::Create_struct(3, counts, displacements, types);
+            MPI_Vec3.Commit();
+        }
 
         /// Default constructor
         Vec3() { x = y = z = 0; };
