@@ -2,6 +2,7 @@
 #define PARTICLE_HPP
 
 #include "Util/random_generator.hpp"
+#include "Util/vec3.hpp"
 
 #include <string>
 #include <vector>

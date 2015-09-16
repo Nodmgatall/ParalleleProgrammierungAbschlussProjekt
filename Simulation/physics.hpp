@@ -12,7 +12,7 @@ static double calculateAccleration(double dist,
 	return (G * (mass_other / (dist * dist)));
 }
 
-static double get_time_of_closest_approach(Vec3<double> pos1, Vec3<double> vec1, Vec3<double> pos2, Vec3<double> vec2)
+static double __attribute__((unused)) get_time_of_closest_approach(Vec3<double> pos1, Vec3<double> vec1, Vec3<double> pos2, Vec3<double> vec2)
 {
     if((vec1 - vec2).getLength() == 0.0)
     {

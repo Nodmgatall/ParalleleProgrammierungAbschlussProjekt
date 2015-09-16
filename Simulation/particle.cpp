@@ -1,6 +1,7 @@
 #include "Util/random_generator.hpp"
 #include "particle.hpp"
 #include "physics.hpp"
+#include "globals.h"
 
 #include <string>
 #include <vector>
@@ -449,8 +450,6 @@ void Particle::particle_bubble_sort(unsigned long idx_start, unsigned long idx_e
         idx_end = m_positions.size();   
     }
     bool all_done = false;
-    m_max_velo = 0;
-
     while(!all_done)
     {
         all_done = true;
