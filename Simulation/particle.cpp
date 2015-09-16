@@ -1,6 +1,7 @@
 #include "Util/random_generator.hpp"
 #include "particle.hpp"
 #include "physics.hpp"
+#include "globals.h"
 
 #include <string>
 #include <vector>

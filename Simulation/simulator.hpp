@@ -2,6 +2,7 @@
 #define SIMULATOR_HPP
 
 #include "particle.hpp"
+#include "Util/vec3.hpp"
 class Simulator
 {
     public:

@@ -3,6 +3,8 @@
 #include "unistd.h"
 #include "Octree/Octree.hpp"
 
+#include "globals.h"
+
 #include "Util/macros.hpp"
 
 #include <string.h>

@@ -12,8 +12,7 @@
 #ifdef PARALLEL_BUILD
 #include <cstddef>
 #include <mpi.h>
-
-MPI::Datatype MPI_Vec3;
+#include "../globals.h"
 #endif
 
 template <class T> class Vec3
