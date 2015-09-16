@@ -3,6 +3,7 @@
 ### definitions ###
 CC = g++
 CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
+LFLAGS = -lboost_serialization
 OBJS = main.o particle.o simulator.o Octree.o
 EXECUTABLE = Simulation.x
 
@@ -32,25 +33,29 @@ lazy: default
 
 ## Final executable ##
 Simulation.x: ${OBJS}
-	${CC} ${CFLAGS} ${OBJS} -o ${EXECUTABLE}
+	${CC} ${CFLAGS} ${OBJS} -o ${EXECUTABLE} ${LFLAGS}
 
 ### Object files ###
 # TODO: throw all these into one target
 # Octree
 Octree.o: Octree/Octree.cpp Octree/Octree.hpp Octree/OctreePoint.hpp
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -c $< ${LFLAGS}
+
 
 # main
 main.o: main.cpp
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -c $< ${LFLAGS}
+
 
 # particle
 particle.o: particle.cpp particle.hpp
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -c $< ${LFLAGS}
+
 
 # simulator
 simulator.o: simulator.cpp simulator.hpp
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -c $< ${LFLAGS}
+
 
 
 ### Cleanup utils ###

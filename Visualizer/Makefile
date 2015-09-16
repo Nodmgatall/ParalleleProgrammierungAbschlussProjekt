@@ -4,7 +4,8 @@ SHELL = /bin/sh
 ### definitions ###
 CC = g++
 CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
-OBJS = main.o visualizer.o
+LFLAGS = -lboost_serialization
+OBJS = main.o visualizer.o 
 EXECUTABLE = Visualizer.x
 
 ## SDL stuff ##
@@ -30,12 +31,13 @@ clang: default
 
 ## Final executable ##
 Visualizer.x: ${OBJS}
-	${CC} ${CFLAGS} ${OBJS} -o ${EXECUTABLE}
+	${CC} ${CFLAGS} ${OBJS} -o ${EXECUTABLE} ${LFLAGS}
 
 ### Object files ###
 # all in one
 %.o: %.cpp
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -c $< ${LFLAGS}
+	
 
 ### clean targets ###
 clean:

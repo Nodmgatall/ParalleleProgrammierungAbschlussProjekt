@@ -9,12 +9,13 @@
 #include <cmath>
 #include <string>
 
+#include <boost/serialization/access.hpp>
+
 template <class T> class Vec3
 {
     private:
         // A Vec3 simply has three properties called x, y and z
         T x, y, z;
-
     public:
         // ------------ Constructors ------------
 
@@ -88,16 +89,16 @@ template <class T> class Vec3
         }
 
         /**
-            Static method to calculate and return the scalar dot product of two vectors
-        
-            Note: The dot product of two vectors tell us things about the angle between
-            the vectors. That is, it tells us if they are pointing in the same direction
-            (i.e. are they parallel? If so, the dot product will be 1), or if they're
-            perpendicular (i.e. at 90 degrees to each other) the dot product will be 0,
-            or if they're pointing in opposite directions then the dot product will be -1.
-        
-            Usage example: double foo = Vec3<double>::dotProduct(vectorA, vectorB);
-        */
+          Static method to calculate and return the scalar dot product of two vectors
+
+Note: The dot product of two vectors tell us things about the angle between
+the vectors. That is, it tells us if they are pointing in the same direction
+(i.e. are they parallel? If so, the dot product will be 1), or if they're
+perpendicular (i.e. at 90 degrees to each other) the dot product will be 0,
+or if they're pointing in opposite directions then the dot product will be -1.
+
+Usage example: double foo = Vec3<double>::dotProduct(vectorA, vectorB);
+*/
         static T dotProduct(const Vec3 &vec1, const Vec3 &vec2)
         {
             return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
@@ -112,21 +113,21 @@ template <class T> class Vec3
         }
 
         /**
-        Static method to calculate and return a vector which is the cross product of two vectors
-        
-        Note: The cross product is simply a vector which is perpendicular to the plane formed by
-        the first two vectors. Think of a desk like the one your laptop or keyboard is sitting on.
-        If you put one pencil pointing directly away from you, and then another pencil pointing to the
-        right so they form a "L" shape, the vector perpendicular to the plane made by these two pencils
-        points directly upwards.
-        
-        Whether the vector is perpendicularly pointing "up" or "down" depends on the "handedness" of the
-        coordinate system that you're using.
-        
-        Further reading: http://en.wikipedia.org/wiki/Cross_product
-        
-        Usage example: Vec3<double> crossVect = Vec3<double>::crossProduct(vectorA, vectorB);
-        */
+          Static method to calculate and return a vector which is the cross product of two vectors
+
+Note: The cross product is simply a vector which is perpendicular to the plane formed by
+the first two vectors. Think of a desk like the one your laptop or keyboard is sitting on.
+If you put one pencil pointing directly away from you, and then another pencil pointing to the
+right so they form a "L" shape, the vector perpendicular to the plane made by these two pencils
+points directly upwards.
+
+Whether the vector is perpendicularly pointing "up" or "down" depends on the "handedness" of the
+coordinate system that you're using.
+
+Further reading: http://en.wikipedia.org/wiki/Cross_product
+
+Usage example: Vec3<double> crossVect = Vec3<double>::crossProduct(vectorA, vectorB);
+*/
         static Vec3 crossProduct(const Vec3 &vec1, const Vec3 &vec2)
         {
             return Vec3(vec1.y * vec2.z - vec1.z * vec2.y, vec1.z * vec2.x - vec1.x * vec2.z, vec1.x * vec2.y - vec1.y * vec2.x);
@@ -138,37 +139,37 @@ template <class T> class Vec3
         void addZ(T value) { z += value; }
 
         /*
-        Method to return the distance between two vectors in 3D space
-        
-        Note: This is accurate, but not especially fast - depending on your needs you might
-        like to use the Manhattan Distance instead: http://en.wikipedia.org/wiki/Taxicab_geometry
-        There's a good discussion of it here: http://stackoverflow.com/questions/3693514/very-fast-3d-distance-check
-        The gist is, to find if we're within a given distance between two vectors you can use:
-        */
+           Method to return the distance between two vectors in 3D space
+
+Note: This is accurate, but not especially fast - depending on your needs you might
+like to use the Manhattan Distance instead: http://en.wikipedia.org/wiki/Taxicab_geometry
+There's a good discussion of it here: http://stackoverflow.com/questions/3693514/very-fast-3d-distance-check
+The gist is, to find if we're within a given distance between two vectors you can use:
+*/
         bool within3DManhattanDistance(Vec3 c1, Vec3 c2, float distance)
         {
-             float dx = abs(c2.x - c1.x);
-             if (dx > distance) return false; // too far in x direction
-        
-             float dy = abs(c2.y - c1.y);
-             if (dy > distance) return false; // too far in y direction
-        
-             float dz = abs(c2.z - c1.z);
-             if (dz > distance) return false; // too far in z direction
-        
-             return true; // we're within the cube
+            float dx = abs(c2.x - c1.x);
+            if (dx > distance) return false; // too far in x direction
+
+            float dy = abs(c2.y - c1.y);
+            if (dy > distance) return false; // too far in y direction
+
+            float dz = abs(c2.z - c1.z);
+            if (dz > distance) return false; // too far in z direction
+
+            return true; // we're within the cube
         }
-        
+
         //Or to just calculate the straight Manhattan distance you could use:
-        
+
         float getManhattanDistance(Vec3 c1, Vec3 c2)
         {
-             float dx = abs(c2.x - c1.x);
-             float dy = abs(c2.y - c1.y);
-             float dz = abs(c2.z - c1.z);
-             return dx+dy+dz;
+            float dx = abs(c2.x - c1.x);
+            float dy = abs(c2.y - c1.y);
+            float dz = abs(c2.z - c1.z);
+            return dx+dy+dz;
         }
-      
+
 
         static T getDistance(const Vec3 &v1, const Vec3 &v2)
         {
@@ -184,7 +185,7 @@ template <class T> class Vec3
             return Vec3<T>(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z);
         }
 
-          /** return the absolute value (aka length)*/
+        /** return the absolute value (aka length)*/
         T getLength()
         {
             return sqrt(x * x + y * y + z * z);
@@ -206,9 +207,9 @@ template <class T> class Vec3
 
         bool operator==(const Vec3 &vector) const
         {
-           if(x == vector.x && y == vector.y && z == vector.z)
-               return true;
-           return false;
+            if(x == vector.x && y == vector.y && z == vector.z)
+                return true;
+            return false;
         }
 
         // Overloaded add and asssign operator to add Vec3s together

@@ -12,6 +12,14 @@
 #include <cstdlib>
 #include <map>
 
+//#include <boost/serialization/vector.hpp>
+
+//#include <boost/archive/binary_oarchive.hpp>
+//#include <boost/archive/binary_iarchive.hpp>
+
+//#include <boost/archive/text_oarchive.hpp>
+//#include <boost/archive/text_iarchive.hpp>
+
 // center object has to be at <0.0.0>
 /**
   Data structure to store and manage particles.\n
@@ -52,12 +60,10 @@ class Particle
           move each object by their velocity, if the stepsize is equal to 1second 
           */
         void move_Object(unsigned long particle_index);
+        void move_objects(unsigned long start_idx = 1, unsigned long end_idx = 0);
 
-        /** returns the distance between two  particles */
-        double getDistanceOfTwoObjects(unsigned long ob1, unsigned long ob2);
-
-        /** returns the velocity vector of given particle */
-        Vec3<double> getVelocityVector(unsigned long particle_index);
+            /** returns the velocity vector of given particle */
+            Vec3<double> getVelocityVector(unsigned long particle_index);
 
         /** adds a acceleration vector to the velocity vectof of specified object*/
         void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
@@ -134,6 +140,8 @@ Mass: 2255.501134\n
 Radius 429.489498\n
 
 */
+        void apply_gravity(unsigned long start_idx = 1, unsigned long end_idx = 0);
+
         void printParticle(unsigned long particle_index);
 
         /** prints all particles to the console */
@@ -148,15 +156,20 @@ Radius 429.489498\n
         void load_data_from_file(std::string filepath, unsigned long &number_of_previous_iterations);
         //TODO: Save funktion die die daten aus Particle in eine datei schreibt
         //
-        bool check_for_collision(unsigned long id_1, unsigned long id_2);
+        bool check_for_collision(unsigned long id_1, unsigned long id_2, double time_of_closest_approach);
 
         void detect_collision();
 
-        void particle_bubble_sort();
+        double particle_bubble_sort();
 
         void sort_and_sweep();
-        
-        bool limit(unsigned long index_1, unsigned long index_2);
+
+        bool limit(unsigned long index_1, unsigned long index_2, double max_velo);
+
+        void write_archive_to_file(std::string filename, unsigned long it_num);
+
+        //`void write_to_archive(boost::archive::binary_oarchive *oa);
+
 
 };
 

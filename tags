@@ -1,0 +1,713 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+0	Simulation/Documentation/html/search/searchdata.js	/^  0: "All",$/;"	p	class:indexSectionLabels
+0	Simulation/Documentation/html/search/searchdata.js	/^  0: "all",$/;"	p	class:indexSectionNames
+0	Simulation/Documentation/html/search/searchdata.js	/^  0: "cdgmnprsvz",$/;"	p	class:indexSectionsWithContent
+1	Simulation/Documentation/html/search/searchdata.js	/^  1: "Classes",$/;"	p	class:indexSectionLabels
+1	Simulation/Documentation/html/search/searchdata.js	/^  1: "classes",$/;"	p	class:indexSectionNames
+1	Simulation/Documentation/html/search/searchdata.js	/^  1: "pv",$/;"	p	class:indexSectionsWithContent
+2	Simulation/Documentation/html/search/searchdata.js	/^  2: "Functions"$/;"	p	class:indexSectionLabels
+2	Simulation/Documentation/html/search/searchdata.js	/^  2: "cdgmnprsvz"$/;"	p	class:indexSectionsWithContent
+2	Simulation/Documentation/html/search/searchdata.js	/^  2: "functions"$/;"	p	class:indexSectionNames
+AU	Simulation/simulator.cpp	/^const double AU = 149597870700.0;  $/;"	v
+Activate	Simulation/Documentation/html/search/search.js	/^  this.Activate = function(isActive)$/;"	m	class:SearchBox
+CC	Simulation/Makefile	/^CC = g++$/;"	m
+CC	Simulation/Makefile	/^clang: CC = clang++$/;"	m
+CC	Simulation/Makefile	/^parallel: CC = mpic++$/;"	m
+CC	Simulation/Octree/Makefile	/^CC=g++$/;"	m
+CC	Visualizer/Makefile	/^CC = g++$/;"	m
+CC	Visualizer/Makefile	/^clang: CC = clang++$/;"	m
+CFLAGS	Simulation/Makefile	/^CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14$/;"	m
+CFLAGS	Simulation/Makefile	/^lazy: CFLAGS = -g -std=c++14$/;"	m
+CFLAGS	Simulation/Makefile	/^opti: CFLAGS = -O3 -pedantic -std=c++14$/;"	m
+CFLAGS	Simulation/Octree/Makefile	/^CFLAGS=-Wall -Werror -g -std=c++14$/;"	m
+CFLAGS	Visualizer/Makefile	/^CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14$/;"	m
+CFLAGS	Visualizer/Makefile	/^lazy: CFLAGS = -g -std=c++14$/;"	m
+CFLAGS	Visualizer/Makefile	/^opti: CFLAGS = -O3 -pedantic -std=c++14$/;"	m
+Class Documentation	Simulation/Documentation/latex/refman.tex	/^\\input{annotated}$/;"	c
+Class Index	Simulation/Documentation/latex/refman.tex	/^\\hypersetup{pageanchor=true}$/;"	c
+Class List	Simulation/Documentation/latex/annotated.tex	/^\\section{Class List}$/;"	s
+CloseResultsWindow	Simulation/Documentation/html/search/search.js	/^  this.CloseResultsWindow = function()$/;"	m	class:SearchBox
+CloseSelectionWindow	Simulation/Documentation/html/search/search.js	/^  this.CloseSelectionWindow = function()$/;"	m	class:SearchBox
+DEBUG	Simulation/Util/macros.hpp	5;"	d
+DEBUG	Simulation/Util/macros.hpp	7;"	d
+DOMPopupSearchResults	Simulation/Documentation/html/search/search.js	/^  this.DOMPopupSearchResults = function()$/;"	m	class:SearchBox
+DOMPopupSearchResultsWindow	Simulation/Documentation/html/search/search.js	/^  this.DOMPopupSearchResultsWindow = function()$/;"	m	class:SearchBox
+DOMSearchBox	Simulation/Documentation/html/search/search.js	/^  this.DOMSearchBox = function()$/;"	m	class:SearchBox
+DOMSearchClose	Simulation/Documentation/html/search/search.js	/^  this.DOMSearchClose = function()$/;"	m	class:SearchBox
+DOMSearchField	Simulation/Documentation/html/search/search.js	/^  this.DOMSearchField = function()$/;"	m	class:SearchBox
+DOMSearchSelect	Simulation/Documentation/html/search/search.js	/^  this.DOMSearchSelect = function()$/;"	m	class:SearchBox
+DOMSearchSelectWindow	Simulation/Documentation/html/search/search.js	/^  this.DOMSearchSelectWindow = function()$/;"	m	class:SearchBox
+Detailed Description	Simulation/Documentation/latex/classParticle.tex	/^\\end{DoxyCompactItemize}$/;"	b
+EXECUTABLE	Simulation/Makefile	/^EXECUTABLE = Simulation.x$/;"	m
+EXECUTABLE	Visualizer/Makefile	/^EXECUTABLE = Visualizer.x$/;"	m
+FindChildElement	Simulation/Documentation/html/search/search.js	/^    this.FindChildElement = function(id)$/;"	m	class:SearchResults
+G	Simulation/physics.hpp	/^const double G = 0.000000000066742;$/;"	v
+GLFW_INCLUDE_GLU	Simulation/main.cpp	1;"	d	file:
+Kurzbeschreibung	Presi/presi.tex	/^\\end{frame}$/;"	s
+L sungsansatz	Presi/presi.tex	/^\\end{frame}$/;"	s
+LFLAGS	Simulation/Makefile	/^LFLAGS = -lboost_serialization$/;"	m
+LFLAGS	Visualizer/Makefile	/^LFLAGS = -lboost_serialization$/;"	m
+MACROS_HPP	Simulation/Util/macros.hpp	2;"	d
+Member Function Documentation	Simulation/Documentation/latex/classParticle.tex	/^Paritcles are stored in a std\\+::vector$<$double$>$ and are accsessed by their index. $/;"	b
+Member Function Documentation	Simulation/Documentation/latex/classVec3.tex	/^\\end{DoxyCompactItemize}$/;"	b
+Nav	Simulation/Documentation/html/search/search.js	/^    this.Nav = function(evt,itemIndex)$/;"	m	class:SearchResults
+NavChild	Simulation/Documentation/html/search/search.js	/^    this.NavChild = function(evt,itemIndex,childIndex)$/;"	m	class:SearchResults
+NavNext	Simulation/Documentation/html/search/search.js	/^    this.NavNext = function(index)$/;"	m	class:SearchResults
+NavPrev	Simulation/Documentation/html/search/search.js	/^    this.NavPrev = function(index)$/;"	m	class:SearchResults
+OBJS	Simulation/Makefile	/^OBJS = main.o particle.o simulator.o Octree.o$/;"	m
+OBJS	Visualizer/Makefile	/^OBJS = main.o visualizer.o $/;"	m
+OCTREE_HPP	Simulation/Octree/Octree.hpp	7;"	d
+OCTREE_POINT_HPP	Simulation/Octree/OctreePoint.hpp	2;"	d
+Octree	Simulation/Octree/Octree.cpp	/^Octree::Octree()$/;"	f	class:Octree
+Octree	Simulation/Octree/Octree.cpp	/^Octree::Octree(const Octree& copy)$/;"	f	class:Octree
+Octree	Simulation/Octree/Octree.cpp	/^Octree::Octree(const Vec3<double>& origin, const Vec3<double>& radii)$/;"	f	class:Octree
+Octree	Simulation/Octree/Octree.hpp	/^class Octree$/;"	c
+OctreePoint	Simulation/Octree/OctreePoint.hpp	/^        OctreePoint() {\/**\/}$/;"	f	class:OctreePoint
+OctreePoint	Simulation/Octree/OctreePoint.hpp	/^        OctreePoint(const Vec3<double>& position, const double radius, const unsigned long index) : position(position), radius(radius), index(index) {\/**\/}$/;"	f	class:OctreePoint
+OctreePoint	Simulation/Octree/OctreePoint.hpp	/^class OctreePoint {$/;"	c
+OnSearchFieldChange	Simulation/Documentation/html/search/search.js	/^  this.OnSearchFieldChange = function(evt)$/;"	m	class:SearchBox
+OnSearchFieldFocus	Simulation/Documentation/html/search/search.js	/^  this.OnSearchFieldFocus = function(isActive)$/;"	m	class:SearchBox
+OnSearchSelectHide	Simulation/Documentation/html/search/search.js	/^  this.OnSearchSelectHide = function()$/;"	m	class:SearchBox
+OnSearchSelectKey	Simulation/Documentation/html/search/search.js	/^  this.OnSearchSelectKey = function(evt)$/;"	m	class:SearchBox
+OnSearchSelectShow	Simulation/Documentation/html/search/search.js	/^  this.OnSearchSelectShow = function()$/;"	m	class:SearchBox
+OnSelectItem	Simulation/Documentation/html/search/search.js	/^  this.OnSelectItem = function(id)$/;"	m	class:SearchBox
+PARTICLE_HPP	Simulation/particle.hpp	2;"	d
+PHYSICS_HPP	Simulation/physics.hpp	2;"	d
+PI	Simulation/particle.cpp	/^const double PI = 3.14159265359;$/;"	v
+Parallelisierungsschema	Presi/presi.tex	/^\\end{frame}$/;"	s
+Particle	Simulation/particle.cpp	/^Particle::Particle()$/;"	f	class:Particle
+Particle	Simulation/particle.hpp	/^class Particle$/;"	c
+Particle Class Reference	Simulation/Documentation/latex/classParticle.tex	/^\\hypertarget{classParticle}{}\\section{Particle Class Reference}$/;"	s
+ProcessKeys	Simulation/Documentation/html/search/search.js	/^    this.ProcessKeys = function(e)$/;"	m	class:SearchResults
+Projektplan	Presi/presi.tex	/^\\end{frame}$/;"	s
+Public Member Functions	Simulation/Documentation/latex/classParticle.tex	/^{\\ttfamily \\#include $<$particle.\\+hpp$>$}$/;"	b
+Public Member Functions	Simulation/Documentation/latex/classVec3.tex	/^\\label{classVec3}\\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}}$/;"	b
+RANDOM_GENERATOR_HPP	Simulation/Util/random_generator.hpp	2;"	d
+RESOURCE_MANAGER_HPP	Visualizer/resource_manager.hpp	2;"	d
+ResourceManager	Visualizer/resource_manager.hpp	/^class ResourceManager {$/;"	c
+SDL2_LIBS	Visualizer/Makefile	/^SDL2_LIBS = $(shell sdl2-config --libs --cflags) -lSDL2_image -lSDL2_ttf$/;"	m
+SHELL	Visualizer/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SIMULATOR_HPP	Simulation/simulator.hpp	2;"	d
+Search	Simulation/Documentation/html/search/search.js	/^    this.Search = function(search)$/;"	m	class:SearchResults
+Search	Simulation/Documentation/html/search/search.js	/^  this.Search = function()$/;"	m	class:SearchBox
+SearchBox	Simulation/Documentation/html/search/search.js	/^function SearchBox(name, resultsPath, inFrame, label)$/;"	c
+SearchResults	Simulation/Documentation/html/search/search.js	/^function SearchResults(name)$/;"	c
+SelectItemCount	Simulation/Documentation/html/search/search.js	/^  this.SelectItemCount = function(id)$/;"	m	class:SearchBox
+SelectItemSet	Simulation/Documentation/html/search/search.js	/^  this.SelectItemSet = function(id)$/;"	m	class:SearchBox
+Simulator	Simulation/simulator.cpp	/^Simulator::Simulator()$/;"	f	class:Simulator
+Simulator	Simulation/simulator.hpp	/^class Simulator$/;"	c
+Static Public Member Functions	Simulation/Documentation/latex/classVec3.tex	/^\\end{DoxyCompactItemize}$/;"	b
+TESTER_HPP	Simulation/Tests/tester.hpp	2;"	d
+Toggle	Simulation/Documentation/html/search/search.js	/^    this.Toggle = function(id)$/;"	m	class:SearchResults
+UTIL_HPP	Simulation/Util/util.hpp	2;"	d
+VEC3_HPP	Simulation/Util/vec3.hpp	6;"	d
+VEC3_HPP	Visualizer/vec3.hpp	6;"	d
+VISUALIZER_HPP	Visualizer/visualizer.hpp	2;"	d
+Vec3	Simulation/Util/vec3.hpp	/^        Vec3() { x = y = z = 0; };$/;"	f	class:Vec3
+Vec3	Simulation/Util/vec3.hpp	/^        Vec3(T xValue, T yValue, T zValue)$/;"	f	class:Vec3
+Vec3	Simulation/Util/vec3.hpp	/^template <class T> class Vec3$/;"	c
+Vec3	Visualizer/vec3.hpp	/^        Vec3() { x = y = z = 0; };$/;"	f	class:Vec3
+Vec3	Visualizer/vec3.hpp	/^        Vec3(T xValue, T yValue, T zValue)$/;"	f	class:Vec3
+Vec3	Visualizer/vec3.hpp	/^template <class T> class Vec3$/;"	c
+Vec3$ $ T $ $ Class Template Reference	Simulation/Documentation/latex/classVec3.tex	/^\\hypertarget{classVec3}{}\\section{Vec3$<$ T $>$ Class Template Reference}$/;"	s
+Visualizer	Visualizer/visualizer.cpp	/^Visualizer::Visualizer()$/;"	f	class:Visualizer
+Visualizer	Visualizer/visualizer.cpp	/^Visualizer::Visualizer(std::string filename)$/;"	f	class:Visualizer
+Visualizer	Visualizer/visualizer.hpp	/^class Visualizer$/;"	c
+addAccelerationVector	Simulation/particle.cpp	/^void Particle::addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector)$/;"	f	class:Particle
+addX	Simulation/Util/vec3.hpp	/^        void addX(T value) { x += value; }$/;"	f	class:Vec3
+addX	Visualizer/vec3.hpp	/^        void addX(T value) { x += value; }$/;"	f	class:Vec3
+addY	Simulation/Util/vec3.hpp	/^        void addY(T value) { y += value; }$/;"	f	class:Vec3
+addY	Visualizer/vec3.hpp	/^        void addY(T value) { y += value; }$/;"	f	class:Vec3
+addZ	Simulation/Util/vec3.hpp	/^        void addZ(T value) { z += value; }$/;"	f	class:Vec3
+addZ	Visualizer/vec3.hpp	/^        void addZ(T value) { z += value; }$/;"	f	class:Vec3
+applyGravity	Simulation/physics.hpp	/^static void __attribute__((unused)) applyGravity(Particle &particle, unsigned long id, double dt)$/;"	f
+au_to_m	Simulation/Util/util.hpp	/^TYPE au_to_m(TYPE au)$/;"	f
+c_scroll_velo	Visualizer/visualizer.cpp	/^const unsigned c_scroll_velo = 100;$/;"	v
+calculateAccleration	Simulation/physics.hpp	/^static double calculateAccleration(double dist,$/;"	f
+calculate_ortogonal_vector_to_pos_vec	Simulation/particle.cpp	/^Vec3<double> Particle::calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector)$/;"	f	class:Particle
+calculate_possible_collison_point	Simulation/particle.cpp	/^std::pair<double,double> Particle::calculate_possible_collison_point(unsigned long index_1, unsigned long index_2)$/;"	f	class:Particle
+check_for_collision	Simulation/particle.cpp	/^bool Particle::check_for_collision(unsigned long id_1, unsigned long id_2)$/;"	f	class:Particle
+children	Simulation/Octree/Octree.hpp	/^        Octree *children[8];$/;"	m	class:Octree
+clear_trajectory_lines	Visualizer/visualizer.cpp	/^void Visualizer::clear_trajectory_lines()$/;"	f	class:Visualizer
+command	Visualizer/visualizer.cpp	/^std::string command = "";$/;"	v
+convertToId	Simulation/Documentation/html/search/search.js	/^function convertToId(search)$/;"	f
+create Particle	Simulation/Documentation/latex/classParticle.tex	/^\\index{create\\+Particle@{create\\+Particle}!Particle@{Particle}}$/;"	b
+createParticle	Simulation/particle.cpp	/^unsigned long Particle::createParticle($/;"	f	class:Particle
+createResults	Simulation/Documentation/html/search/search.js	/^function createResults()$/;"	f
+cross Product	Simulation/Documentation/latex/classVec3.tex	/^\\index{cross\\+Product@{cross\\+Product}!Vec3@{Vec3}}$/;"	b
+crossProduct	Simulation/Util/vec3.hpp	/^        static Vec3 crossProduct(const Vec3 &vec1, const Vec3 &vec2)$/;"	f	class:Vec3
+crossProduct	Visualizer/vec3.hpp	/^        static Vec3 crossProduct(const Vec3 &vec1, const Vec3 &vec2)$/;"	f	class:Vec3
+data	Simulation/Octree/Octree.hpp	/^        OctreePoint *data;$/;"	m	class:Octree
+details	Simulation/Documentation/html/classParticle.html	/^<a name="details" id="details"><\/a><h2 class="groupheader">Detailed Description<\/h2>$/;"	a
+display	Simulation/Util/vec3.hpp	/^        void display()$/;"	f	class:Vec3
+display	Visualizer/vec3.hpp	/^        void display()$/;"	f	class:Vec3
+display_all_grav_ranges	Visualizer/visualizer.cpp	/^void Visualizer::display_all_grav_ranges()$/;"	f	class:Visualizer
+display_data	Visualizer/visualizer.cpp	/^void Visualizer::display_data(unsigned long particle_id)$/;"	f	class:Visualizer
+display_grav_range	Visualizer/visualizer.cpp	/^void Visualizer::display_grav_range(unsigned long id, double min_force)$/;"	f	class:Visualizer
+dotProduct	Simulation/Util/vec3.hpp	/^        T dotProduct(const Vec3 &vec) const$/;"	f	class:Vec3
+dotProduct	Simulation/Util/vec3.hpp	/^        static T dotProduct(const Vec3 &vec1, const Vec3 &vec2)$/;"	f	class:Vec3
+dotProduct	Visualizer/vec3.hpp	/^        T dotProduct(const Vec3 &vec) const$/;"	f	class:Vec3
+dotProduct	Visualizer/vec3.hpp	/^        static T dotProduct(const Vec3 &vec1, const Vec3 &vec2)$/;"	f	class:Vec3
+draw_all_trajectory_lines	Visualizer/visualizer.cpp	/^void Visualizer::draw_all_trajectory_lines()$/;"	f	class:Visualizer
+draw_data	Visualizer/visualizer.cpp	/^void Visualizer::draw_data()$/;"	f	class:Visualizer
+draw_main_loop	Visualizer/visualizer.cpp	/^void Visualizer::draw_main_loop()$/;"	f	class:Visualizer
+draw_object_circle	Visualizer/visualizer.cpp	/^void Visualizer::draw_object_circle(unsigned long id)$/;"	f	class:Visualizer
+draw_text	Visualizer/visualizer.cpp	/^void Visualizer::draw_text(std::string text, int pos_x, int pos_y, SDL_Color color)$/;"	f	class:Visualizer
+first_test	Simulation/Tests/tester.cpp	/^void first_test() {$/;"	f
+format_seconds_to_time	Visualizer/visualizer.cpp	/^std::string Visualizer::format_seconds_to_time(double time)$/;"	f	class:Visualizer
+generate Random Particle	Simulation/Documentation/latex/classParticle.tex	/^\\index{generate\\+Random\\+Particle@{generate\\+Random\\+Particle}!Particle@{Particle}}$/;"	b
+generateRandomNumber	Simulation/Util/random_generator.hpp	/^	T generateRandomNumber(T range_start, T range_end)$/;"	f
+generateRandomParticle	Simulation/particle.cpp	/^unsigned long Particle::generateRandomParticle($/;"	f	class:Particle
+generateRandomParticle	Simulation/particle.cpp	/^unsigned long Particle::generateRandomParticle(double max_pos, double max_velo,$/;"	f	class:Particle
+generateRandomVec3	Simulation/Util/random_generator.hpp	/^	Vec3<T> generateRandomVec3(T length_min, T length_max)$/;"	f
+generate_trajectory_line	Visualizer/visualizer.cpp	/^void Visualizer::generate_trajectory_line(unsigned long particle_id, unsigned long draw_range)$/;"	f	class:Visualizer
+get Distance Of Two Objects	Simulation/Documentation/latex/classParticle.tex	/^\\index{get\\+Distance\\+Of\\+Two\\+Objects@{get\\+Distance\\+Of\\+Two\\+Objects}!Particle@{Particle}}$/;"	b
+get Mass	Simulation/Documentation/latex/classParticle.tex	/^\\index{get\\+Mass@{get\\+Mass}!Particle@{Particle}}$/;"	b
+get Number Of Particles	Simulation/Documentation/latex/classParticle.tex	/^\\index{get\\+Number\\+Of\\+Particles@{get\\+Number\\+Of\\+Particles}!Particle@{Particle}}$/;"	b
+get Postion	Simulation/Documentation/latex/classParticle.tex	/^\\index{get\\+Postion@{get\\+Postion}!Particle@{Particle}}$/;"	b
+get Radius	Simulation/Documentation/latex/classParticle.tex	/^\\index{get\\+Radius@{get\\+Radius}!Particle@{Particle}}$/;"	b
+get Velocity Vector	Simulation/Documentation/latex/classParticle.tex	/^\\index{get\\+Velocity\\+Vector@{get\\+Velocity\\+Vector}!Particle@{Particle}}$/;"	b
+get _ distance _ to _ center	Simulation/Documentation/latex/classParticle.tex	/^\\index{get\\+\\_\\+distance\\+\\_\\+to\\+\\_\\+center@{get\\+\\_\\+distance\\+\\_\\+to\\+\\_\\+center}!Particle@{Particle}}$/;"	b
+getChild	Simulation/Octree/Octree.cpp	/^Octree * Octree::getChild(int num) {$/;"	f	class:Octree
+getDistance	Simulation/Util/vec3.hpp	/^        static T getDistance(const Vec3 &v1, const Vec3 &v2)$/;"	f	class:Vec3
+getDistance	Visualizer/vec3.hpp	/^        static T getDistance(const Vec3 &v1, const Vec3 &v2)$/;"	f	class:Vec3
+getDistanceOfTwoObjects	Simulation/particle.cpp	/^double Particle::getDistanceOfTwoObjects(unsigned long ob1, unsigned long ob2)$/;"	f	class:Particle
+getDistanceVector	Simulation/Util/vec3.hpp	/^        static Vec3<T> getDistanceVector(const Vec3 &v1, const Vec3 &v2)$/;"	f	class:Vec3
+getDistanceVector	Visualizer/vec3.hpp	/^        static Vec3<T> getDistanceVector(const Vec3 &v1, const Vec3 &v2)$/;"	f	class:Vec3
+getIndex	Simulation/Octree/OctreePoint.hpp	/^        inline unsigned long getIndex() {return index;}$/;"	f	class:OctreePoint
+getLength	Simulation/Util/vec3.hpp	/^        T getLength()$/;"	f	class:Vec3
+getLength	Visualizer/vec3.hpp	/^        T getLength()$/;"	f	class:Vec3
+getManhattanDistance	Simulation/Util/vec3.hpp	/^        float getManhattanDistance(Vec3 c1, Vec3 c2)$/;"	f	class:Vec3
+getManhattanDistance	Visualizer/vec3.hpp	/^        float getManhattanDistance(Vec3 c1, Vec3 c2)$/;"	f	class:Vec3
+getMass	Simulation/particle.cpp	/^double Particle::getMass(unsigned long particle_index)$/;"	f	class:Particle
+getNumberOfParticles	Simulation/particle.cpp	/^unsigned long Particle::getNumberOfParticles()$/;"	f	class:Particle
+getOctant	Simulation/Octree/Octree.cpp	/^int Octree::getOctant(Vec3<double>& point)$/;"	f	class:Octree
+getOrigin	Simulation/Octree/Octree.cpp	/^Vec3<double> Octree::getOrigin()$/;"	f	class:Octree
+getPointsInBox	Simulation/Octree/Octree.cpp	/^void Octree::getPointsInBox(const Vec3<double>& bmin, const Vec3<double>& bmax,$/;"	f	class:Octree
+getPosition	Simulation/Octree/OctreePoint.hpp	/^        inline Vec3<double>& getPosition() {return position;}$/;"	f	class:OctreePoint
+getPosition	Simulation/particle.cpp	/^Vec3<double> Particle::getPosition(unsigned long particle_index)$/;"	f	class:Particle
+getRadii	Simulation/Octree/Octree.cpp	/^Vec3<double> Octree::getRadii()$/;"	f	class:Octree
+getRadius	Simulation/Octree/OctreePoint.hpp	/^        inline double getRadius() {return radius;}$/;"	f	class:OctreePoint
+getRadius	Simulation/particle.cpp	/^double Particle::getRadius(unsigned long particle_index)$/;"	f	class:Particle
+getVelocityVector	Simulation/particle.cpp	/^Vec3<double> Particle::getVelocityVector(unsigned long particle_index)$/;"	f	class:Particle
+getX	Simulation/Util/vec3.hpp	/^        T getX() const { return x; }$/;"	f	class:Vec3
+getX	Visualizer/vec3.hpp	/^        T getX() const { return x; }$/;"	f	class:Vec3
+getXPos	Simulation/Documentation/html/search/search.js	/^function getXPos(item)$/;"	f
+getY	Simulation/Util/vec3.hpp	/^        T getY() const { return y; }$/;"	f	class:Vec3
+getY	Visualizer/vec3.hpp	/^        T getY() const { return y; }$/;"	f	class:Vec3
+getYPos	Simulation/Documentation/html/search/search.js	/^function getYPos(item)$/;"	f
+getZ	Simulation/Util/vec3.hpp	/^        T getZ() const { return z; }$/;"	f	class:Vec3
+getZ	Visualizer/vec3.hpp	/^        T getZ() const { return z; }$/;"	f	class:Vec3
+get_distance_to_center	Simulation/particle.cpp	/^double Particle::get_distance_to_center(unsigned long particle_index)$/;"	f	class:Particle
+get_dt	Simulation/particle.cpp	/^double Particle::get_dt()$/;"	f	class:Particle
+get_font	Visualizer/resource_manager.hpp	/^    TTF_Font *get_font(std::string key) {$/;"	f	class:ResourceManager
+get_music	Visualizer/resource_manager.hpp	/^    Mix_Music *get_music(std::string key) {$/;"	f	class:ResourceManager
+get_options	Simulation/simulator.cpp	/^void Simulator::get_options(int argc, char** argv)$/;"	f	class:Simulator
+get_sound	Visualizer/resource_manager.hpp	/^    Mix_Chunk *get_sound(std::string key) {$/;"	f	class:ResourceManager
+get_texture	Visualizer/resource_manager.hpp	/^    SDL_Texture *get_texture(std::string key) {$/;"	f	class:ResourceManager
+get_time_simulated	Simulation/particle.cpp	/^double Particle::get_time_simulated()$/;"	f	class:Particle
+handle_console_input	Visualizer/visualizer.cpp	/^void Visualizer::handle_console_input(std::string input)$/;"	f	class:Visualizer
+index	Simulation/Octree/OctreePoint.hpp	/^        unsigned long index;$/;"	m	class:OctreePoint
+init_SDL	Visualizer/visualizer.cpp	/^void Visualizer::init_SDL()$/;"	f	class:Visualizer
+init_search	Simulation/Documentation/html/search/search.js	/^function init_search()$/;"	f
+insert	Simulation/Octree/Octree.cpp	/^void Octree::insert(OctreePoint* newdata)$/;"	f	class:Octree
+isLeafNode	Simulation/Octree/Octree.cpp	/^bool Octree::isLeafNode()$/;"	f	class:Octree
+is_all_digits	Simulation/simulator.cpp	/^bool is_all_digits(char *text)$/;"	f
+is_all_digits	Visualizer/visualizer.cpp	/^bool Visualizer::is_all_digits(char *text)$/;"	f	class:Visualizer
+km_to_m	Simulation/Util/util.hpp	/^TYPE km_to_m(TYPE km) {$/;"	f
+kmh_to_kms	Simulation/Util/util.hpp	/^TYPE kmh_to_kms(TYPE kmh) {$/;"	f
+kmh_to_mph	Simulation/Util/util.hpp	/^TYPE kmh_to_mph(TYPE kmh) {$/;"	f
+kmh_to_mps	Simulation/Util/util.hpp	/^TYPE kmh_to_mps(TYPE kmh) {$/;"	f
+kms_to_kmh	Simulation/Util/util.hpp	/^TYPE kms_to_kmh(TYPE kms) {$/;"	f
+l00001	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="fragment"><div class="line"><a name="l00001"><\/a><span class="lineno">    1<\/span>&#160;<span class="preprocessor">#ifndef PARTICLE_HPP<\/span><\/div>$/;"	a
+l00001	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="fragment"><div class="line"><a name="l00001"><\/a><span class="lineno">    1<\/span>&#160;<span class="preprocessor">#ifndef RANDOM_GENERATOR_HPP<\/span><\/div>$/;"	a
+l00001	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="fragment"><div class="line"><a name="l00001"><\/a><span class="lineno">    1<\/span>&#160;<span class="comment">\/*  This class is from: http:\/\/r3dux.org\/2012\/12\/vec3-a-simple-vector-class-in-c\/<\/span><\/div>$/;"	a
+l00002	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00002"><\/a><span class="lineno">    2<\/span>&#160;<span class="preprocessor">#define PARTICLE_HPP<\/span><\/div>$/;"	a
+l00002	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00002"><\/a><span class="lineno">    2<\/span>&#160;<span class="preprocessor">#define RANDOM_GENERATOR_HPP<\/span><\/div>$/;"	a
+l00002	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00002"><\/a><span class="lineno">    2<\/span>&#160;<span class="comment">    only the length function is written by us<\/span><\/div>$/;"	a
+l00003	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00003"><\/a><span class="lineno">    3<\/span>&#160;<\/div>$/;"	a
+l00003	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00003"><\/a><span class="lineno">    3<\/span>&#160;<\/div>$/;"	a
+l00003	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00003"><\/a><span class="lineno">    3<\/span>&#160;<span class="comment">*\/<\/span><\/div>$/;"	a
+l00004	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00004"><\/a><span class="lineno">    4<\/span>&#160;<span class="preprocessor">#include &lt;vector&gt;<\/span><\/div>$/;"	a
+l00004	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00004"><\/a><span class="lineno">    4<\/span>&#160;<span class="preprocessor">#include &lt;utility&gt;<\/span> <\/div>$/;"	a
+l00004	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00004"><\/a><span class="lineno">    4<\/span>&#160;<\/div>$/;"	a
+l00005	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00005"><\/a><span class="lineno">    5<\/span>&#160;<span class="preprocessor">#include &lt;math.h&gt;<\/span><\/div>$/;"	a
+l00005	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00005"><\/a><span class="lineno">    5<\/span>&#160;<span class="preprocessor">#include &lt;random&gt;<\/span><\/div>$/;"	a
+l00005	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00005"><\/a><span class="lineno">    5<\/span>&#160;<span class="preprocessor">#ifndef VEC3_HPP<\/span><\/div>$/;"	a
+l00006	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00006"><\/a><span class="lineno">    6<\/span>&#160;<span class="preprocessor">#include &lt;iostream&gt;<\/span><\/div>$/;"	a
+l00006	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00006"><\/a><span class="lineno">    6<\/span>&#160;<span class="preprocessor">#include &quot;vec3.hpp&quot;<\/span><\/div>$/;"	a
+l00006	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00006"><\/a><span class="lineno">    6<\/span>&#160;<span class="preprocessor">#define VEC3_HPP<\/span><\/div>$/;"	a
+l00007	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00007"><\/a><span class="lineno">    7<\/span>&#160;<span class="preprocessor">#include &lt;ctime&gt;<\/span><\/div>$/;"	a
+l00007	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00007"><\/a><span class="lineno">    7<\/span>&#160;<\/div>$/;"	a
+l00007	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00007"><\/a><span class="lineno">    7<\/span>&#160;<\/div>$/;"	a
+l00008	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00008"><\/a><span class="lineno">    8<\/span>&#160;<span class="preprocessor">#include &lt;utility&gt;<\/span> <\/div>$/;"	a
+l00008	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00008"><\/a><span class="lineno">    8<\/span>&#160;    <span class="keyword">template<\/span>&lt;<span class="keyword">typename<\/span> T&gt; <\/div>$/;"	a
+l00008	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00008"><\/a><span class="lineno">    8<\/span>&#160;<span class="preprocessor">#include &lt;iostream&gt;<\/span><\/div>$/;"	a
+l00009	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00009"><\/a><span class="lineno">    9<\/span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;<\/span><\/div>$/;"	a
+l00009	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00009"><\/a><span class="lineno">    9<\/span>&#160;    T generateRandomNumber(T range_start, T range_end)<\/div>$/;"	a
+l00009	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00009"><\/a><span class="lineno">    9<\/span>&#160;<span class="preprocessor">#include &lt;cmath&gt;<\/span><\/div>$/;"	a
+l00010	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00010"><\/a><span class="lineno">   10<\/span>&#160;<span class="preprocessor">#include &quot;random_generator.hpp&quot;<\/span><\/div>$/;"	a
+l00010	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00010"><\/a><span class="lineno">   10<\/span>&#160;    {<\/div>$/;"	a
+l00010	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00010"><\/a><span class="lineno">   10<\/span>&#160;<\/div>$/;"	a
+l00011	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00011"><\/a><span class="lineno">   11<\/span>&#160;<\/div>$/;"	a
+l00011	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00011"><\/a><span class="lineno">   11<\/span>&#160;        <span class="keywordtype">double<\/span> random_number;<\/div>$/;"	a
+l00011	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00011"><\/a><span class="lineno"><a class="line" href="classVec3.html">   11<\/a><\/span>&#160;<span class="keyword">template<\/span> &lt;<span class="keyword">class<\/span> T&gt; <span class="keyword">class <\/span><a class="code" href="classVec3.html">Vec3<\/a><\/div>$/;"	a
+l00012	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00012"><\/a><span class="lineno">   12<\/span>&#160;<span class="comment">\/\/ center object has to be at &lt;0.0.0&gt;<\/span><\/div>$/;"	a
+l00012	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00012"><\/a><span class="lineno">   12<\/span>&#160;        std::random_device random_device;<\/div>$/;"	a
+l00012	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00012"><\/a><span class="lineno">   12<\/span>&#160;{<\/div>$/;"	a
+l00013	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00013"><\/a><span class="lineno">   13<\/span>&#160;        std::uniform_real_distribution&lt;double&gt; distribution{range_start,range_end};<\/div>$/;"	a
+l00013	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00013"><\/a><span class="lineno">   13<\/span>&#160;    <span class="keyword">private<\/span>:<\/div>$/;"	a
+l00014	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00014"><\/a><span class="lineno">   14<\/span>&#160;<\/div>$/;"	a
+l00014	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00014"><\/a><span class="lineno">   14<\/span>&#160;        <span class="comment">\/\/ A Vec3 simply has three properties called x, y and z<\/span><\/div>$/;"	a
+l00015	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00015"><\/a><span class="lineno">   15<\/span>&#160;        random_number = distribution(random_device);<\/div>$/;"	a
+l00015	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00015"><\/a><span class="lineno">   15<\/span>&#160;        T x, y, z;<\/div>$/;"	a
+l00016	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00016"><\/a><span class="lineno">   16<\/span>&#160;<\/div>$/;"	a
+l00016	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00016"><\/a><span class="lineno">   16<\/span>&#160;<\/div>$/;"	a
+l00017	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00017"><\/a><span class="lineno">   17<\/span>&#160;        <span class="keywordflow">return<\/span> random_number;<\/div>$/;"	a
+l00017	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00017"><\/a><span class="lineno">   17<\/span>&#160;    <span class="keyword">public<\/span>:<\/div>$/;"	a
+l00018	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00018"><\/a><span class="lineno"><a class="line" href="classParticle.html">   18<\/a><\/span>&#160;<span class="comment"><\/span><span class="keyword">class <\/span><a class="code" href="classParticle.html">Particle<\/a><\/div>$/;"	a
+l00018	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00018"><\/a><span class="lineno">   18<\/span>&#160;    }<\/div>$/;"	a
+l00018	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00018"><\/a><span class="lineno">   18<\/span>&#160;        <span class="comment">\/\/ ------------ Constructors ------------<\/span><\/div>$/;"	a
+l00019	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00019"><\/a><span class="lineno">   19<\/span>&#160;{<\/div>$/;"	a
+l00019	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00019"><\/a><span class="lineno">   19<\/span>&#160;<\/div>$/;"	a
+l00019	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00019"><\/a><span class="lineno">   19<\/span>&#160;<\/div>$/;"	a
+l00020	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00020"><\/a><span class="lineno">   20<\/span>&#160;<span class="keyword">private<\/span>:<\/div>$/;"	a
+l00020	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00020"><\/a><span class="lineno">   20<\/span>&#160;    <span class="keyword">template<\/span>&lt;<span class="keyword">typename<\/span> T&gt; <\/div>$/;"	a
+l00021	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00021"><\/a><span class="lineno">   21<\/span>&#160;    std::vector&lt;Vec3&lt;double&gt; &gt; velocity_vectors;<\/div>$/;"	a
+l00021	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00021"><\/a><span class="lineno">   21<\/span>&#160;    <a class="code" href="classVec3.html">Vec3&lt;T&gt;<\/a> generateRandomVec3(T range_start, T range_end)<\/div>$/;"	a
+l00021	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00021"><\/a><span class="lineno"><a class="line" href="classVec3.html#a7c150f37ecfa78ced8b83bd95908cc33">   21<\/a><\/span>&#160;        <a class="code" href="classVec3.html#a7c150f37ecfa78ced8b83bd95908cc33">Vec3<\/a>() { x = y = z = 0; };<\/div>$/;"	a
+l00022	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00022"><\/a><span class="lineno">   22<\/span>&#160;    std::vector&lt;Vec3&lt;double&gt; &gt; positions;<\/div>$/;"	a
+l00022	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00022"><\/a><span class="lineno">   22<\/span>&#160;    {<\/div>$/;"	a
+l00022	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00022"><\/a><span class="lineno">   22<\/span>&#160;<\/div>$/;"	a
+l00023	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00023"><\/a><span class="lineno">   23<\/span>&#160;    std::vector&lt;double&gt; masses;<\/div>$/;"	a
+l00023	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00023"><\/a><span class="lineno">   23<\/span>&#160;        <span class="keywordtype">double<\/span> final_length = generateRandomNumber&lt;T&gt;(range_start,range_end);<\/div>$/;"	a
+l00024	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00024"><\/a><span class="lineno">   24<\/span>&#160;    std::vector&lt;double&gt; radiuses;<\/div>$/;"	a
+l00024	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00024"><\/a><span class="lineno">   24<\/span>&#160;        <a class="code" href="classVec3.html">Vec3&lt;T&gt;<\/a> new_vector(<\/div>$/;"	a
+l00024	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00024"><\/a><span class="lineno"><a class="line" href="classVec3.html#ae5f1be1f4936b564b8ef760dded77f93">   24<\/a><\/span>&#160;        <a class="code" href="classVec3.html#ae5f1be1f4936b564b8ef760dded77f93">Vec3<\/a>(T xValue, T yValue, T zValue)<\/div>$/;"	a
+l00025	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00025"><\/a><span class="lineno">   25<\/span>&#160;    <span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> number_of_particles;<\/div>$/;"	a
+l00025	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00025"><\/a><span class="lineno">   25<\/span>&#160;            generateRandomNumber&lt;T&gt;(range_start, range_end),<\/div>$/;"	a
+l00025	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00025"><\/a><span class="lineno">   25<\/span>&#160;        {<\/div>$/;"	a
+l00026	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00026"><\/a><span class="lineno">   26<\/span>&#160;<\/div>$/;"	a
+l00026	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00026"><\/a><span class="lineno">   26<\/span>&#160;            generateRandomNumber&lt;T&gt;(range_start, range_end),<\/div>$/;"	a
+l00026	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00026"><\/a><span class="lineno">   26<\/span>&#160;            x = xValue;<\/div>$/;"	a
+l00027	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00027"><\/a><span class="lineno">   27<\/span>&#160;<span class="keyword">public<\/span>:<\/div>$/;"	a
+l00027	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00027"><\/a><span class="lineno">   27<\/span>&#160;            generateRandomNumber&lt;T&gt;(range_start, range_end)<\/div>$/;"	a
+l00027	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00027"><\/a><span class="lineno">   27<\/span>&#160;            y = yValue;<\/div>$/;"	a
+l00028	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00028"><\/a><span class="lineno">   28<\/span>&#160;            );<\/div>$/;"	a
+l00028	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00028"><\/a><span class="lineno">   28<\/span>&#160;            z = zValue;<\/div>$/;"	a
+l00029	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00029"><\/a><span class="lineno">   29<\/span>&#160;    <span class="keywordtype">void<\/span> <span class="keyword">remove<\/span>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> vector_index);<\/div>$/;"	a
+l00029	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00029"><\/a><span class="lineno">   29<\/span>&#160;        new_vector *= (final_length\/new_vector.getLength());<\/div>$/;"	a
+l00029	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00029"><\/a><span class="lineno">   29<\/span>&#160;        }<\/div>$/;"	a
+l00030	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00030"><\/a><span class="lineno">   30<\/span>&#160;<\/div>$/;"	a
+l00030	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00030"><\/a><span class="lineno">   30<\/span>&#160;        <span class="keywordflow">return<\/span> new_vector;<\/div>$/;"	a
+l00030	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00030"><\/a><span class="lineno">   30<\/span>&#160;<\/div>$/;"	a
+l00031	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00031"><\/a><span class="lineno">   31<\/span>&#160;    }<\/div>$/;"	a
+l00031	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00031"><\/a><span class="lineno">   31<\/span>&#160;        <span class="comment">\/\/ ------------ Getters and setters ------------<\/span><\/div>$/;"	a
+l00032	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00032"><\/a><span class="lineno">   32<\/span>&#160;    <span class="keywordtype">double<\/span> <a class="code" href="classParticle.html#abf747e26491e7a7af1792aa7d0d69aef">get_distance_to_center<\/a>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> particle_index);<\/div>$/;"	a
+l00032	Simulation/Documentation/html/random__generator_8hpp_source.html	/^<div class="line"><a name="l00032"><\/a><span class="lineno">   32<\/span>&#160;<span class="preprocessor">#endif <\/span><span class="comment">\/* RANDOM_GENERATOR_HPP *\/<\/span><span class="preprocessor"><\/span><\/div>$/;"	a
+l00033	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00033"><\/a><span class="lineno">   33<\/span>&#160;<\/div>$/;"	a
+l00033	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00033"><\/a><span class="lineno"><a class="line" href="classVec3.html#a9003d0d159f619d62400cf865ca9d47b">   33<\/a><\/span>&#160;<span class="comment"><\/span>        <span class="keywordtype">void<\/span> <a class="code" href="classVec3.html#a9003d0d159f619d62400cf865ca9d47b">set<\/a>(<span class="keyword">const<\/span> T &amp;xValue, <span class="keyword">const<\/span> T &amp;yValue, <span class="keyword">const<\/span> T &amp;zValue)<\/div>$/;"	a
+l00034	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00034"><\/a><span class="lineno">   34<\/span>&#160;        {<\/div>$/;"	a
+l00035	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00035"><\/a><span class="lineno">   35<\/span>&#160;            x = xValue;<\/div>$/;"	a
+l00036	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00036"><\/a><span class="lineno">   36<\/span>&#160;            y = yValue;<\/div>$/;"	a
+l00037	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00037"><\/a><span class="lineno">   37<\/span>&#160;    <span class="keywordtype">void<\/span> <a class="code" href="classParticle.html#a812541c1de4b92e764b5949310781ec2">move_Object<\/a>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> particle_index,<span class="keywordtype">double<\/span> stepsize);<\/div>$/;"	a
+l00037	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00037"><\/a><span class="lineno">   37<\/span>&#160;            z = zValue;<\/div>$/;"	a
+l00038	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00038"><\/a><span class="lineno">   38<\/span>&#160;    <\/div>$/;"	a
+l00038	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00038"><\/a><span class="lineno">   38<\/span>&#160;        }<\/div>$/;"	a
+l00040	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00040"><\/a><span class="lineno">   40<\/span>&#160;    <span class="keywordtype">double<\/span> <a class="code" href="classParticle.html#aeea985651cf29b2fdd368fec991961a8">getDistanceOfTwoObjects<\/a>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> ob1, <span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> ob2);<\/div>$/;"	a
+l00040	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00040"><\/a><span class="lineno"><a class="line" href="classVec3.html#a0b82143ab072d3215ded4100e9fa38f9">   40<\/a><\/span>&#160;        T <a class="code" href="classVec3.html#a0b82143ab072d3215ded4100e9fa38f9">getX<\/a>()<span class="keyword"> const <\/span>{ <span class="keywordflow">return<\/span> x; }<\/div>$/;"	a
+l00041	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00041"><\/a><span class="lineno">   41<\/span>&#160;<\/div>$/;"	a
+l00042	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00042"><\/a><span class="lineno"><a class="line" href="classVec3.html#a351092c8c47c6974ff607a4e03669990">   42<\/a><\/span>&#160;        T <a class="code" href="classVec3.html#a351092c8c47c6974ff607a4e03669990">getY<\/a>()<span class="keyword"> const <\/span>{ <span class="keywordflow">return<\/span> y; }<\/div>$/;"	a
+l00043	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00043"><\/a><span class="lineno">   43<\/span>&#160;    <a class="code" href="classVec3.html">Vec3&lt;double&gt;<\/a> <a class="code" href="classParticle.html#a2c1432771a7136cefed15c4032492386">getVelocityVector<\/a>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> particle_index);<\/div>$/;"	a
+l00044	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00044"><\/a><span class="lineno">   44<\/span>&#160;<\/div>$/;"	a
+l00044	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00044"><\/a><span class="lineno"><a class="line" href="classVec3.html#aa9e9b1e64b0e8eec03c1d4d966e7e0e4">   44<\/a><\/span>&#160;        T <a class="code" href="classVec3.html#aa9e9b1e64b0e8eec03c1d4d966e7e0e4">getZ<\/a>()<span class="keyword"> const <\/span>{ <span class="keywordflow">return<\/span> z; }<\/div>$/;"	a
+l00046	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00046"><\/a><span class="lineno">   46<\/span>&#160;    <a class="code" href="classVec3.html">Vec3&lt;double&gt;<\/a> <a class="code" href="classParticle.html#a2f3fc4edec7970f4f4c2894c145fda78">getPostion<\/a>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> particle_index);<\/div>$/;"	a
+l00046	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00046"><\/a><span class="lineno"><a class="line" href="classVec3.html#a21ee2109bbc2148c61a24b9dafcc12d6">   46<\/a><\/span>&#160;        <span class="keywordtype">void<\/span> <a class="code" href="classVec3.html#a21ee2109bbc2148c61a24b9dafcc12d6">setX<\/a>(<span class="keyword">const<\/span> T &amp;xValue) { x = xValue; }<\/div>$/;"	a
+l00047	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00047"><\/a><span class="lineno">   47<\/span>&#160;<\/div>$/;"	a
+l00048	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00048"><\/a><span class="lineno"><a class="line" href="classVec3.html#a84a46865f7c4c2bed1305406485ee14f">   48<\/a><\/span>&#160;        <span class="keywordtype">void<\/span> <a class="code" href="classVec3.html#a84a46865f7c4c2bed1305406485ee14f">setY<\/a>(<span class="keyword">const<\/span> T &amp;yValue) { y = yValue; }<\/div>$/;"	a
+l00049	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00049"><\/a><span class="lineno">   49<\/span>&#160;    <span class="keywordtype">double<\/span> <a class="code" href="classParticle.html#abfd6556526b15b5bee3384ae7baec48b">getMass<\/a>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> particle_index);<\/div>$/;"	a
+l00050	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00050"><\/a><span class="lineno">   50<\/span>&#160;<\/div>$/;"	a
+l00050	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00050"><\/a><span class="lineno"><a class="line" href="classVec3.html#a11b21f7d675879b42aaf278031d8b012">   50<\/a><\/span>&#160;        <span class="keywordtype">void<\/span> <a class="code" href="classVec3.html#a11b21f7d675879b42aaf278031d8b012">setZ<\/a>(<span class="keyword">const<\/span> T &amp;zValue) { z = zValue; }<\/div>$/;"	a
+l00051	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00051"><\/a><span class="lineno">   51<\/span>&#160;<\/div>$/;"	a
+l00052	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00052"><\/a><span class="lineno">   52<\/span>&#160;    <span class="keywordtype">double<\/span> <a class="code" href="classParticle.html#a699d893583b4fabeffd48c0a509bd50e">getRadius<\/a>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> particle_index);<\/div>$/;"	a
+l00052	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00052"><\/a><span class="lineno">   52<\/span>&#160;        <span class="comment">\/\/ ------------ Helper methods ------------<\/span><\/div>$/;"	a
+l00053	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00053"><\/a><span class="lineno">   53<\/span>&#160;<\/div>$/;"	a
+l00053	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00053"><\/a><span class="lineno">   53<\/span>&#160;<\/div>$/;"	a
+l00055	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00055"><\/a><span class="lineno">   55<\/span>&#160;    <span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> <a class="code" href="classParticle.html#a06514801da39b213dc9d408d40e2adc1">getNumberOfParticles<\/a>();<\/div>$/;"	a
+l00055	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00055"><\/a><span class="lineno"><a class="line" href="classVec3.html#af7bb8aacd55941d3969edf51c4e82179">   55<\/a><\/span>&#160;        <span class="keywordtype">void<\/span> <a class="code" href="classVec3.html#af7bb8aacd55941d3969edf51c4e82179">zero<\/a>()<\/div>$/;"	a
+l00056	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00056"><\/a><span class="lineno">   56<\/span>&#160;<\/div>$/;"	a
+l00056	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00056"><\/a><span class="lineno">   56<\/span>&#160;        {<\/div>$/;"	a
+l00057	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00057"><\/a><span class="lineno">   57<\/span>&#160;            x = y = z = 0;<\/div>$/;"	a
+l00058	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00058"><\/a><span class="lineno">   58<\/span>&#160;        }<\/div>$/;"	a
+l00059	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00059"><\/a><span class="lineno">   59<\/span>&#160;<\/div>$/;"	a
+l00061	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00061"><\/a><span class="lineno"><a class="line" href="classVec3.html#a57837eb6a03008ae0b9efe1752ed3493">   61<\/a><\/span>&#160;        <span class="keywordtype">void<\/span> <a class="code" href="classVec3.html#a57837eb6a03008ae0b9efe1752ed3493">normalise<\/a>()<\/div>$/;"	a
+l00062	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00062"><\/a><span class="lineno">   62<\/span>&#160;        {<\/div>$/;"	a
+l00063	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00063"><\/a><span class="lineno">   63<\/span>&#160;    <span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> <a class="code" href="classParticle.html#af9d4982b196dbcaf9cdf59377dd5b2ee">generateRandomParticle<\/a>(<\/div>$/;"	a
+l00063	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00063"><\/a><span class="lineno">   63<\/span>&#160;            <span class="comment">\/\/ Calculate the magnitude of our vector<\/span><\/div>$/;"	a
+l00064	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00064"><\/a><span class="lineno">   64<\/span>&#160;        std::pair&lt;double,double&gt; range_position,<\/div>$/;"	a
+l00064	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00064"><\/a><span class="lineno">   64<\/span>&#160;            T magnitude = sqrt((x * x) + (y * y) + (z * z));<\/div>$/;"	a
+l00065	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00065"><\/a><span class="lineno">   65<\/span>&#160;        std::pair&lt;double,double&gt; range_velocity,<\/div>$/;"	a
+l00065	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00065"><\/a><span class="lineno">   65<\/span>&#160;<\/div>$/;"	a
+l00066	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00066"><\/a><span class="lineno">   66<\/span>&#160;        std::pair&lt;double,double&gt; range_mass,<\/div>$/;"	a
+l00066	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00066"><\/a><span class="lineno">   66<\/span>&#160;            <span class="comment">\/\/ As long as the magnitude isn&#39;t zero, divide each element by the magnitude<\/span><\/div>$/;"	a
+l00067	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00067"><\/a><span class="lineno">   67<\/span>&#160;        std::pair&lt;double,double&gt; range_radius);<\/div>$/;"	a
+l00067	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00067"><\/a><span class="lineno">   67<\/span>&#160;            <span class="comment">\/\/ to get the normalised value between -1 and +1<\/span><\/div>$/;"	a
+l00068	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00068"><\/a><span class="lineno">   68<\/span>&#160;<\/div>$/;"	a
+l00068	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00068"><\/a><span class="lineno">   68<\/span>&#160;            <span class="keywordflow">if<\/span> (magnitude != 0)<\/div>$/;"	a
+l00069	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00069"><\/a><span class="lineno">   69<\/span>&#160;            {<\/div>$/;"	a
+l00070	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00070"><\/a><span class="lineno">   70<\/span>&#160;                x \/= magnitude;<\/div>$/;"	a
+l00071	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00071"><\/a><span class="lineno">   71<\/span>&#160;                y \/= magnitude;<\/div>$/;"	a
+l00072	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00072"><\/a><span class="lineno">   72<\/span>&#160;                z \/= magnitude;<\/div>$/;"	a
+l00073	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00073"><\/a><span class="lineno">   73<\/span>&#160;            }<\/div>$/;"	a
+l00074	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00074"><\/a><span class="lineno">   74<\/span>&#160;        }<\/div>$/;"	a
+l00075	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00075"><\/a><span class="lineno">   75<\/span>&#160;    <span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> <a class="code" href="classParticle.html#ad13916c98c9d37de12420205299f1e2a">createParticle<\/a>(<\/div>$/;"	a
+l00075	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00075"><\/a><span class="lineno">   75<\/span>&#160;<\/div>$/;"	a
+l00076	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00076"><\/a><span class="lineno">   76<\/span>&#160;        <a class="code" href="classVec3.html">Vec3&lt;double&gt;<\/a> positon,<\/div>$/;"	a
+l00077	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00077"><\/a><span class="lineno">   77<\/span>&#160;        <a class="code" href="classVec3.html">Vec3&lt;double&gt;<\/a> velocity_vector,<\/div>$/;"	a
+l00078	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00078"><\/a><span class="lineno">   78<\/span>&#160;        <span class="keywordtype">double<\/span> mass,<\/div>$/;"	a
+l00079	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00079"><\/a><span class="lineno">   79<\/span>&#160;        <span class="keywordtype">double<\/span> radius );<\/div>$/;"	a
+l00080	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00080"><\/a><span class="lineno">   80<\/span>&#160;<\/div>$/;"	a
+l00087	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00087"><\/a><span class="lineno"><a class="line" href="classVec3.html#aa34bd4ba6b5aa3abdc6186cc0cc8480a">   87<\/a><\/span>&#160;        <span class="keyword">static<\/span> T <a class="code" href="classVec3.html#aa34bd4ba6b5aa3abdc6186cc0cc8480a">dotProduct<\/a>(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vec1, <span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vec2)<\/div>$/;"	a
+l00088	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00088"><\/a><span class="lineno">   88<\/span>&#160;        {<\/div>$/;"	a
+l00089	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00089"><\/a><span class="lineno">   89<\/span>&#160;            <span class="keywordflow">return<\/span> vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;<\/div>$/;"	a
+l00090	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00090"><\/a><span class="lineno">   90<\/span>&#160;        }<\/div>$/;"	a
+l00091	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00091"><\/a><span class="lineno">   91<\/span>&#160;<\/div>$/;"	a
+l00092	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00092"><\/a><span class="lineno">   92<\/span>&#160;        <span class="comment">\/\/ Non-static method to calculate and return the scalar dot product of this vector and another vector<\/span><\/div>$/;"	a
+l00093	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00093"><\/a><span class="lineno">   93<\/span>&#160;        <span class="comment">\/\/<\/span><\/div>$/;"	a
+l00094	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00094"><\/a><span class="lineno">   94<\/span>&#160;        <span class="comment">\/\/ Usage example: double foo = vectorA.dotProduct(vectorB);<\/span><\/div>$/;"	a
+l00095	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00095"><\/a><span class="lineno">   95<\/span>&#160;        T <a class="code" href="classVec3.html#aa34bd4ba6b5aa3abdc6186cc0cc8480a">dotProduct<\/a>(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vec)<span class="keyword"> const<\/span><\/div>$/;"	a
+l00096	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00096"><\/a><span class="lineno">   96<\/span>&#160;<span class="keyword">        <\/span>{<\/div>$/;"	a
+l00097	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00097"><\/a><span class="lineno">   97<\/span>&#160;    <span class="keywordtype">void<\/span> <a class="code" href="classParticle.html#ac68f9be7c033bc006fac8b90b31fad6b">printParticle<\/a>(<span class="keywordtype">unsigned<\/span> <span class="keywordtype">long<\/span> particle_index);<\/div>$/;"	a
+l00097	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00097"><\/a><span class="lineno">   97<\/span>&#160;            <span class="keywordflow">return<\/span> x * vec.x + y * vec.y + z * vec.z;<\/div>$/;"	a
+l00098	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00098"><\/a><span class="lineno">   98<\/span>&#160;<\/div>$/;"	a
+l00098	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00098"><\/a><span class="lineno">   98<\/span>&#160;        }<\/div>$/;"	a
+l00099	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00099"><\/a><span class="lineno">   99<\/span>&#160;<\/div>$/;"	a
+l00100	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00100"><\/a><span class="lineno">  100<\/span>&#160;    <span class="keywordtype">void<\/span> <a class="code" href="classParticle.html#a9acb129d789df24580508e20816f2922">printAllParticles<\/a>();<\/div>$/;"	a
+l00101	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00101"><\/a><span class="lineno">  101<\/span>&#160;<\/div>$/;"	a
+l00102	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00102"><\/a><span class="lineno">  102<\/span>&#160;    <span class="comment">\/\/TODO: Save funktion die die daten aus Particle in eine datei schreibt<\/span><\/div>$/;"	a
+l00103	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00103"><\/a><span class="lineno">  103<\/span>&#160;};<\/div>$/;"	a
+l00104	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00104"><\/a><span class="lineno">  104<\/span>&#160;<\/div>$/;"	a
+l00105	Simulation/Documentation/html/particle_8hpp_source.html	/^<div class="line"><a name="l00105"><\/a><span class="lineno">  105<\/span>&#160;<span class="preprocessor">#endif<\/span><\/div>$/;"	a
+l00116	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00116"><\/a><span class="lineno"><a class="line" href="classVec3.html#a24fbc9452cd9f123df8e08233b920068">  116<\/a><\/span>&#160;        <span class="keyword">static<\/span> <a class="code" href="classVec3.html">Vec3<\/a> <a class="code" href="classVec3.html#a24fbc9452cd9f123df8e08233b920068">crossProduct<\/a>(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vec1, <span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vec2)<\/div>$/;"	a
+l00117	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00117"><\/a><span class="lineno">  117<\/span>&#160;        {<\/div>$/;"	a
+l00118	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00118"><\/a><span class="lineno">  118<\/span>&#160;            <span class="keywordflow">return<\/span> <a class="code" href="classVec3.html#a7c150f37ecfa78ced8b83bd95908cc33">Vec3<\/a>(vec1.y * vec2.z - vec1.z * vec2.y, vec1.z * vec2.x - vec1.x * vec2.z, vec1.x * vec2.y - vec1.y * vec2.x);<\/div>$/;"	a
+l00119	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00119"><\/a><span class="lineno">  119<\/span>&#160;        }<\/div>$/;"	a
+l00120	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00120"><\/a><span class="lineno">  120<\/span>&#160;<\/div>$/;"	a
+l00121	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00121"><\/a><span class="lineno">  121<\/span>&#160;        <span class="comment">\/\/ Easy adders<\/span><\/div>$/;"	a
+l00122	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00122"><\/a><span class="lineno">  122<\/span>&#160;        <span class="keywordtype">void<\/span> addX(T value) { x += value; }<\/div>$/;"	a
+l00123	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00123"><\/a><span class="lineno">  123<\/span>&#160;        <span class="keywordtype">void<\/span> addY(T value) { y += value; }<\/div>$/;"	a
+l00124	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00124"><\/a><span class="lineno">  124<\/span>&#160;        <span class="keywordtype">void<\/span> addZ(T value) { z += value; }<\/div>$/;"	a
+l00125	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00125"><\/a><span class="lineno">  125<\/span>&#160;<\/div>$/;"	a
+l00126	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00126"><\/a><span class="lineno">  126<\/span>&#160;        <span class="comment">\/*<\/span><\/div>$/;"	a
+l00127	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00127"><\/a><span class="lineno">  127<\/span>&#160;<span class="comment">        Method to return the distance between two vectors in 3D space<\/span><\/div>$/;"	a
+l00128	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00128"><\/a><span class="lineno">  128<\/span>&#160;<span class="comment">        <\/span><\/div>$/;"	a
+l00129	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00129"><\/a><span class="lineno">  129<\/span>&#160;<span class="comment">        Note: This is accurate, but not especially fast - depending on your needs you might<\/span><\/div>$/;"	a
+l00130	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00130"><\/a><span class="lineno">  130<\/span>&#160;<span class="comment">        like to use the Manhattan Distance instead: http:\/\/en.wikipedia.org\/wiki\/Taxicab_geometry<\/span><\/div>$/;"	a
+l00131	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00131"><\/a><span class="lineno">  131<\/span>&#160;<span class="comment">        There&#39;s a good discussion of it here: http:\/\/stackoverflow.com\/questions\/3693514\/very-fast-3d-distance-check<\/span><\/div>$/;"	a
+l00132	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00132"><\/a><span class="lineno">  132<\/span>&#160;<span class="comment">        The gist is, to find if we&#39;re within a given distance between two vectors you can use:<\/span><\/div>$/;"	a
+l00133	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00133"><\/a><span class="lineno">  133<\/span>&#160;<span class="comment">        *\/<\/span><\/div>$/;"	a
+l00134	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00134"><\/a><span class="lineno">  134<\/span>&#160;        <span class="keywordtype">bool<\/span> within3DManhattanDistance(<a class="code" href="classVec3.html">Vec3<\/a> c1, <a class="code" href="classVec3.html">Vec3<\/a> c2, <span class="keywordtype">float<\/span> distance)<\/div>$/;"	a
+l00135	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00135"><\/a><span class="lineno">  135<\/span>&#160;        {<\/div>$/;"	a
+l00136	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00136"><\/a><span class="lineno">  136<\/span>&#160;             <span class="keywordtype">float<\/span> dx = abs(c2.x - c1.x);<\/div>$/;"	a
+l00137	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00137"><\/a><span class="lineno">  137<\/span>&#160;             <span class="keywordflow">if<\/span> (dx &gt; distance) <span class="keywordflow">return<\/span> <span class="keyword">false<\/span>; <span class="comment">\/\/ too far in x direction<\/span><\/div>$/;"	a
+l00138	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00138"><\/a><span class="lineno">  138<\/span>&#160;        <\/div>$/;"	a
+l00139	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00139"><\/a><span class="lineno">  139<\/span>&#160;             <span class="keywordtype">float<\/span> dy = abs(c2.y - c1.y);<\/div>$/;"	a
+l00140	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00140"><\/a><span class="lineno">  140<\/span>&#160;             <span class="keywordflow">if<\/span> (dy &gt; distance) <span class="keywordflow">return<\/span> <span class="keyword">false<\/span>; <span class="comment">\/\/ too far in y direction<\/span><\/div>$/;"	a
+l00141	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00141"><\/a><span class="lineno">  141<\/span>&#160;        <\/div>$/;"	a
+l00142	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00142"><\/a><span class="lineno">  142<\/span>&#160;             <span class="keywordtype">float<\/span> dz = abs(c2.z - c1.z);<\/div>$/;"	a
+l00143	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00143"><\/a><span class="lineno">  143<\/span>&#160;             <span class="keywordflow">if<\/span> (dz &gt; distance) <span class="keywordflow">return<\/span> <span class="keyword">false<\/span>; <span class="comment">\/\/ too far in z direction<\/span><\/div>$/;"	a
+l00144	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00144"><\/a><span class="lineno">  144<\/span>&#160;        <\/div>$/;"	a
+l00145	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00145"><\/a><span class="lineno">  145<\/span>&#160;             <span class="keywordflow">return<\/span> <span class="keyword">true<\/span>; <span class="comment">\/\/ we&#39;re within the cube<\/span><\/div>$/;"	a
+l00146	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00146"><\/a><span class="lineno">  146<\/span>&#160;        }<\/div>$/;"	a
+l00147	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00147"><\/a><span class="lineno">  147<\/span>&#160;        <\/div>$/;"	a
+l00148	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00148"><\/a><span class="lineno">  148<\/span>&#160;        <span class="comment">\/\/Or to just calculate the straight Manhattan distance you could use:<\/span><\/div>$/;"	a
+l00149	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00149"><\/a><span class="lineno">  149<\/span>&#160;        <\/div>$/;"	a
+l00150	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00150"><\/a><span class="lineno">  150<\/span>&#160;        <span class="keywordtype">float<\/span> getManhattanDistance(<a class="code" href="classVec3.html">Vec3<\/a> c1, <a class="code" href="classVec3.html">Vec3<\/a> c2)<\/div>$/;"	a
+l00151	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00151"><\/a><span class="lineno">  151<\/span>&#160;        {<\/div>$/;"	a
+l00152	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00152"><\/a><span class="lineno">  152<\/span>&#160;             <span class="keywordtype">float<\/span> dx = abs(c2.x - c1.x);<\/div>$/;"	a
+l00153	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00153"><\/a><span class="lineno">  153<\/span>&#160;             <span class="keywordtype">float<\/span> dy = abs(c2.y - c1.y);<\/div>$/;"	a
+l00154	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00154"><\/a><span class="lineno">  154<\/span>&#160;             <span class="keywordtype">float<\/span> dz = abs(c2.z - c1.z);<\/div>$/;"	a
+l00155	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00155"><\/a><span class="lineno">  155<\/span>&#160;             <span class="keywordflow">return<\/span> dx+dy+dz;<\/div>$/;"	a
+l00156	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00156"><\/a><span class="lineno">  156<\/span>&#160;        }<\/div>$/;"	a
+l00157	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00157"><\/a><span class="lineno">  157<\/span>&#160;      <\/div>$/;"	a
+l00158	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00158"><\/a><span class="lineno">  158<\/span>&#160;<\/div>$/;"	a
+l00159	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00159"><\/a><span class="lineno">  159<\/span>&#160;        <span class="keyword">static<\/span> T getDistance(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;v1, <span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;v2)<\/div>$/;"	a
+l00160	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00160"><\/a><span class="lineno">  160<\/span>&#160;        {<\/div>$/;"	a
+l00161	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00161"><\/a><span class="lineno">  161<\/span>&#160;            T dx = v2.x - v1.x;<\/div>$/;"	a
+l00162	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00162"><\/a><span class="lineno">  162<\/span>&#160;            T dy = v2.y - v1.y;<\/div>$/;"	a
+l00163	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00163"><\/a><span class="lineno">  163<\/span>&#160;            T dz = v2.z - v1.z;<\/div>$/;"	a
+l00164	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00164"><\/a><span class="lineno">  164<\/span>&#160;<\/div>$/;"	a
+l00165	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00165"><\/a><span class="lineno">  165<\/span>&#160;            <span class="keywordflow">return<\/span> sqrt(dx * dx + dy * dy + dz * dz);<\/div>$/;"	a
+l00166	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00166"><\/a><span class="lineno">  166<\/span>&#160;        }<\/div>$/;"	a
+l00167	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00167"><\/a><span class="lineno">  167<\/span>&#160;<\/div>$/;"	a
+l00169	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00169"><\/a><span class="lineno"><a class="line" href="classVec3.html#a01241f3738dd50013afc6c84e53a48a1">  169<\/a><\/span>&#160;        T <a class="code" href="classVec3.html#a01241f3738dd50013afc6c84e53a48a1">getLength<\/a>()<\/div>$/;"	a
+l00170	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00170"><\/a><span class="lineno">  170<\/span>&#160;        {<\/div>$/;"	a
+l00171	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00171"><\/a><span class="lineno">  171<\/span>&#160;            <span class="keywordflow">return<\/span> sqrt(x * x + y * y + z * z);<\/div>$/;"	a
+l00172	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00172"><\/a><span class="lineno">  172<\/span>&#160;        }<\/div>$/;"	a
+l00173	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00173"><\/a><span class="lineno">  173<\/span>&#160;<\/div>$/;"	a
+l00175	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00175"><\/a><span class="lineno"><a class="line" href="classVec3.html#ad648937145b298fa1f018143d34c56e9">  175<\/a><\/span>&#160;        <span class="keywordtype">void<\/span> <a class="code" href="classVec3.html#ad648937145b298fa1f018143d34c56e9">display<\/a>()<\/div>$/;"	a
+l00176	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00176"><\/a><span class="lineno">  176<\/span>&#160;        {<\/div>$/;"	a
+l00177	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00177"><\/a><span class="lineno">  177<\/span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;X: &quot;<\/span> &lt;&lt; x &lt;&lt; <span class="stringliteral">&quot;\\t Y: &quot;<\/span> &lt;&lt; y &lt;&lt; <span class="stringliteral">&quot;\\t Z: &quot;<\/span> &lt;&lt; z &lt;&lt; std::endl;<\/div>$/;"	a
+l00178	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00178"><\/a><span class="lineno">  178<\/span>&#160;        }<\/div>$/;"	a
+l00179	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00179"><\/a><span class="lineno">  179<\/span>&#160;<\/div>$/;"	a
+l00180	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00180"><\/a><span class="lineno">  180<\/span>&#160;        <span class="comment">\/\/ ------------ Overloaded operators ------------<\/span><\/div>$/;"	a
+l00181	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00181"><\/a><span class="lineno">  181<\/span>&#160;<\/div>$/;"	a
+l00182	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00182"><\/a><span class="lineno">  182<\/span>&#160;        <span class="comment">\/\/ Overloaded addition operator to add Vec3s together<\/span><\/div>$/;"	a
+l00183	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00183"><\/a><span class="lineno">  183<\/span>&#160;        <a class="code" href="classVec3.html">Vec3<\/a> operator+(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vector)<span class="keyword"> const<\/span><\/div>$/;"	a
+l00184	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00184"><\/a><span class="lineno">  184<\/span>&#160;<span class="keyword">        <\/span>{<\/div>$/;"	a
+l00185	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00185"><\/a><span class="lineno">  185<\/span>&#160;            <span class="keywordflow">return<\/span> <a class="code" href="classVec3.html">Vec3&lt;T&gt;<\/a>(x + vector.x, y + vector.y, z + vector.z);<\/div>$/;"	a
+l00186	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00186"><\/a><span class="lineno">  186<\/span>&#160;        }<\/div>$/;"	a
+l00187	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00187"><\/a><span class="lineno">  187<\/span>&#160;<\/div>$/;"	a
+l00188	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00188"><\/a><span class="lineno">  188<\/span>&#160;        <span class="comment">\/\/ Overloaded add and asssign operator to add Vec3s together<\/span><\/div>$/;"	a
+l00189	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00189"><\/a><span class="lineno">  189<\/span>&#160;        <span class="keywordtype">void<\/span> operator+=(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vector)<\/div>$/;"	a
+l00190	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00190"><\/a><span class="lineno">  190<\/span>&#160;        {<\/div>$/;"	a
+l00191	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00191"><\/a><span class="lineno">  191<\/span>&#160;            x += vector.x;<\/div>$/;"	a
+l00192	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00192"><\/a><span class="lineno">  192<\/span>&#160;            y += vector.y;<\/div>$/;"	a
+l00193	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00193"><\/a><span class="lineno">  193<\/span>&#160;            z += vector.z;<\/div>$/;"	a
+l00194	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00194"><\/a><span class="lineno">  194<\/span>&#160;        }<\/div>$/;"	a
+l00195	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00195"><\/a><span class="lineno">  195<\/span>&#160;<\/div>$/;"	a
+l00196	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00196"><\/a><span class="lineno">  196<\/span>&#160;        <span class="comment">\/\/ Overloaded subtraction operator to subtract a Vec3 from another Vec3<\/span><\/div>$/;"	a
+l00197	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00197"><\/a><span class="lineno">  197<\/span>&#160;        <a class="code" href="classVec3.html">Vec3<\/a> operator-(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vector)<span class="keyword"> const<\/span><\/div>$/;"	a
+l00198	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00198"><\/a><span class="lineno">  198<\/span>&#160;<span class="keyword">        <\/span>{<\/div>$/;"	a
+l00199	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00199"><\/a><span class="lineno">  199<\/span>&#160;            <span class="keywordflow">return<\/span> <a class="code" href="classVec3.html">Vec3&lt;T&gt;<\/a>(x - vector.x, y - vector.y, z - vector.z);<\/div>$/;"	a
+l00200	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00200"><\/a><span class="lineno">  200<\/span>&#160;        }<\/div>$/;"	a
+l00201	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00201"><\/a><span class="lineno">  201<\/span>&#160;<\/div>$/;"	a
+l00202	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00202"><\/a><span class="lineno">  202<\/span>&#160;        <span class="comment">\/\/ Overloaded subtract and asssign operator to subtract a Vec3 from another Vec3<\/span><\/div>$/;"	a
+l00203	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00203"><\/a><span class="lineno">  203<\/span>&#160;        <span class="keywordtype">void<\/span> operator-=(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vector)<\/div>$/;"	a
+l00204	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00204"><\/a><span class="lineno">  204<\/span>&#160;        {<\/div>$/;"	a
+l00205	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00205"><\/a><span class="lineno">  205<\/span>&#160;            x -= vector.x;<\/div>$/;"	a
+l00206	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00206"><\/a><span class="lineno">  206<\/span>&#160;            y -= vector.y;<\/div>$/;"	a
+l00207	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00207"><\/a><span class="lineno">  207<\/span>&#160;            z -= vector.z;<\/div>$/;"	a
+l00208	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00208"><\/a><span class="lineno">  208<\/span>&#160;        }<\/div>$/;"	a
+l00209	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00209"><\/a><span class="lineno">  209<\/span>&#160;<\/div>$/;"	a
+l00210	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00210"><\/a><span class="lineno">  210<\/span>&#160;        <span class="comment">\/\/ Overloaded multiplication operator to multiply two Vec3s together<\/span><\/div>$/;"	a
+l00211	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00211"><\/a><span class="lineno">  211<\/span>&#160;        <a class="code" href="classVec3.html">Vec3<\/a> operator*(<span class="keyword">const<\/span> <a class="code" href="classVec3.html">Vec3<\/a> &amp;vector)<span class="keyword"> const<\/span><\/div>$/;"	a
+l00212	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00212"><\/a><span class="lineno">  212<\/span>&#160;<span class="keyword">        <\/span>{<\/div>$/;"	a
+l00213	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00213"><\/a><span class="lineno">  213<\/span>&#160;            <span class="keywordflow">return<\/span> <a class="code" href="classVec3.html">Vec3&lt;T&gt;<\/a>(x * vector.x, y * vector.y, z * vector.z);<\/div>$/;"	a
+l00214	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00214"><\/a><span class="lineno">  214<\/span>&#160;        }<\/div>$/;"	a
+l00215	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00215"><\/a><span class="lineno">  215<\/span>&#160;<\/div>$/;"	a
+l00216	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00216"><\/a><span class="lineno">  216<\/span>&#160;        <span class="comment">\/\/ Overloaded multiply operator to multiply a vector by a scalar<\/span><\/div>$/;"	a
+l00217	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00217"><\/a><span class="lineno">  217<\/span>&#160;        <a class="code" href="classVec3.html">Vec3<\/a> operator*(<span class="keyword">const<\/span> T &amp;value)<span class="keyword"> const<\/span><\/div>$/;"	a
+l00218	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00218"><\/a><span class="lineno">  218<\/span>&#160;<span class="keyword">        <\/span>{<\/div>$/;"	a
+l00219	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00219"><\/a><span class="lineno">  219<\/span>&#160;            <span class="keywordflow">return<\/span> <a class="code" href="classVec3.html">Vec3&lt;T&gt;<\/a>(x * value, y * value, z * value);<\/div>$/;"	a
+l00220	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00220"><\/a><span class="lineno">  220<\/span>&#160;        }<\/div>$/;"	a
+l00221	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00221"><\/a><span class="lineno">  221<\/span>&#160;<\/div>$/;"	a
+l00222	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00222"><\/a><span class="lineno">  222<\/span>&#160;        <span class="comment">\/\/ Overloaded multiply and assign operator to multiply a vector by a scalar<\/span><\/div>$/;"	a
+l00223	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00223"><\/a><span class="lineno">  223<\/span>&#160;        <span class="keywordtype">void<\/span> operator*=(<span class="keyword">const<\/span> T &amp;value)<\/div>$/;"	a
+l00224	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00224"><\/a><span class="lineno">  224<\/span>&#160;        {<\/div>$/;"	a
+l00225	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00225"><\/a><span class="lineno">  225<\/span>&#160;            x *= value;<\/div>$/;"	a
+l00226	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00226"><\/a><span class="lineno">  226<\/span>&#160;            y *= value;<\/div>$/;"	a
+l00227	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00227"><\/a><span class="lineno">  227<\/span>&#160;            z *= value;<\/div>$/;"	a
+l00228	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00228"><\/a><span class="lineno">  228<\/span>&#160;        }<\/div>$/;"	a
+l00229	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00229"><\/a><span class="lineno">  229<\/span>&#160;<\/div>$/;"	a
+l00230	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00230"><\/a><span class="lineno">  230<\/span>&#160;        <span class="comment">\/\/ Overloaded multiply operator to multiply a vector by a scalar<\/span><\/div>$/;"	a
+l00231	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00231"><\/a><span class="lineno">  231<\/span>&#160;        <a class="code" href="classVec3.html">Vec3<\/a> operator\/(<span class="keyword">const<\/span> T &amp;value)<span class="keyword"> const<\/span><\/div>$/;"	a
+l00232	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00232"><\/a><span class="lineno">  232<\/span>&#160;<span class="keyword">        <\/span>{<\/div>$/;"	a
+l00233	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00233"><\/a><span class="lineno">  233<\/span>&#160;            <span class="keywordflow">return<\/span> <a class="code" href="classVec3.html">Vec3&lt;T&gt;<\/a>(x \/ value, y \/ value, z \/ value);<\/div>$/;"	a
+l00234	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00234"><\/a><span class="lineno">  234<\/span>&#160;        }<\/div>$/;"	a
+l00235	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00235"><\/a><span class="lineno">  235<\/span>&#160;<\/div>$/;"	a
+l00236	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00236"><\/a><span class="lineno">  236<\/span>&#160;        <span class="comment">\/\/ Overloaded multiply and assign operator to multiply a vector by a scalar<\/span><\/div>$/;"	a
+l00237	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00237"><\/a><span class="lineno">  237<\/span>&#160;        <span class="keywordtype">void<\/span> operator\/=(<span class="keyword">const<\/span> T &amp;value)<\/div>$/;"	a
+l00238	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00238"><\/a><span class="lineno">  238<\/span>&#160;        {<\/div>$/;"	a
+l00239	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00239"><\/a><span class="lineno">  239<\/span>&#160;            x \/= value;<\/div>$/;"	a
+l00240	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00240"><\/a><span class="lineno">  240<\/span>&#160;            y \/= value;<\/div>$/;"	a
+l00241	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00241"><\/a><span class="lineno">  241<\/span>&#160;            z \/= value;<\/div>$/;"	a
+l00242	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00242"><\/a><span class="lineno">  242<\/span>&#160;        }<\/div>$/;"	a
+l00243	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00243"><\/a><span class="lineno">  243<\/span>&#160;};<\/div>$/;"	a
+l00244	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00244"><\/a><span class="lineno">  244<\/span>&#160;<\/div>$/;"	a
+l00245	Simulation/Documentation/html/vec3_8hpp_source.html	/^<div class="line"><a name="l00245"><\/a><span class="lineno">  245<\/span>&#160;<span class="preprocessor">#endif<\/span><\/div>$/;"	a
+latex_count	Simulation/Documentation/latex/Makefile	/^	latex_count=8 ; \\$/;"	m
+letter_P	Simulation/Documentation/html/classes.html	/^<tr><td rowspan="2" valign="bottom"><a name="letter_P"><\/a><table border="0" cellspacing="0" cellpadding="0"><tr><td><div class="ah">&#160;&#160;P&#160;&#160;<\/div><\/td><\/tr><\/table>$/;"	a
+letter_V	Simulation/Documentation/html/classes.html	/^<\/td><td rowspan="2" valign="bottom"><a name="letter_V"><\/a><table border="0" cellspacing="0" cellpadding="0"><tr><td><div class="ah">&#160;&#160;V&#160;&#160;<\/div><\/td><\/tr><\/table>$/;"	a
+limit	Simulation/particle.cpp	/^bool Particle::limit(unsigned long index_1, unsigned long index_2)$/;"	f	class:Particle
+load_data_from_file	Simulation/particle.cpp	/^void Particle::load_data_from_file(std::string filepath, unsigned long &number_of_previous_iterations)$/;"	f	class:Particle
+load_font	Visualizer/resource_manager.hpp	/^    bool load_font(const std::string &key, const std::string &path, int size) {$/;"	f	class:ResourceManager
+load_fonts	Visualizer/visualizer.cpp	/^void Visualizer::load_fonts()$/;"	f	class:Visualizer
+load_music	Visualizer/resource_manager.hpp	/^    bool load_music(const std::string &key, const std::string &path) {$/;"	f	class:ResourceManager
+load_object_data_from_file	Visualizer/visualizer.cpp	/^void Visualizer::load_object_data_from_file(std::string filepath)$/;"	f	class:Visualizer
+load_particle_archive_from_file	Visualizer/visualizer.cpp	/^void Visualizer::load_particle_archive_from_file(std::string filename)$/;"	f	class:Visualizer
+load_sound	Visualizer/resource_manager.hpp	/^    bool load_sound(const std::string &key, const std::string &path) {$/;"	f	class:ResourceManager
+load_texture	Visualizer/resource_manager.hpp	/^    bool load_texture(const std::string &key,$/;"	f	class:ResourceManager
+load_textures	Visualizer/visualizer.cpp	/^void Visualizer::load_textures()$/;"	f	class:Visualizer
+m_background	Visualizer/visualizer.hpp	/^        SDL_Rect m_background;$/;"	m	class:Visualizer
+m_camera	Visualizer/visualizer.hpp	/^        SDL_Rect m_camera;$/;"	m	class:Visualizer
+m_console_is_open	Visualizer/visualizer.hpp	/^        bool m_console_is_open;$/;"	m	class:Visualizer
+m_deleted_ids_in_iteration	Simulation/particle.hpp	/^        std::vector<unsigned long> m_deleted_ids_in_iteration;$/;"	m	class:Particle
+m_display_data_active	Visualizer/visualizer.hpp	/^        std::set<unsigned long> m_display_data_active;$/;"	m	class:Visualizer
+m_draw_dt	Visualizer/visualizer.hpp	/^        bool m_draw_dt;$/;"	m	class:Visualizer
+m_draw_ids	Visualizer/visualizer.hpp	/^        bool m_draw_ids;$/;"	m	class:Visualizer
+m_draw_it_number	Visualizer/visualizer.hpp	/^        bool m_draw_it_number;$/;"	m	class:Visualizer
+m_draw_number_of_particles	Visualizer/visualizer.hpp	/^        bool m_draw_number_of_particles;$/;"	m	class:Visualizer
+m_draw_time_simulated	Visualizer/visualizer.hpp	/^        bool m_draw_time_simulated;$/;"	m	class:Visualizer
+m_dt	Simulation/particle.hpp	/^        double m_dt;$/;"	m	class:Particle
+m_font	Visualizer/visualizer.hpp	/^        TTF_Font *m_font;$/;"	m	class:Visualizer
+m_fonts	Visualizer/resource_manager.hpp	/^    std::map<std::string, TTF_Font*> m_fonts;$/;"	m	class:ResourceManager
+m_grav_range_draw_active	Visualizer/visualizer.hpp	/^        std::map<unsigned long,double> m_grav_range_draw_active;$/;"	m	class:Visualizer
+m_ids	Simulation/particle.hpp	/^        std::vector<unsigned long> m_ids;$/;"	m	class:Particle
+m_input	Visualizer/visualizer.hpp	/^        bool m_input;$/;"	m	class:Visualizer
+m_iteration_dts	Visualizer/visualizer.hpp	/^        std::vector<double> m_iteration_dts;$/;"	m	class:Visualizer
+m_iteration_number	Visualizer/visualizer.hpp	/^        unsigned long m_iteration_number;$/;"	m	class:Visualizer
+m_line_draw_active	Visualizer/visualizer.hpp	/^        std::map<unsigned long,unsigned long> m_line_draw_active;$/;"	m	class:Visualizer
+m_masses	Simulation/particle.hpp	/^        std::vector<double> m_masses;$/;"	m	class:Particle
+m_max_id	Simulation/particle.hpp	/^        unsigned long m_max_id;$/;"	m	class:Particle
+m_music	Visualizer/resource_manager.hpp	/^    std::map<std::string, Mix_Music*> m_music;$/;"	m	class:ResourceManager
+m_name_input_file	Simulation/simulator.hpp	/^        std::string m_name_input_file;$/;"	m	class:Simulator
+m_name_last_iteration_save_file	Simulation/simulator.hpp	/^        std::string m_name_last_iteration_save_file;$/;"	m	class:Simulator
+m_name_output_file	Simulation/simulator.hpp	/^        std::string m_name_output_file;$/;"	m	class:Simulator
+m_number_of_iterations	Simulation/simulator.hpp	/^        double m_number_of_iterations;$/;"	m	class:Simulator
+m_number_of_iterations_previous_run	Simulation/simulator.hpp	/^        unsigned long m_number_of_iterations_previous_run;$/;"	m	class:Simulator
+m_number_of_particles	Simulation/particle.hpp	/^        unsigned long m_number_of_particles;$/;"	m	class:Particle
+m_number_of_particles	Simulation/simulator.hpp	/^        unsigned long m_number_of_particles;$/;"	m	class:Simulator
+m_object_id_maps	Visualizer/visualizer.hpp	/^        std::vector<std::map<unsigned long, unsigned long>>  m_object_id_maps;$/;"	m	class:Visualizer
+m_object_ids	Visualizer/visualizer.hpp	/^        std::vector<std::vector<unsigned long> >m_object_ids;$/;"	m	class:Visualizer
+m_object_masses	Visualizer/visualizer.hpp	/^        std::vector<std::vector<double> > m_object_masses;$/;"	m	class:Visualizer
+m_object_positions	Visualizer/visualizer.hpp	/^        std::vector<std::vector<Vec3<double> > > m_object_positions;$/;"	m	class:Visualizer
+m_object_radiuses	Visualizer/visualizer.hpp	/^        std::vector<std::vector<double> > m_object_radiuses;$/;"	m	class:Visualizer
+m_object_velocities	Visualizer/visualizer.hpp	/^        std::vector<std::vector<Vec3<double> > > m_object_velocities;$/;"	m	class:Visualizer
+m_option_load_from_file	Simulation/simulator.hpp	/^        bool m_option_load_from_file;$/;"	m	class:Simulator
+m_output_file_entered	Simulation/simulator.hpp	/^        bool m_output_file_entered;$/;"	m	class:Simulator
+m_particles	Simulation/simulator.hpp	/^        Particle m_particles;$/;"	m	class:Simulator
+m_pause	Visualizer/visualizer.hpp	/^        bool m_pause;$/;"	m	class:Visualizer
+m_perspective	Visualizer/visualizer.hpp	/^        char m_perspective;$/;"	m	class:Visualizer
+m_positions	Simulation/particle.hpp	/^        std::vector<Vec3<double> > m_positions;$/;"	m	class:Particle
+m_radiuses	Simulation/particle.hpp	/^        std::vector<double> m_radiuses;$/;"	m	class:Particle
+m_renderer	Visualizer/visualizer.hpp	/^        SDL_Renderer *m_renderer;$/;"	m	class:Visualizer
+m_resource_manager	Visualizer/visualizer.hpp	/^        ResourceManager m_resource_manager;$/;"	m	class:Visualizer
+m_rotation_active	Visualizer/visualizer.hpp	/^        bool m_rotation_active;$/;"	m	class:Visualizer
+m_run_test	Simulation/simulator.hpp	/^        bool m_run_test;$/;"	m	class:Simulator
+m_running	Visualizer/visualizer.hpp	/^        bool m_running;$/;"	m	class:Visualizer
+m_scale	Visualizer/visualizer.hpp	/^        unsigned long m_scale;$/;"	m	class:Visualizer
+m_screen_height	Visualizer/visualizer.hpp	/^        int m_screen_height;$/;"	m	class:Visualizer
+m_screen_width	Visualizer/visualizer.hpp	/^        int m_screen_width;$/;"	m	class:Visualizer
+m_sounds	Visualizer/resource_manager.hpp	/^    std::map<std::string, Mix_Chunk*> m_sounds;$/;"	m	class:ResourceManager
+m_test_id	Simulation/simulator.hpp	/^        int m_test_id;$/;"	m	class:Simulator
+m_textures	Visualizer/resource_manager.hpp	/^    std::map<std::string, SDL_Texture*> m_textures;$/;"	m	class:ResourceManager
+m_time_simulated	Simulation/particle.hpp	/^        unsigned long m_time_simulated;$/;"	m	class:Particle
+m_time_simulated	Visualizer/visualizer.hpp	/^        double m_time_simulated;$/;"	m	class:Visualizer
+m_to_au	Simulation/Util/util.hpp	/^TYPE m_to_au(TYPE meter)$/;"	f
+m_to_km	Simulation/Util/util.hpp	/^TYPE m_to_km(TYPE miles) {$/;"	f
+m_velocity_vectors	Simulation/particle.hpp	/^        std::vector<Vec3<double> > m_velocity_vectors;$/;"	m	class:Particle
+m_window	Visualizer/visualizer.hpp	/^        SDL_Window *m_window;$/;"	m	class:Visualizer
+m_x_rot_deg	Visualizer/visualizer.hpp	/^        double m_x_rot_deg;$/;"	m	class:Visualizer
+m_y_rot_deg	Visualizer/visualizer.hpp	/^        double m_y_rot_deg;$/;"	m	class:Visualizer
+main	Simulation/Octree/test.cpp	/^int main(void)$/;"	f
+main	Simulation/main.cpp	/^int main(int argc, char **argv)$/;"	f
+main	Visualizer/main.cpp	/^int main(int argc, char** argv)$/;"	f
+main_loop	Visualizer/visualizer.cpp	/^void Visualizer::main_loop()$/;"	f	class:Visualizer
+merge_objects	Simulation/particle.cpp	/^void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)$/;"	f	class:Particle
+move _ Object	Simulation/Documentation/latex/classParticle.tex	/^\\index{move\\+\\_\\+\\+Object@{move\\+\\_\\+\\+Object}!Particle@{Particle}}$/;"	b
+move_Object	Simulation/particle.cpp	/^void Particle::move_Object(unsigned long particle_index)$/;"	f	class:Particle
+mph_to_kmh	Simulation/Util/util.hpp	/^TYPE mph_to_kmh(TYPE mph) {$/;"	f
+mps_to_kmh	Simulation/Util/util.hpp	/^TYPE mps_to_kmh(TYPE mps) {$/;"	f
+normalise	Simulation/Util/vec3.hpp	/^        void normalise()$/;"	f	class:Vec3
+normalise	Visualizer/vec3.hpp	/^        void normalise()$/;"	f	class:Vec3
+operator *	Simulation/Util/vec3.hpp	/^        Vec3 operator*(const T &value) const$/;"	f	class:Vec3
+operator *	Simulation/Util/vec3.hpp	/^        Vec3 operator*(const Vec3 &vector) const$/;"	f	class:Vec3
+operator *	Visualizer/vec3.hpp	/^        Vec3 operator*(const T &value) const$/;"	f	class:Vec3
+operator *	Visualizer/vec3.hpp	/^        Vec3 operator*(const Vec3 &vector) const$/;"	f	class:Vec3
+operator *=	Simulation/Util/vec3.hpp	/^        void operator*=(const T &value)$/;"	f	class:Vec3
+operator *=	Visualizer/vec3.hpp	/^        void operator*=(const T &value)$/;"	f	class:Vec3
+operator +	Simulation/Util/vec3.hpp	/^        Vec3 operator+(const Vec3 &vector) const$/;"	f	class:Vec3
+operator +	Visualizer/vec3.hpp	/^        Vec3 operator+(const Vec3 &vector) const$/;"	f	class:Vec3
+operator +=	Simulation/Util/vec3.hpp	/^        void operator+=(const Vec3 &vector)$/;"	f	class:Vec3
+operator +=	Visualizer/vec3.hpp	/^        void operator+=(const Vec3 &vector)$/;"	f	class:Vec3
+operator -	Simulation/Util/vec3.hpp	/^        Vec3 operator-(const Vec3 &vector) const$/;"	f	class:Vec3
+operator -	Visualizer/vec3.hpp	/^        Vec3 operator-(const Vec3 &vector) const$/;"	f	class:Vec3
+operator -=	Simulation/Util/vec3.hpp	/^        void operator-=(const Vec3 &vector)$/;"	f	class:Vec3
+operator -=	Visualizer/vec3.hpp	/^        void operator-=(const Vec3 &vector)$/;"	f	class:Vec3
+operator /	Simulation/Util/vec3.hpp	/^        Vec3 operator\/(const T &value) const$/;"	f	class:Vec3
+operator /	Visualizer/vec3.hpp	/^        Vec3 operator\/(const T &value) const$/;"	f	class:Vec3
+operator /=	Simulation/Util/vec3.hpp	/^        void operator\/=(const T &value)$/;"	f	class:Vec3
+operator /=	Visualizer/vec3.hpp	/^        void operator\/=(const T &value)$/;"	f	class:Vec3
+operator ==	Simulation/Util/vec3.hpp	/^        bool operator==(const Vec3 &vector) const$/;"	f	class:Vec3
+operator ==	Visualizer/vec3.hpp	/^        bool operator==(const Vec3 &vector) const$/;"	f	class:Vec3
+origin	Simulation/Octree/Octree.hpp	/^        Vec3<double> origin;$/;"	m	class:Octree
+particle_bubble_sort	Simulation/particle.cpp	/^void Particle::particle_bubble_sort()$/;"	f	class:Particle
+pause_loop	Visualizer/visualizer.cpp	/^void Visualizer::pause_loop()$/;"	f	class:Visualizer
+position	Simulation/Octree/OctreePoint.hpp	/^        Vec3<double> position;$/;"	m	class:OctreePoint
+print All Particles	Simulation/Documentation/latex/classParticle.tex	/^\\index{print\\+All\\+Particles@{print\\+All\\+Particles}!Particle@{Particle}}$/;"	b
+print Particle	Simulation/Documentation/latex/classParticle.tex	/^\\index{print\\+Particle@{print\\+Particle}!Particle@{Particle}}$/;"	b
+printAllParticles	Simulation/particle.cpp	/^void Particle::printAllParticles()$/;"	f	class:Particle
+printParticle	Simulation/particle.cpp	/^void Particle::printParticle(unsigned long particle_index)$/;"	f	class:Particle
+pub-methods	Simulation/Documentation/html/classParticle.html	/^<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"><\/a>$/;"	a
+pub-methods	Simulation/Documentation/html/classVec3.html	/^<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"><\/a>$/;"	a
+pub-static-methods	Simulation/Documentation/html/classVec3.html	/^<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"><\/a>$/;"	a
+radii	Simulation/Octree/Octree.hpp	/^        Vec3<double> radii;$/;"	m	class:Octree
+radius	Simulation/Octree/OctreePoint.hpp	/^        double radius;$/;"	m	class:OctreePoint
+randomGeneratorTest	Simulation/Tests/tester.cpp	/^void randomGeneratorTest()$/;"	f
+remove	Simulation/Documentation/latex/classParticle.tex	/^\\index{remove@{remove}!Particle@{Particle}}$/;"	b
+remove	Simulation/particle.cpp	/^void Particle::remove(unsigned long vector_index)$/;"	f	class:Particle
+render_texture	Visualizer/visualizer.cpp	/^void Visualizer::render_texture(SDL_Texture *texture, int x, int y, int z,int p_width, int p_height)$/;"	f	class:Visualizer
+searchData	Simulation/Documentation/html/search/all_0.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_1.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_2.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_3.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_4.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_5.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_6.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_7.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_8.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/all_9.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/classes_0.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/classes_1.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_0.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_1.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_2.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_3.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_4.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_5.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_6.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_7.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_8.js	/^var searchData=$/;"	v
+searchData	Simulation/Documentation/html/search/functions_9.js	/^var searchData=$/;"	v
+set	Simulation/Util/vec3.hpp	/^        void set(const T &xValue, const T &yValue, const T &zValue)$/;"	f	class:Vec3
+set	Visualizer/vec3.hpp	/^        void set(const T &xValue, const T &yValue, const T &zValue)$/;"	f	class:Vec3
+setClassAttr	Simulation/Documentation/html/search/search.js	/^function setClassAttr(elem,attr)$/;"	f
+setIndex	Simulation/Octree/OctreePoint.hpp	/^        inline void setIndex(unsigned long i) {index = i;}$/;"	f	class:OctreePoint
+setKeyActions	Simulation/Documentation/html/search/search.js	/^function setKeyActions(elem,action)$/;"	f
+setPosition	Simulation/Octree/OctreePoint.hpp	/^        inline void setPosition(const Vec3<double>& p) {position = p;}$/;"	f	class:OctreePoint
+setRadii	Simulation/Octree/Octree.cpp	/^void Octree::setRadii(Vec3<double> r)$/;"	f	class:Octree
+setRadius	Simulation/Octree/OctreePoint.hpp	/^        inline void setRadius(double r) {radius = r;}$/;"	f	class:OctreePoint
+setX	Simulation/Util/vec3.hpp	/^        void setX(const T &xValue) { x = xValue; }$/;"	f	class:Vec3
+setX	Visualizer/vec3.hpp	/^        void setX(const T &xValue) { x = xValue; }$/;"	f	class:Vec3
+setY	Simulation/Util/vec3.hpp	/^        void setY(const T &yValue) { y = yValue; }$/;"	f	class:Vec3
+setY	Visualizer/vec3.hpp	/^        void setY(const T &yValue) { y = yValue; }$/;"	f	class:Vec3
+setZ	Simulation/Util/vec3.hpp	/^        void setZ(const T &zValue) { z = zValue; }$/;"	f	class:Vec3
+setZ	Visualizer/vec3.hpp	/^        void setZ(const T &zValue) { z = zValue; }$/;"	f	class:Vec3
+set_up_simulation	Simulation/simulator.cpp	/^void Simulator::set_up_simulation()$/;"	f	class:Simulator
+setup_test	Simulation/simulator.cpp	/^void Simulator::setup_test(int test_id)$/;"	f	class:Simulator
+shutdown	Visualizer/resource_manager.hpp	/^    void shutdown() {$/;"	f	class:ResourceManager
+simulate	Simulation/simulator.cpp	/^void Simulator::simulate()$/;"	f	class:Simulator
+sort_and_sweep	Simulation/particle.cpp	/^void Particle::sort_and_sweep()$/;"	f	class:Particle
+swap	Simulation/particle.cpp	/^void swap(std::vector<Type> &vec, unsigned long idx1, unsigned long idx2)$/;"	f
+test1	Simulation/Octree/test.cpp	/^void test1()$/;"	f
+test2	Simulation/Octree/test.cpp	/^void test2()$/;"	f
+test3	Simulation/Octree/test.cpp	/^void test3()$/;"	f
+test_grav	Simulation/Tests/tester.cpp	/^void test_grav()$/;"	f
+toString	Simulation/Util/vec3.hpp	/^        std::string toString()$/;"	f	class:Vec3
+toString	Visualizer/vec3.hpp	/^        std::string toString()$/;"	f	class:Vec3
+toggleFolder	Simulation/Documentation/html/dynsections.js	/^function toggleFolder(id)$/;"	f
+toggleInherit	Simulation/Documentation/html/dynsections.js	/^function toggleInherit(id)$/;"	f
+toggleLevel	Simulation/Documentation/html/dynsections.js	/^function toggleLevel(level)$/;"	f
+toggleVisibility	Simulation/Documentation/html/dynsections.js	/^function toggleVisibility(linkObj)$/;"	f
+update	Visualizer/visualizer.cpp	/^void Visualizer::update()$/;"	f	class:Visualizer
+updateStripes	Simulation/Documentation/html/dynsections.js	/^function updateStripes()$/;"	f
+vectorInitTest	Simulation/Tests/tester.cpp	/^void vectorInitTest()$/;"	f
+within3DManhattanDistance	Simulation/Util/vec3.hpp	/^        bool within3DManhattanDistance(Vec3 c1, Vec3 c2, float distance)$/;"	f	class:Vec3
+within3DManhattanDistance	Visualizer/vec3.hpp	/^        bool within3DManhattanDistance(Vec3 c1, Vec3 c2, float distance)$/;"	f	class:Vec3
+write_to_file	Simulation/particle.cpp	/^void Particle::write_to_file(std::string filename, unsigned long iteration_number, std::ios_base::openmode mode)$/;"	f	class:Particle
+x	Simulation/Util/vec3.hpp	/^        T x, y, z;$/;"	m	class:Vec3
+x	Visualizer/vec3.hpp	/^        T x, y, z;$/;"	m	class:Vec3
+y	Simulation/Util/vec3.hpp	/^        T x, y, z;$/;"	m	class:Vec3
+y	Visualizer/vec3.hpp	/^        T x, y, z;$/;"	m	class:Vec3
+z	Simulation/Util/vec3.hpp	/^        T x, y, z;$/;"	m	class:Vec3
+z	Visualizer/vec3.hpp	/^        T x, y, z;$/;"	m	class:Vec3
+zero	Simulation/Util/vec3.hpp	/^        void zero()$/;"	f	class:Vec3
+zero	Visualizer/vec3.hpp	/^        void zero()$/;"	f	class:Vec3
+~Octree	Simulation/Octree/Octree.cpp	/^Octree::~Octree()$/;"	f	class:Octree
+~Visualizer	Visualizer/visualizer.cpp	/^Visualizer::~Visualizer()$/;"	f	class:Visualizer

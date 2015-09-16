@@ -12,6 +12,17 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+
+//#include <boost/serialization/vector.hpp>
+
+
+//#include <boost/archive/binary_oarchive.hpp>
+//#include <boost/archive/binary_iarchive.hpp>
+//#include <boost/archive/text_oarchive.hpp>
+//#include <boost/archive/text_iarchive.hpp>
+
+
+
 const double PI = 3.14159265359;
 //TODO SWITCH TO UINTX_T
 // center object has to be at <0.0.0>
@@ -113,6 +124,33 @@ double Particle::get_time_simulated()
     return m_time_simulated;
 }
 
+void Particle::apply_gravity(unsigned long start_idx, unsigned long end_idx)
+{
+    if(end_idx == 0)
+    {
+        end_idx = m_positions.size();   
+    }
+
+    for (unsigned long particle_index = start_idx; particle_index < end_idx; particle_index++)
+    {
+        applyGravity(this,particle_index,m_dt);
+    }
+
+}
+
+void Particle::move_objects(unsigned long start_idx, unsigned long end_idx)
+{
+    if(end_idx == 0)
+    {
+        end_idx = m_positions.size();   
+    }
+
+    for(unsigned long idx = start_idx; idx <= end_idx; idx++)
+    {
+        move_Object(idx);
+    }
+}
+
 // move each object by their velocity, if the stepsize is equal to 1second 
 void Particle::move_Object(unsigned long particle_index)
 {
@@ -120,11 +158,6 @@ void Particle::move_Object(unsigned long particle_index)
     m_positions[particle_index] += m_velocity_vectors[particle_index] / m_dt;
     //m_positions[particle_index].display();
 
-}
-
-double Particle::getDistanceOfTwoObjects(unsigned long ob1, unsigned long ob2)
-{
-    return Vec3<double>::getDistance(m_positions[ob1], m_positions[ob2]);
 }
 
 Vec3<double> Particle::getVelocityVector(unsigned long particle_index)
@@ -435,12 +468,17 @@ void Particle::load_data_from_file(std::string filepath, unsigned long &number_o
     }
 }
 
-bool Particle::check_for_collision(unsigned long id_1, unsigned long id_2)
+bool Particle::check_for_collision(unsigned long index_1, unsigned long index_2, double time_of_closest_approach)
 {
-    if((m_positions[id_1] - m_positions[id_2]).getLength() < m_radiuses[id_1] + m_radiuses[id_2])
+    //toca = time_of_closest_approach
+    Vec3<double> pos1_at_toca = m_positions[index_1] + (m_velocity_vectors[index_1] * time_of_closest_approach);
+    Vec3<double> pos2_at_toca = m_positions[index_2] + (m_velocity_vectors[index_2] * time_of_closest_approach);
+    double dist =  (pos2_at_toca - pos1_at_toca).getLength();
+
+    if(dist < m_radiuses[index_2] + m_radiuses[index_1])
     {
         return true;
-    }
+    } 
     return false;
 }
     template <typename Type>
@@ -453,16 +491,23 @@ void swap(std::vector<Type> &vec, unsigned long idx1, unsigned long idx2)
 
 }
 
-void Particle::particle_bubble_sort()
+double Particle::particle_bubble_sort()
 {
     bool all_done = false;
+    unsigned long swaps = 0;
+    unsigned long xswaps = 0;
+    unsigned long runs = 0;
+    double max_velo = 0;
     while(!all_done)
     {
+        runs++;
         all_done = true;
         for(unsigned long i = 2; i < m_positions.size(); i++)
         {
+            max_velo = std::fmax(m_velocity_vectors[i].getLength(), max_velo);
             if(m_positions[i].getLength() < m_positions[i-1].getLength())
             {
+                                swaps++;
                 all_done = false;
                 //std::cout << "swaped: " << i << " " <<  i-1 << std::endl; 
                 swap<Vec3<double>>(m_positions, i, i-1);
@@ -473,7 +518,9 @@ void Particle::particle_bubble_sort()
             }
         }
     }
-
+    //std::cout << "runs: " << runs << " " << "swaps: " << swaps << std::endl; 
+    //std::cout << "xswaps: "<< xswaps << std::endl; 
+    return max_velo;
 }
 
 double Particle::get_dt()
@@ -481,34 +528,56 @@ double Particle::get_dt()
     return m_dt;
 }
 
+
+bool Particle::limit(unsigned long index_1, unsigned long index_2, double max_velo)
+{
+    double dist = fabs(m_positions[index_1].getLength() - m_positions[index_2].getLength());
+
+    return dist > m_radiuses[index_1] + m_radiuses[index_2] + max_velo * 2;
+}
+
+void Particle::sort_and_sweep()
+{
+    m_dt = 0.00027;
+    unsigned long j; 
+    double max_velo = particle_bubble_sort();
+    //std::cout << "MaxVelo: "<< max_velo << std::endl;
+    for(unsigned long i = 1; i < m_positions.size(); i++)
+    {
+        j = i;
+        while( j > 0 && !limit(i, j-1, max_velo))
+        {
+
+            double time_of_closest_approach = get_time_of_closest_approach(m_positions[i], m_velocity_vectors[i]/m_dt, m_positions[j - 1], m_velocity_vectors[j - 1]/m_dt);
+
+            if(time_of_closest_approach < 1 && time_of_closest_approach > 0)std::cout << "time:" << time_of_closest_approach << std::endl;
+            if(check_for_collision(i, j -1, time_of_closest_approach))
+            {
+                std::cout << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << std::endl;
+                merge_objects(i,j-1);
+                i--;
+            }            j--;
+        }
+    }
+
+    m_time_simulated += 1;
+    //std::cout << "1/m_dt: "<< 1/m_dt << std::endl;
+}
+
 std::pair<double,double> Particle::calculate_possible_collison_point(unsigned long index_1, unsigned long index_2)
 {
 
-    Vec3<double> veloVec1 = m_velocity_vectors[index_1];
-    Vec3<double> veloVec2 = m_velocity_vectors[index_2];
-    Vec3<double> dist_vector = m_positions[index_1] - m_positions[index_2];
-    double dist = dist_vector.getLength();
-    dist_vector.normalise();
-    veloVec1.normalise();
-    veloVec2.normalise();
-    Vec3<double> pos1 = m_positions[index_1] - veloVec1 * m_radiuses[index_1]; 
-    Vec3<double> pos2 = m_positions[index_2] - veloVec2 * m_radiuses[index_2]; 
-
-    if(veloVec1 == veloVec2 || veloVec1 == veloVec2 * -1)
-    {
-        return std::pair<double,double>(0,0); 
-    }
-
+    //TDDO CHECK FOR PARALLEL VECTORS !!!
     double lamda;
     double sigma;
 
-    double x1 = pos1.getX();
-    double y1 = pos1.getY();
-    double z1 = pos1.getZ();
+    double x1 = m_positions[index_1].getX();
+    double y1 = m_positions[index_1].getY();
+    double z1 = m_positions[index_1].getZ();
 
-    double x2 = pos2.getX();
-    double y2 = pos2.getY();
-    double z2 = pos2.getZ();
+    double x2 = m_positions[index_2].getX();
+    double y2 = m_positions[index_2].getY();
+    double z2 = m_positions[index_2].getZ();
 
     double vx1 = m_velocity_vectors[index_1].getX();
     double vy1 = m_velocity_vectors[index_1].getY();
@@ -526,60 +595,17 @@ std::pair<double,double> Particle::calculate_possible_collison_point(unsigned lo
     {
 
     }
-    if(check_for_collision(index_1,index_2))
-    {
-        
-        std::cout << "COLLIDED: " << m_ids[index_1] << " " << m_ids[index_2] << std::endl;
-        std::cout << 1/lamda << " " << 1/sigma << std::endl; 
-        //std::cout << lamda_2 << " " << sigma_2 << std::endl;
-        //std::cout << m_velocity_vectors[index_1].getLength() << " " << m_velocity_vectors[index_2].getLength() << std::endl;
-        //std::cout << m_radiuses[index_1] << " " << m_radiuses[index_2] << std::endl;
-        //std::cout << m_radiuses[index_1] / m_velocity_vectors[index_1].getLength() << " " << m_radiuses[index_2] / m_velocity_vectors[index_2].getLength() << std::endl;
-    }
-    
-    double test = m_dt;
-    m_dt = std::max(m_dt, std::min(1/lamda, 1/sigma));
-    if(test != m_dt)
-    {
-        std::cout << "CAUSED BY: "<< m_ids[index_1] << " " << m_ids[index_2] << std::endl;
-    }
     return std::pair<double,double>(lamda,sigma);
 }
 
+//void Particle::write_to_archive(boost::archive::binary_oarchive *oa)
+//{
+//    *oa << m_positions;
+//    *oa << m_velocity_vectors;
+//    *oa << m_masses;
+//    *oa << m_radiuses;
+//    *oa << m_ids;
+//    //oa << m_deleted_ids_in_iteration;
+//    *oa << m_dt;
+//}
 
-bool Particle::limit(unsigned long index_1, unsigned long index_2)
-{
-    double dist = fabs(m_positions[index_1].getLength() - m_positions[index_2].getLength());
-
-    return dist > m_radiuses[0];
-}
-
-void Particle::sort_and_sweep()
-{
-    m_dt = 0.00024;
-    particle_bubble_sort();
-    for(unsigned long i = 1; i < m_positions.size(); i++)
-    {
-
-        unsigned long j = i;
-        while( j > 0 && !limit(i,j-1))
-        {
-            calculate_possible_collison_point(i, j - 1);
-
-            if(check_for_collision(i, j-1))
-            {
-                //std::cout << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << std::endl;
-                merge_objects(i,j-1);
-                i--;
-            }
-            j--;
-        }
-    }
-    if(m_dt != 0.00024)
-    {
-        std::cout << "MDT: "<< m_dt << std::endl;
-    }
-
-    m_time_simulated += 1;
-    //std::cout << "1/m_dt: "<< 1/m_dt << std::endl;
-}

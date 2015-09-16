@@ -1,4 +1,5 @@
 
+#include "../Simulation/particle.hpp"
 #include "visualizer.hpp"
 #include "resource_manager.hpp"
 #include "vec3.hpp"
@@ -14,6 +15,15 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <time.h>
+
+
+#include <boost/serialization/vector.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
 Visualizer::Visualizer()
 {
     m_pause = false;
@@ -51,6 +61,7 @@ Visualizer::Visualizer(std::string filename)
     m_camera = {-m_screen_width/2, -m_screen_height/2, m_screen_width, m_screen_height};
     m_scale = 5000000000;
     load_object_data_from_file(filename);
+    //load_particle_archive_from_file(filename);
     init_SDL();
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
     load_textures();
@@ -870,7 +881,6 @@ void Visualizer::load_object_data_from_file(std::string filepath)
     std::vector<char *> file_name_token;
     std::ifstream file(filepath, std::ifstream::binary);
     std::string s;
-    unsigned long it_number = 0;
     std::vector<Vec3<double> > it_pos_vector;
     std::vector<Vec3<double> > it_velo_vector;
     std::vector<double> it_masses;
@@ -908,7 +918,6 @@ void Visualizer::load_object_data_from_file(std::string filepath)
                 it_radiuses.clear();
                 it_ids.clear();
                 it_ids_map.clear();
-                it_number++;
                 //if(m_object_positions.size() % (number_of_iterations / 50) == 0)
                 //{
                 //    bars.at(next_bar) = '|';
@@ -975,4 +984,64 @@ std::string Visualizer::format_seconds_to_time(double time)
     tm * p = gmtime(&seconds);
 
     return (std::to_string(p->tm_year) + " " + std::to_string(p ->tm_yday) + " " + std::to_string(p -> tm_hour) + " " + std::to_string(p -> tm_min));
+}
+
+void Visualizer::load_particle_archive_from_file(std::string filename)
+{
+    std::ifstream ifs("../Simulation/archive.test",std::ios::binary);
+    boost::archive::binary_iarchive ia(ifs, boost::archive::no_header);
+    double cur_iteration = 0;
+    double max_iteration = 1;
+    double it_dt;
+    
+    std::vector<Vec3<double> > it_pos_vector;
+    std::vector<Vec3<double> > it_velo_vector;
+    std::vector<double> it_masses;
+    std::vector<double> it_radiuses;
+    std::vector<unsigned long>it_ids;
+    std::map<unsigned long, unsigned long>it_ids_map; 
+    while(cur_iteration < max_iteration)
+    {
+
+
+        std::cout << "HERE1" << std::endl;
+        ia >> cur_iteration;
+        std::cout << "HERE2" << std::endl;
+        ia >> max_iteration;
+        std::cout << cur_iteration << " " <<  max_iteration << std::endl;
+        std::cout << "HERE3" << std::endl;
+        m_object_positions.push_back(std::vector<Vec3<double>>());
+        ia >> m_object_positions.back(); 
+        
+        std::cout << "HERE4" << std::endl;
+        ia >> it_velo_vector;
+        std::cout << "HERE5" << std::endl;
+        ia >> it_masses;
+        std::cout << "HERE6" << std::endl;
+        ia >> it_radiuses;
+        std::cout << "HERE7" << std::endl;
+        ia >> it_ids;
+        std::cout << "HERE8" << std::endl;
+        ia >> it_dt;
+
+        for(unsigned long i = 0; i < it_pos_vector.size(); i ++)
+        {
+            std::cout << it_pos_vector[i].toString() << std::endl;
+        }
+
+        for(unsigned long i = 0; i < it_ids.size(); i++)
+        {
+            it_ids_map.insert(std::pair<unsigned long, unsigned long>(it_ids[i],i));
+        }
+        m_object_id_maps.push_back(it_ids_map);
+        m_object_ids.push_back(it_ids);
+        m_object_positions.push_back(it_pos_vector);
+        m_object_velocities.push_back(it_velo_vector);
+        m_object_masses.push_back(it_masses);
+        m_object_radiuses.push_back(it_radiuses);
+        //std::cout << m_object_ids.size() << std::endl;
+        //stT::cout << m_object_positions.size() << std::endl;
+        
+        std::cout << it_pos_vector.size() << std::endl;
+    }
 }

@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <fstream>
 
-
 const double AU = 149597870700.0;  
 Simulator::Simulator()
 {
@@ -17,47 +16,41 @@ Simulator::Simulator()
     m_number_of_iterations_previous_run = 0;
 }
 
+std::string set_up_loading_bar()
+{
+    std::string bars = "";
+    for(int i = 0; i  < 51; i++)
+    {
+        bars = bars + " "; 
+    }
+
+    return bars;
+}
+
 /**
  * Starts the simulation
  * */
 void Simulator::simulate()
 {
+    unsigned long current_iteration = 0;
     std::cout << "== Simulating ==" << std::endl;
  
-    // Setup for progress bar
-    //int next_bar = 1;
-    std::string bars = "";
 
-    for(int i = 0; i  < 51; i++)
-    {
-        bars = bars + " "; 
-    }
-    
+        
     // Simulation loop
-    unsigned long current_iteration = 0;
     while(m_particles.get_time_simulated() < m_number_of_iterations)
     {
         //std::cout << "im here" << std::endl;
         //Print loading bar
-        printf("%s(%lu / %lu) %lu \r", bars.c_str(),(unsigned long)m_particles.get_time_simulated(), (unsigned long)m_number_of_iterations, current_iteration);
+        printf("(%lu / %lu) %lu \r",(unsigned long)m_particles.get_time_simulated(), (unsigned long)m_number_of_iterations, current_iteration);
        
 
-        //Change loading bar to represent simulation progress
-        /*
-        if((unsigned long)m_number_of_iterations >= 50 && current_iteration % ((unsigned long)m_number_of_iterations / 50) == 0) 
-        {
-            bars.at(next_bar) = '|';
-            next_bar++;
-        }
-        */
         fflush(stdout);
         
         //Actual simulation
-        for (unsigned long particle_index = 0; particle_index < m_particles.getNumberOfParticles() - 1; particle_index++)
-        {
-            applyGravity(m_particles,particle_index,m_particles.get_dt());
-            m_particles.move_Object(particle_index);
-        }
+        
+        m_particles.apply_gravity(1);
+        m_particles.move_objects(1);
         m_particles.sort_and_sweep();
         
         //Wrtite simulation data to file and in last iteration save last iteration
@@ -65,12 +58,13 @@ void Simulator::simulate()
         {
             m_particles.write_to_file(m_name_last_iteration_save_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::trunc | std::ofstream::binary);
         }
+        //write_particle_archive_to_file();    
 
         m_particles.write_to_file(m_name_output_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::app | std::ofstream::binary);
         current_iteration++;
     }
     std::cout << "\n== Simulation completed ==" << std::endl;
-}
+    }
 
 /**
  * Generates random objects or loads data.
@@ -108,7 +102,7 @@ void Simulator::set_up_simulation()
 
         for(unsigned long i = 0; i < m_number_of_particles - 2 ; i++)
         {
-            m_particles.generateRandomParticle(AU / 2 , 20000,5.972 * pow(10, 24) * 6, 6371000 * 15);
+            m_particles.generateRandomParticle(AU , 20000,5.972 * pow(10, 24) * 6, 6371000 * 15);
         }
         std::cout << "Generating done" << std::endl;
     }
@@ -311,3 +305,13 @@ void Simulator::setup_test(int test_id)
             break;
     }
 }
+
+//void Simulator::write_particle_archive_to_file()
+//{
+//    std::ofstream ofs("archive.test", std::ios::app | std::ios::binary);
+//    boost::archive::binary_oarchive oa(ofs,boost::archive::no_header);
+//    double test = m_particles.get_time_simulated();
+//    oa << test;
+//    oa << m_number_of_iterations; 
+//    m_particles.write_to_archive(&oa);
+//}

@@ -69,7 +69,9 @@ class Visualizer
         void draw_object_circle(unsigned long id);
         void display_all_grav_ranges();
         std::string format_seconds_to_time(double time);
+        void load_particle_archive_from_file(std::string filename);
 
+        void draw_vector(Vec3<double> pos_vec, Vec3<double> vec);
         bool is_all_digits(char *text);
     
     public:
