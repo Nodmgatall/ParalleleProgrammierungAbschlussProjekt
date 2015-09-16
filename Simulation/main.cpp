@@ -14,7 +14,6 @@
 #include <random>
 #include <array>
 #include <utility>
-#include <SDL2/SDL.h>
 #include <stdlib.h>
 
 int main(int argc, char **argv)
