@@ -9,10 +9,12 @@
 #include <cmath>
 #include <string>
 
+#ifdef PARALLEL_BUILD
 #include <cstddef>
 #include <mpi.h>
 
 MPI::Datatype MPI_Vec3;
+#endif
 
 template <class T> class Vec3
 {
@@ -22,6 +24,7 @@ template <class T> class Vec3
     public:
         // ------------ Constructors ------------
         /// only works for doubles... very hacky
+#ifdef PARALLEL_BUILD
         static void create_mpi_type()
         {
             int counts[3] = {1, 1, 1};
@@ -35,7 +38,7 @@ template <class T> class Vec3
             MPI_Vec3 = MPI::Datatype::Create_struct(3, counts, displacements, types);
             MPI_Vec3.Commit();
         }
-
+#endif
         /// Default constructor
         Vec3() { x = y = z = 0; };
 
