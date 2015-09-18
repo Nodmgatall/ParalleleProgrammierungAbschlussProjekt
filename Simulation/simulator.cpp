@@ -43,12 +43,12 @@ std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
     {
         if(rest > 0)
         {
-            chunks[0] = chunk_size + 1;
+            chunks[i] = chunk_size + 1;
             rest--;
         }
         else
         {
-           chunks[0] = chunk_size;
+           chunks[i] = chunk_size;
         }
     }
     return chunks;
@@ -62,6 +62,7 @@ void Simulator::simulate_parallel()
     MPI_Status status;
     Vec3<double>::create_mpi_type();
     std::vector<int> chunk_sizes;
+    unsigned long size;
 
     unsigned long current_iteration = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &number_of_procs);
@@ -90,7 +91,7 @@ void Simulator::simulate_parallel()
             std::cout << "calculating chunksizes" << std::endl;
 
             //Size equals number of particles
-            unsigned long size = m_particles.get_velo_vector().size();
+            size = m_particles.get_velo_vector().size();
 
             //Vector that contains the chunk sizes
             chunk_sizes = calculate_chunk_size(number_of_procs - 1, size);
@@ -98,18 +99,22 @@ void Simulator::simulate_parallel()
             m_particles.particle_bubble_sort();
 
             std::cout << "Starting broadcasts" << std::endl;
-           
+          
+            std::cout << "chunks start"<< " size of chunk: "<< chunk_sizes.size() << std::endl;
+            MPI::COMM_WORLD.Bcast(&size,1,MPI_UNSIGNED_LONG,0);
             //Sending chunksizes
-            MPI_Bcast(&chunk_sizes,chunk_sizes.size(),
+            MPI_Bcast(&chunk_sizes,number_of_procs - 1,
                     MPI_INT,
                     0,
                     MPI_COMM_WORLD);
+            std::cout << "velo start" << std::endl;
             //Sending velocities vector
             MPI_Bcast(&m_particles.get_velo_vector()[0],
                     size,
                     MPI_Vec3,
                     0,MPI_COMM_WORLD);
 
+            std::cout << "pos start" << std::endl;
             //Sending positions vector
             MPI_Bcast(&m_particles.get_pos_vector()[0],
                     size,
@@ -153,30 +158,49 @@ void Simulator::simulate_parallel()
         }
         else
         {
+            MPI::COMM_WORLD.Bcast(&size,1,MPI_UNSIGNED_LONG,0);
+            std::cout << pro_id << "size: " << size << std::endl;
+            
             //Receive chunksize vector
-            MPI::COMM_WORLD.Bcast(&chunk_sizes,number_of_procs,
+            std::cout << pro_id<< ": recv chunks" << std::endl;
+            MPI::COMM_WORLD.Bcast(&chunk_sizes,number_of_procs - 1,
                     MPI_INT,
                     0);
+            std::cout << pro_id<< ": recv chunks done" << std::endl;
+            
             //Receive velo vector
-            MPI::COMM_WORLD.Bcast(&m_particles.get_velo_vector()[0],
-                    chunk_sizes[pro_id - 1], 
+            std::cout << pro_id<< ": recv velo" << std::endl;
+            std::vector<Vec3<double>> velo_buffer(size);
+            MPI::COMM_WORLD.Bcast(&velo_buffer[0],
+                    size, 
                     MPI_Vec3,
                     0);
+            m_particles.update_velo_vector(velo_buffer);
+            std::cout << pro_id<< ": recv velo done" << std::endl;
+            
             //Receive pos vector
-            MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
-                    chunk_sizes[pro_id - 1],
+            std::cout << pro_id<< ": recv pos" << std::endl;
+            std::vector<Vec3<double>> pos_buffer(size);
+            MPI::COMM_WORLD.Bcast(&pos_buffer[0],
+                    size,
                     MPI_Vec3,
                     0);
+            m_particles.update_pos_vector(pos_buffer);
+            std::cout << pro_id<< ": recv pos done" << std::endl;
 
 
             //Calculate chunk start and end
             int start = 0;
             int end;
-            for(int i = 0; i < pro_id; i++)
+            for(int i = 0; i < pro_id - 1; i++)
             {
+                std::cout << "chunksize["<< i << "] = " << chunk_sizes[i] << std::endl;
                 start += chunk_sizes[i]; 
             }
-            end = start + chunk_sizes[pro_id];
+            end = start + chunk_sizes[pro_id] - 1;
+            std::cout << "start of "<< pro_id <<": "<< start << std::endl;
+            std::cout << "end of "<< pro_id <<": "<< end << std::endl;
+
            
             //Actual funtion this is all for
             m_particles.apply_gravity(start,end);
