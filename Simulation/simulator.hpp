@@ -8,7 +8,9 @@ class Simulator
     public:
         Simulator();
         void simulate();
+#ifdef PARALLEL_BUILD
         void simulate_parallel();
+#endif
         void set_up_simulation();
         void get_options(int argc, char** argv);
         void setup_test(int test_id);

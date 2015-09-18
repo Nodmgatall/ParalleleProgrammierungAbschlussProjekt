@@ -4,8 +4,10 @@
 #include "Octree/Octree.hpp"
 #include "Util/vec3.hpp"
 
+#ifdef PARALLEL_BUILD
 #include "globals.h"
 #include <mpi.h>
+#endif
 
 #include "Util/macros.hpp"
 
@@ -18,6 +20,7 @@ Simulator::Simulator()
 {
     m_option_load_from_file = false;
     m_number_of_iterations_previous_run = 0;
+    m_run_test = false;
 }
 
 std::string set_up_loading_bar()
@@ -53,6 +56,7 @@ std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
     }
     return chunks;
 }
+#ifdef PARALLEL_BUILD 
 void Simulator::simulate_parallel()
 {
     int tag, source, destination;
@@ -238,6 +242,7 @@ void Simulator::simulate_parallel()
 
     }
 }
+#endif
 void Simulator::simulate()
 {
     unsigned long current_iteration = 0;
@@ -288,7 +293,7 @@ void Simulator::set_up_simulation()
     else if(m_run_test)
     {
         setup_test(m_test_id);
-        std::cout << "test setup done" << std::endl;
+        std::cout << "test setup done 12" << std::endl;
     }
 
     else

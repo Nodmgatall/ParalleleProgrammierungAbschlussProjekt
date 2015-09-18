@@ -1,7 +1,9 @@
 #include "Util/random_generator.hpp"
 #include "particle.hpp"
 #include "physics.hpp"
+#ifdef PARALLEL_BUILD
 #include "globals.h"
+#endif
 
 #include <string>
 #include <vector>
