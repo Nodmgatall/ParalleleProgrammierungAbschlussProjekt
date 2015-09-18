@@ -109,17 +109,24 @@ void Simulator::simulate_parallel()
                     MPI_COMM_WORLD);
             std::cout << "velo start" << std::endl;
             //Sending velocities vector
-            MPI_Bcast(&m_particles.get_velo_vector()[0],
+            MPI::COMM_WORLD.Bcast(&m_particles.get_velo_vector()[0],
                     size,
                     MPI_Vec3,
-                    0,MPI_COMM_WORLD);
+                    0);
 
             std::cout << "pos start" << std::endl;
             //Sending positions vector
-            MPI_Bcast(&m_particles.get_pos_vector()[0],
+            MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
                     size,
                     MPI_Vec3,
-                    0,MPI_COMM_WORLD);
+                    0);
+
+            std::cout << "mass start" << std::endl;
+            // Sending mass vector
+            MPI::COMM_WORLD.Bcast(&m_particles.get_mass_vector()[0],
+                    size,
+                    MPI_DOUBLE,
+                    0);
 
             
             //Receive velo vector
@@ -195,6 +202,14 @@ void Simulator::simulate_parallel()
             m_particles.update_pos_vector(pos_buffer);
             std::cout << pro_id<< ": recv pos done" << std::endl;
 
+            // Receive mass vector
+            std::cout << pro_id << ": recv mass" << std::endl;
+            std::vector<double> mass_buffer(size);
+            MPI::COMM_WORLD.Bcast(&mass_buffer[0],
+                    size,
+                    MPI_DOUBLE,
+                    0);
+            std::cout << pro_id << ": recv mass done" << std::endl;
 
             //Calculate chunk start and end
             int start = 0;
