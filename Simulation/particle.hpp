@@ -62,6 +62,7 @@ class Particle
 
         void update_velo_vector(std::vector<Vec3<double>> new_velo_vector);
         void update_pos_vector(std::vector<Vec3<double>> new_velo_vector);
+        void update_mass_vector(std::vector<double> new_mass_vector);
         void set_max_velo(double new_max_velo);
         //void remove_by_id(unsigned long particle_id);
 

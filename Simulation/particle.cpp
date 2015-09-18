@@ -94,6 +94,10 @@ void Particle::update_pos_vector(std::vector<Vec3<double>> new_pos_vector)
     m_velocity_vectors = new_pos_vector;
 }
 
+void Particle::update_mass_vector(std::vector<double> new_mass_vector)
+{
+    m_masses = new_mass_vector;
+}
 
 double Particle::get_max_velo()
 {
