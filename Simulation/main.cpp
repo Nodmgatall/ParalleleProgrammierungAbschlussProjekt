@@ -25,8 +25,8 @@
 int main(int argc, char **argv)
 {
     MPI::Init();
-    int pro_id;
-    MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
+    int pro_id = MPI::COMM_WORLD::Get_rank();
+    //MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
     Simulator simulator;
     if(pro_id == 0)
     {
