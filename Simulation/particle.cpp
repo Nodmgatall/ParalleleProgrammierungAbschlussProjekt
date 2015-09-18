@@ -57,6 +57,32 @@ double Particle::get_time_simulated()
     return m_time_simulated;
 }
 
+std::vector<Vec3<double>> Particle::get_velo_vector()
+{
+    return m_velocity_vectors;
+}
+
+std::vector<Vec3<double>> &Particle::get_pos_vector()
+{
+    return m_positions;
+}
+
+std::vector<double> &Particle::get_mass_vector()
+{
+    return m_masses;
+}
+
+std::vector<double> &Particle::get_radius_vector()
+{
+    return m_radiuses;
+}
+
+std::vector<unsigned long> &Particle::get_id_vector()
+{
+    return m_ids;
+}
+
+
 double Particle::get_max_velo()
 {
     return m_max_velo;
@@ -297,7 +323,7 @@ void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
     {
         new_velocity = m_velocity_vectors[obj_id_1];
     }
-   
+
     m_masses[obj_id_2] = new_mass;
     m_velocity_vectors[obj_id_2] = new_velocity;
     m_radiuses[obj_id_2] = new_radius;
@@ -493,81 +519,81 @@ std::pair<double,double> Particle::calculate_possible_collison_point(unsigned lo
 }
 
 /*
-void Particle::remove_by_id(unsigned long particle_id)
+   void Particle::remove_by_id(unsigned long particle_id)
+   {
+   unsigned long vector_index = get_vector_index(particle_id);
+   remove(vector_index);
+   return;
+   }
+
+
+   unsigned long Particle::get_vector_index(unsigned long id)
+   {
+   unsigned long sub_vector_size;
+   unsigned long index;
+   unsigned long sub_vector_end = id;
+
+   if(id > m_used_ids.size())
+   {
+   sub_vector_end = m_used_ids.size();
+   }
+
+   if(m_used_ids[sub_vector_end] == id)
+   {
+   std::cout << "wanted: "<< id << "    simple deleted: "<< m_used_ids[id] << std::endl;
+                //m_used_ids.erase(m_used_ids.begin() + sub_vector_end);
+                return sub_vector_end;
+                }
+
+                sub_vector_size = id / 2;
+                index = 0;
+                while(index < sub_vector_end)
+                {
+//std::cout << "sub_vector_size "<< sub_vector_size << std::endl;
+for(int i = 0; i < 10 ; i ++)
 {
-    unsigned long vector_index = get_vector_index(particle_id);
-    remove(vector_index);
-    return;
+int rofl;
+int lol = 0;
+lol = i;
+
+rofl = lol;
+lol = rofl;
 }
-
-
-unsigned long Particle::get_vector_index(unsigned long id)
+unsigned long current_index = index + sub_vector_size; 
+if(m_used_ids[current_index] == id)
 {
-    unsigned long sub_vector_size;
-    unsigned long index;
-    unsigned long sub_vector_end = id;
-
-    if(id > m_used_ids.size())
-    {
-        sub_vector_end = m_used_ids.size();
+std::cout << "wanted: " << id << "   Deleted: " << m_used_ids[current_index] << std::endl;
+    //m_used_ids.erase(m_used_ids.begin() + current_index);
+    return current_index; 
     }
-
-    if(m_used_ids[sub_vector_end] == id)
+    else
     {
-        std::cout << "wanted: "<< id << "    simple deleted: "<< m_used_ids[id] << std::endl;
-        //m_used_ids.erase(m_used_ids.begin() + sub_vector_end);
-        return sub_vector_end;
+    if(m_used_ids[current_index] < id)
+    {
+    //std::cout << "current_index > id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
+    index = current_index + 1;
     }
-
-    sub_vector_size = id / 2;
-    index = 0;
-    while(index < sub_vector_end)
+    else
     {
-        //std::cout << "sub_vector_size "<< sub_vector_size << std::endl;
-        for(int i = 0; i < 10 ; i ++)
-        {
-            int rofl;
-            int lol = 0;
-            lol = i;
-
-            rofl = lol;
-            lol = rofl;
-        }
-        unsigned long current_index = index + sub_vector_size; 
-        if(m_used_ids[current_index] == id)
-        {
-            std::cout << "wanted: " << id << "   Deleted: " << m_used_ids[current_index] << std::endl;
-            //m_used_ids.erase(m_used_ids.begin() + current_index);
-            return current_index; 
-        }
-        else
-        {
-            if(m_used_ids[current_index] < id)
-            {
-                //std::cout << "current_index > id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
-                index = current_index + 1;
-            }
-            else
-            {
-                //std::cout << "current_index < id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
-                sub_vector_end = current_index;   
-            }
-            sub_vector_size = sub_vector_size / 2;
-        }
+    //std::cout << "current_index < id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
+    sub_vector_end = current_index;   
+    }
+    sub_vector_size = sub_vector_size / 2;
+    }
     }
     std::cout << "end" << std::endl;
     return m_max_id + 1;
-}
-*/
+    }
+    */
 
-//void Particle::write_to_archive(boost::archive::binary_oarchive *oa)
-//{
-//    *oa << m_positions;
-//    *oa << m_velocity_vectors;
-//    *oa << m_masses;
-//    *oa << m_radiuses;
-//    *oa << m_ids;
-//    //oa << m_deleted_ids_in_iteration;
-//    *oa << m_dt;
-//}
+    //void Particle::write_to_archive(boost::archive::binary_oarchive *oa)
+    //{
+    //    *oa << m_positions;
+    //    *oa << m_velocity_vectors;
+    //    *oa << m_masses;
+    //    *oa << m_radiuses;
+    //    *oa << m_ids;
+    //    //oa << m_deleted_ids_in_iteration;
+    //    *oa << m_dt;
+    //}
 

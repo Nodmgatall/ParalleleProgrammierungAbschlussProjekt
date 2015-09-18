@@ -2,8 +2,10 @@
 #include "physics.hpp"
 #include "unistd.h"
 #include "Octree/Octree.hpp"
+#include "Util/vec3.hpp"
 
 #include "globals.h"
+#include <mpi.h>
 
 #include "Util/macros.hpp"
 
@@ -34,14 +36,87 @@ std::string set_up_loading_bar()
  * */
 
 
+void Simulator::simulate_parallel()
+{
+    int tag, source, destination;
+    unsigned long object_count;
+    int number_of_proc;
+    int pro_id;
+    MPI_Status status;
+    Vec3<double>::create_mpi_type();
 
+    unsigned long current_iteration = 0;
+    MPI_Comm_size(MPI_COMM_WORLD, &number_of_proc);
+    MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
+    tag = 1;
+
+    if(pro_id == 0)
+    {
+        std::cout << "== Simulating ==" << std::endl;
+    }
+
+
+    // Simulation loop
+    while(m_particles.get_time_simulated() < m_number_of_iterations)
+    {
+        if(pro_id == 0)
+        {
+            printf("(%lu / %lu) %lu \r",
+                    (unsigned long)m_particles.get_time_simulated(),
+                    (unsigned long)m_number_of_iterations, current_iteration);
+
+
+            fflush(stdout);
+
+            m_particles.particle_bubble_sort();
+
+            MPI_Bcast(&m_particles.get_velo_vector()[0],
+                    m_particles.get_velo_vector().size(),
+                    MPI_Vec3,
+                    0,MPI_COMM_WORLD);
+
+            for(int i = 1; i < number_of_proc; i++)
+            {
+                MPI_Vec3 buffer[]
+                MPI::Recv();
+            }
+
+            m_particles.detect_collision(1);
+            m_particles.move_objects(1);
+
+            if(current_iteration == m_number_of_iterations - 1)
+            {
+                m_particles.write_to_file(m_name_last_iteration_save_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::trunc | std::ofstream::binary);
+            }
+            //write_particle_archive_to_file();    
+
+            m_particles.write_to_file(m_name_output_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::app | std::ofstream::binary);
+            current_iteration++;
+        }
+        std::cout << "\n== Simulation completed ==" << std::endl;
+
+        else
+        {
+            MPI_Bcast(&m_particles.get_velo_vector()[0],
+                    m_particles.get_velo_vector().size(),
+                    MPI_Vec3,
+                    0,MPI_COMM_WORLD);
+
+            unsigned long part = m_particles.get_velo_vector().size() / (number_of_proc - 1);
+            m_particles.apply_gravity((pro_id - 1) * part, (pro_id - 1) * part + part);
+        }
+        //Wrtite simulation data to file and in last iteration save last iteration
+
+
+    }
+}
 void Simulator::simulate()
 {
     unsigned long current_iteration = 0;
     std::cout << "== Simulating ==" << std::endl;
- 
 
-        
+
+
     // Simulation loop
     while(m_particles.get_time_simulated() < m_number_of_iterations)
     {

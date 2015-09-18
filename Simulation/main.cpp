@@ -16,12 +16,39 @@
 #include <utility>
 #include <stdlib.h>
 
+#ifdef PARALLEL_BUILD
+    #include <mpi.h>
+    MPI::Datatype MPI_Vec3;
+#endif
+
+#ifdef PARALLEL_BUILD
 int main(int argc, char **argv)
+{
+    MPI::Init();
+    int pro_id;
+    MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
+    Simulator simulator;
+    if(pro_id == 0)
+    {
+        simulator.get_options(argc, argv);
+        simulator.set_up_simulation();
+    }
+    else
+    {
+        simulator.simulate_parallel();
+    }
+    MPI::Finalize();
+
+    return EXIT_SUCCESS;
+}
+#else
+int main(int argc, char**argv)
 {
     Simulator simulator;
     simulator.get_options(argc, argv);
     simulator.set_up_simulation();
     simulator.simulate();
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
+#endif

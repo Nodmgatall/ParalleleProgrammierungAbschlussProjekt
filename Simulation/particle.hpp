@@ -54,6 +54,12 @@ class Particle
 
         double get_max_velo();
 
+        std::vector<Vec3<double>> get_velo_vector();
+        std::vector<Vec3<double>> &get_pos_vector();
+        std::vector<double> &get_mass_vector();
+        std::vector<double> &get_radius_vector();
+        std::vector<unsigned long> &get_id_vector();
+
         void set_max_velo(double new_max_velo);
         //void remove_by_id(unsigned long particle_id);
 
