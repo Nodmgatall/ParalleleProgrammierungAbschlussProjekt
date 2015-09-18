@@ -37,7 +37,7 @@ std::string set_up_loading_bar()
 std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
 {
     int chunk_size= buffer_size / number_of_procs;
-    int rest = buffer_size - chunk_size * number_of_procs;
+    int rest = buffer_size % number_of_procs;
     std::vector<int> chunks(number_of_procs);
     for(int i = 0; i < number_of_procs; i++)
     {
@@ -100,21 +100,24 @@ void Simulator::simulate_parallel()
             std::cout << "Starting broadcasts" << std::endl;
            
             //Sending chunksizes
-            MPI_Bcast(&chunk_sizes,chunk_sizes.size(),
+            MPI::COMM_WORLD.Bcast(
+                    &chunk_sizes,
+                    chunk_sizes.size(),
                     MPI_INT,
-                    0,
-                    MPI_COMM_WORLD);
+                    0);
+
             //Sending velocities vector
-            MPI_Bcast(&m_particles.get_velo_vector()[0],
+            MPI::COMM_WORLD.Bcast(
+                    &m_particles.get_velo_vector()[0],
                     size,
                     MPI_Vec3,
-                    0,MPI_COMM_WORLD);
+                    0);
 
             //Sending positions vector
-            MPI_Bcast(&m_particles.get_pos_vector()[0],
+            MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
                     size,
                     MPI_Vec3,
-                    0,MPI_COMM_WORLD);
+                    0);
 
             
             //Receive velo vector
@@ -154,16 +157,19 @@ void Simulator::simulate_parallel()
         else
         {
             //Receive chunksize vector
-            MPI::COMM_WORLD.Bcast(&chunk_sizes,number_of_procs,
+            MPI::COMM_WORLD.Bcast(
+                    &chunk_sizes,number_of_procs,
                     MPI_INT,
                     0);
             //Receive velo vector
-            MPI::COMM_WORLD.Bcast(&m_particles.get_velo_vector()[0],
+            MPI::COMM_WORLD.Bcast(
+                    &m_particles.get_velo_vector()[0],
                     chunk_sizes[pro_id - 1], 
                     MPI_Vec3,
                     0);
             //Receive pos vector
-            MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
+            MPI::COMM_WORLD.Bcast(
+                    &m_particles.get_pos_vector()[0],
                     chunk_sizes[pro_id - 1],
                     MPI_Vec3,
                     0);
