@@ -82,6 +82,16 @@ std::vector<unsigned long> &Particle::get_id_vector()
     return m_ids;
 }
 
+void Particle::update_velo_vector(std::vector<Vec3<double>> new_velo_vector)
+{
+    m_velocity_vectors = new_velo_vector;
+}
+
+void Particle::update_pos_vector(std::vector<Vec3<double>> new_pos_vector)
+{
+    m_velocity_vectors = new_pos_vector;
+}
+
 
 double Particle::get_max_velo()
 {

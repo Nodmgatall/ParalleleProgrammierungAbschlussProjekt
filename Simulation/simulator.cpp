@@ -34,19 +34,37 @@ std::string set_up_loading_bar()
 /**
  * Starts the simulation
  * */
-
-
+std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
+{
+    int chunk_size= buffer_size / number_of_procs;
+    int rest = buffer_size - chunk_size * number_of_procs;
+    std::vector<int> chunks(number_of_procs);
+    for(int i = 0; i < number_of_procs; i++)
+    {
+        if(rest > 0)
+        {
+            chunks[0] = chunk_size + 1;
+            rest--;
+        }
+        else
+        {
+           chunks[0] = chunk_size;
+        }
+    }
+    return chunks;
+}
 void Simulator::simulate_parallel()
 {
     int tag, source, destination;
     unsigned long object_count;
-    int number_of_proc;
+    int number_of_procs;
     int pro_id;
     MPI_Status status;
     Vec3<double>::create_mpi_type();
+    std::vector<int> chunk_sizes;
 
     unsigned long current_iteration = 0;
-    MPI_Comm_size(MPI_COMM_WORLD, &number_of_proc);
+    MPI_Comm_size(MPI_COMM_WORLD, &number_of_procs);
     MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
     tag = 1;
 
@@ -59,6 +77,7 @@ void Simulator::simulate_parallel()
     // Simulation loop
     while(m_particles.get_time_simulated() < m_number_of_iterations)
     {
+        
         if(pro_id == 0)
         {
             printf("(%lu / %lu) %lu \r",
@@ -68,19 +87,48 @@ void Simulator::simulate_parallel()
 
             fflush(stdout);
 
+            std::cout << "calculating chunksizes" << std::endl;
+            unsigned long size = m_particles.get_velo_vector().size();
+            chunk_sizes = calculate_chunk_size(number_of_procs - 1, size);
+
             m_particles.particle_bubble_sort();
 
+            std::cout << "Starting broadcasts" << std::endl;
+            
+            MPI_Bcast(&chunk_sizes,chunk_sizes.size(),
+                    MPI_INT,
+                    0,
+                    MPI_COMM_WORLD);
             MPI_Bcast(&m_particles.get_velo_vector()[0],
-                    m_particles.get_velo_vector().size(),
+                    size,
                     MPI_Vec3,
                     0,MPI_COMM_WORLD);
 
-            for(int i = 1; i < number_of_proc; i++)
+            MPI_Bcast(&m_particles.get_pos_vector()[0],
+                    size,
+                    MPI_Vec3,
+                    0,MPI_COMM_WORLD);
+
+
+            std::vector<Vec3<double>> new_velocity_vector;
+            for(int i = 1; i < number_of_procs; i++)
             {
-                MPI_Vec3 buffer[]
-                MPI::Recv();
+                std::vector<Vec3<double>> buffer(chunk_sizes[i - 1]);
+                MPI::COMM_WORLD.Recv(&buffer, chunk_sizes[i - 1],MPI_Vec3,i,tag);
+                new_velocity_vector.insert(new_velocity_vector.end(),buffer.begin(),buffer.end());
             }
 
+            std::vector<Vec3<double>> new_pos_vector;
+            for(int i = 1; i < number_of_procs; i++)
+            {
+                std::vector<Vec3<double>> buffer(chunk_sizes[i - 1]);
+                MPI::COMM_WORLD.Recv(&buffer, chunk_sizes[i - 1],MPI_Vec3,i,tag);
+                new_pos_vector.insert(new_pos_vector.end(),buffer.begin(),buffer.end());
+            }
+            
+            m_particles.update_velo_vector(new_velocity_vector);
+            m_particles.update_pos_vector(new_pos_vector);    
+            
             m_particles.detect_collision(1);
             m_particles.move_objects(1);
 
@@ -92,18 +140,39 @@ void Simulator::simulate_parallel()
 
             m_particles.write_to_file(m_name_output_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::app | std::ofstream::binary);
             current_iteration++;
+            std::cout << "iteration: "<< current_iteration << " done" << std::endl;
         }
-        std::cout << "\n== Simulation completed ==" << std::endl;
-
         else
         {
-            MPI_Bcast(&m_particles.get_velo_vector()[0],
-                    m_particles.get_velo_vector().size(),
-                    MPI_Vec3,
-                    0,MPI_COMM_WORLD);
+            MPI::COMM_WORLD.Bcast(&chunk_sizes,number_of_procs,
+                    MPI_INT,
+                    0);
 
-            unsigned long part = m_particles.get_velo_vector().size() / (number_of_proc - 1);
-            m_particles.apply_gravity((pro_id - 1) * part, (pro_id - 1) * part + part);
+            MPI::COMM_WORLD.Bcast(&m_particles.get_velo_vector()[0],
+                    chunk_sizes[pro_id - 1], 
+                    MPI_Vec3,
+                    0);
+
+            MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
+                    chunk_sizes[pro_id - 1],
+                    MPI_Vec3,
+                    0);
+
+
+            int start = 0;
+            int end;
+            for(int i = 0; i < pro_id; i++)
+            {
+                start += chunk_sizes[i]; 
+            }
+            end = start + chunk_sizes[pro_id];
+            m_particles.apply_gravity(start,end);
+            std::vector<Vec3<double>> buffer(m_particles.get_velo_vector().begin() + start, m_particles.get_velo_vector().begin() + end);
+            MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
+            buffer = std::vector<Vec3<double>>(m_particles.get_pos_vector().begin() + start, m_particles.get_pos_vector().begin() + end);
+            MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
+            current_iteration++;
+
         }
         //Wrtite simulation data to file and in last iteration save last iteration
 

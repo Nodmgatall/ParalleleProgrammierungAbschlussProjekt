@@ -32,6 +32,7 @@ int main(int argc, char **argv)
     {
         simulator.get_options(argc, argv);
         simulator.set_up_simulation();
+        simulator.simulate_parallel();
     }
     else
     {
