@@ -88,28 +88,36 @@ void Simulator::simulate_parallel()
             fflush(stdout);
 
             std::cout << "calculating chunksizes" << std::endl;
+
+            //Size equals number of particles
             unsigned long size = m_particles.get_velo_vector().size();
+
+            //Vector that contains the chunk sizes
             chunk_sizes = calculate_chunk_size(number_of_procs - 1, size);
 
             m_particles.particle_bubble_sort();
 
             std::cout << "Starting broadcasts" << std::endl;
-            
+           
+            //Sending chunksizes
             MPI_Bcast(&chunk_sizes,chunk_sizes.size(),
                     MPI_INT,
                     0,
                     MPI_COMM_WORLD);
+            //Sending velocities vector
             MPI_Bcast(&m_particles.get_velo_vector()[0],
                     size,
                     MPI_Vec3,
                     0,MPI_COMM_WORLD);
 
+            //Sending positions vector
             MPI_Bcast(&m_particles.get_pos_vector()[0],
                     size,
                     MPI_Vec3,
                     0,MPI_COMM_WORLD);
 
-
+            
+            //Receive velo vector
             std::vector<Vec3<double>> new_velocity_vector;
             for(int i = 1; i < number_of_procs; i++)
             {
@@ -117,7 +125,7 @@ void Simulator::simulate_parallel()
                 MPI::COMM_WORLD.Recv(&buffer, chunk_sizes[i - 1],MPI_Vec3,i,tag);
                 new_velocity_vector.insert(new_velocity_vector.end(),buffer.begin(),buffer.end());
             }
-
+            //Receive pos vector
             std::vector<Vec3<double>> new_pos_vector;
             for(int i = 1; i < number_of_procs; i++)
             {
@@ -125,7 +133,8 @@ void Simulator::simulate_parallel()
                 MPI::COMM_WORLD.Recv(&buffer, chunk_sizes[i - 1],MPI_Vec3,i,tag);
                 new_pos_vector.insert(new_pos_vector.end(),buffer.begin(),buffer.end());
             }
-            
+           
+            //Update old vectors with new ones
             m_particles.update_velo_vector(new_velocity_vector);
             m_particles.update_pos_vector(new_pos_vector);    
             
@@ -144,21 +153,23 @@ void Simulator::simulate_parallel()
         }
         else
         {
+            //Receive chunksize vector
             MPI::COMM_WORLD.Bcast(&chunk_sizes,number_of_procs,
                     MPI_INT,
                     0);
-
+            //Receive velo vector
             MPI::COMM_WORLD.Bcast(&m_particles.get_velo_vector()[0],
                     chunk_sizes[pro_id - 1], 
                     MPI_Vec3,
                     0);
-
+            //Receive pos vector
             MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
                     chunk_sizes[pro_id - 1],
                     MPI_Vec3,
                     0);
 
 
+            //Calculate chunk start and end
             int start = 0;
             int end;
             for(int i = 0; i < pro_id; i++)
@@ -166,10 +177,16 @@ void Simulator::simulate_parallel()
                 start += chunk_sizes[i]; 
             }
             end = start + chunk_sizes[pro_id];
+           
+            //Actual funtion this is all for
             m_particles.apply_gravity(start,end);
+            // send buffer for velo vector chunk
             std::vector<Vec3<double>> buffer(m_particles.get_velo_vector().begin() + start, m_particles.get_velo_vector().begin() + end);
+            //Send buffer
             MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
+            //buffer is now filled with pos vector chunk
             buffer = std::vector<Vec3<double>>(m_particles.get_pos_vector().begin() + start, m_particles.get_pos_vector().begin() + end);
+            //Send pos vector chunk
             MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
             current_iteration++;
 
