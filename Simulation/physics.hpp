@@ -24,7 +24,7 @@ static double __attribute__((unused)) get_time_of_closest_approach(Vec3<double> 
 static void __attribute__((unused)) applyGravity(Particle *particle, unsigned long id, double dt)
 {
 	Vec3<double> distance_vector;
-	Vec3<double> accleration_vector;
+	Vec3<double> accelration_vector;
 	Vec3<double> pos_vec_other;
 	Vec3<double> pos_vec_curr;
 	Vec3<double> normalised_dist_vec;
@@ -39,10 +39,11 @@ static void __attribute__((unused)) applyGravity(Particle *particle, unsigned lo
 		distance_vector = pos_vec_other - pos_vec_curr;
 		force = calculateAccleration(distance_vector.getLength(),particle->getMass(i));
 		distance_vector.normalise();
-		accleration_vector = distance_vector * force / dt;
+		accelration_vector = distance_vector * force / dt;
 		// puts("acc: ");
 		// accleration_vector.display();
-		particle->addAccelerationVector(id,accleration_vector);
+		particle->addAccelerationVector(id,accelration_vector);
+        particle->set_max_velo(std::fmax(accelration_vector.getLength(), particle->get_max_velo()));
 	}
 	for(unsigned int i = id + 1; i < num_particles; i++)
 	{
@@ -50,10 +51,11 @@ static void __attribute__((unused)) applyGravity(Particle *particle, unsigned lo
 		distance_vector = pos_vec_other - pos_vec_curr;
 		force = calculateAccleration(distance_vector.getLength(),particle->getMass(i));
 		distance_vector.normalise();
-		accleration_vector = distance_vector * force / dt;
+		accelration_vector = distance_vector * force / dt;
 		// puts("acc: ");
 		// accleration_vector.display();
-		particle->addAccelerationVector(id,accleration_vector);
+		particle->addAccelerationVector(id,accelration_vector);
+        particle->set_max_velo(std::fmax(accelration_vector.getLength(), particle->get_max_velo()));
 	}
 }
 

@@ -47,11 +47,15 @@ class Particle
         Particle();
         /** removes single particle */
         void remove(unsigned long vector_index);
-        
+
         double get_dt();
 
         double get_time_simulated();
-    //void remove_by_id(unsigned long particle_id);
+
+        double get_max_velo();
+
+        void set_max_velo(double new_max_velo);
+        //void remove_by_id(unsigned long particle_id);
 
         std::pair<double,double> calculate_possible_collison_point(unsigned long index_1, unsigned long index_2);
 
@@ -63,49 +67,49 @@ class Particle
           */
         void move_Object(unsigned long particle_index);
 
-        void move_objects(unsigned long start_idx = 1, unsigned long end_idx = 0);
+    void move_objects(unsigned long start_idx = 1, unsigned long end_idx = 0);
 
-            /** returns the velocity vector of given particle */
-            Vec3<double> getVelocityVector(unsigned long particle_index);
+    /** returns the velocity vector of given particle */
+    Vec3<double> getVelocityVector(unsigned long particle_index);
 
-        /** adds a acceleration vector to the velocity vectof of specified object*/
-        void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
+    /** adds a acceleration vector to the velocity vectof of specified object*/
+    void addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector);
 
-        /** returns the positon of given particle */
-        Vec3<double> getPosition(unsigned long particle_index);
+    /** returns the positon of given particle */
+    Vec3<double> getPosition(unsigned long particle_index);
 
-        //TODO:createParticle(new_position, new_velocity, new_mass, new_radius);
+    //TODO:createParticle(new_position, new_velocity, new_mass, new_radius);
 
-        /** returns a pointer to a copied m_positions Vector for saving */ 
-        Vec3<Vec3<double> > savePositionData();
+    /** returns a pointer to a copied m_positions Vector for saving */ 
+    Vec3<Vec3<double> > savePositionData();
 
-        void write_to_file(std::string filename, unsigned long iteration_number, std::ios_base::openmode mode) ;
-        /** returns the mass of given particle */
-        double getMass(unsigned long particle_index);
+    void write_to_file(std::string filename, unsigned long iteration_number, std::ios_base::openmode mode) ;
+    /** returns the mass of given particle */
+    double getMass(unsigned long particle_index);
 
-        /** returns the radius of given particle */
-        double getRadius(unsigned long particle_index);
+    /** returns the radius of given particle */
+    double getRadius(unsigned long particle_index);
 
-        /** returns the number of existing particles */
-        unsigned long getNumberOfParticles();
+    /** returns the number of existing particles */
+    unsigned long getNumberOfParticles();
 
-        /** 
-         * calculates the vector that is on the same plane as pos_vec and velocity_vector
-         * that is orthogonal to pos_vec*/
-        Vec3<double> calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector);
+    /** 
+     * calculates the vector that is on the same plane as pos_vec and velocity_vector
+     * that is orthogonal to pos_vec*/
+    Vec3<double> calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector);
 
-        /**
+    /**
 Discription:\n
 Generates a new particle witch random atributes within ranges \n
 Return value:\n
 returns the index of the new Particle
 */
-        unsigned long generateRandomParticle(
-                std::pair<double,double> range_position,
-                std::pair<double,double> range_velocity,
-                std::pair<double,double> range_mass,
-                std::pair<double,double> range_radius);
-        /**	
+    unsigned long generateRandomParticle(
+            std::pair<double,double> range_position,
+            std::pair<double,double> range_velocity,
+            std::pair<double,double> range_mass,
+            std::pair<double,double> range_radius);
+    /**	
 Discription:\n
 Generates a new particle witch random atributes form range 0 to max_<atr> \n
 Return value:\n
@@ -144,35 +148,33 @@ Mass: 2255.501134\n
 Radius 429.489498\n
 
 */
-        void apply_gravity(unsigned long start_idx = 1, unsigned long end_idx = 0);
+    void apply_gravity(unsigned long start_idx = 1, unsigned long end_idx = 0);
 
-        void printParticle(unsigned long particle_index);
+    void printParticle(unsigned long particle_index);
 
-        /** prints all particles to the console */
-        void printAllParticles();
+    /** prints all particles to the console */
+    void printAllParticles();
 
-        void calculate_collision(unsigned long obj_id_1, unsigned long obj_id_2);
+    void calculate_collision(unsigned long obj_id_1, unsigned long obj_id_2);
 
-        void merge_objects(unsigned long obj_id_1, unsigned long obj_id_2);
+    void merge_objects(unsigned long obj_id_1, unsigned long obj_id_2);
 
-        unsigned long get_vector_index(unsigned long id);
+    unsigned long get_vector_index(unsigned long id);
 
-        void load_data_from_file(std::string filepath, unsigned long &number_of_previous_iterations);
-        //TODO: Save funktion die die daten aus Particle in eine datei schreibt
-        //
-        bool check_for_collision(unsigned long id_1, unsigned long id_2, double time_of_closest_approach);
+    void load_data_from_file(std::string filepath, unsigned long &number_of_previous_iterations);
+    //TODO: Save funktion die die daten aus Particle in eine datei schreibt
+    //
+    bool check_for_collision(unsigned long id_1, unsigned long id_2, double time_of_closest_approach);
 
-        void detect_collision();
+    void detect_collision(unsigned long index_1 = 1, unsigned long index_2 = 0);
 
-        void particle_bubble_sort(unsigned long start_idx = 0, unsigned long end_idx = 0);
+    void particle_bubble_sort(unsigned long start_idx = 0, unsigned long end_idx = 0);
 
-        void detect_collision();
+    bool limit(unsigned long index_1, unsigned long index_2);
 
-        bool limit(unsigned long index_1, unsigned long index_2);
+    void write_archive_to_file(std::string filename, unsigned long it_num);
 
-        void write_archive_to_file(std::string filename, unsigned long it_num);
-
-        //`void write_to_archive(boost::archive::binary_oarchive *oa);
+    //`void write_to_archive(boost::archive::binary_oarchive *oa);
 
 
 };

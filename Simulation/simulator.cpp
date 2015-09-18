@@ -55,7 +55,7 @@ void Simulator::simulate()
         //Actual simulation
         m_particles.particle_bubble_sort();
         m_particles.apply_gravity(1);
-        m_particles.detect_collision();
+        m_particles.detect_collision(1);
         m_particles.move_objects(1);
         //Wrtite simulation data to file and in last iteration save last iteration
         if(current_iteration == m_number_of_iterations - 1)

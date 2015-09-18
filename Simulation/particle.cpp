@@ -47,74 +47,6 @@ void Particle::remove(unsigned long vector_index)
     return;
 }
 
-/*
-void Particle::remove_by_id(unsigned long particle_id)
-{
-    unsigned long vector_index = get_vector_index(particle_id);
-    remove(vector_index);
-    return;
-}
-
-
-unsigned long Particle::get_vector_index(unsigned long id)
-{
-    unsigned long sub_vector_size;
-    unsigned long index;
-    unsigned long sub_vector_end = id;
-
-    if(id > m_used_ids.size())
-    {
-        sub_vector_end = m_used_ids.size();
-    }
-
-    if(m_used_ids[sub_vector_end] == id)
-    {
-        std::cout << "wanted: "<< id << "    simple deleted: "<< m_used_ids[id] << std::endl;
-        //m_used_ids.erase(m_used_ids.begin() + sub_vector_end);
-        return sub_vector_end;
-    }
-
-    sub_vector_size = id / 2;
-    index = 0;
-    while(index < sub_vector_end)
-    {
-        //std::cout << "sub_vector_size "<< sub_vector_size << std::endl;
-        for(int i = 0; i < 10 ; i ++)
-        {
-            int rofl;
-            int lol = 0;
-            lol = i;
-
-            rofl = lol;
-            lol = rofl;
-        }
-        unsigned long current_index = index + sub_vector_size; 
-        if(m_used_ids[current_index] == id)
-        {
-            std::cout << "wanted: " << id << "   Deleted: " << m_used_ids[current_index] << std::endl;
-            //m_used_ids.erase(m_used_ids.begin() + current_index);
-            return current_index; 
-        }
-        else
-        {
-            if(m_used_ids[current_index] < id)
-            {
-                //std::cout << "current_index > id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
-                index = current_index + 1;
-            }
-            else
-            {
-                //std::cout << "current_index < id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
-                sub_vector_end = current_index;   
-            }
-            sub_vector_size = sub_vector_size / 2;
-        }
-    }
-    std::cout << "end" << std::endl;
-    return m_max_id + 1;
-}
-*/
-
 double Particle::get_distance_to_center(unsigned long particle_index)
 {
     return m_positions[particle_index].getLength();
@@ -123,6 +55,16 @@ double Particle::get_distance_to_center(unsigned long particle_index)
 double Particle::get_time_simulated()
 {
     return m_time_simulated;
+}
+
+double Particle::get_max_velo()
+{
+    return m_max_velo;
+}
+
+void Particle::set_max_velo(double new_max_velo)
+{
+    m_max_velo = new_max_velo;
 }
 
 void Particle::apply_gravity(unsigned long start_idx, unsigned long end_idx)
@@ -297,9 +239,7 @@ void Particle::printAllParticles()
     {
         printParticle(i);
     }
-
 }
-
 
 void Particle::write_to_file(std::string filename, unsigned long iteration_number, std::ios_base::openmode mode)
 {
@@ -455,7 +395,6 @@ void Particle::particle_bubble_sort(unsigned long idx_start, unsigned long idx_e
         all_done = true;
         for(unsigned long i = idx_start + 1; i < idx_end; i++)
         {
-            m_max_velo = std::fmax(m_velocity_vectors[i].getLength(), m_max_velo);
             if(m_positions[i].getLength() < m_positions[i-1].getLength())
             {
                 all_done = false;
@@ -485,11 +424,16 @@ bool Particle::limit(unsigned long index_1, unsigned long index_2)
     return dist > m_radiuses[index_1] + m_radiuses[index_2] + m_max_velo * 2;
 }
 
-void Particle::detect_collision()
+void Particle::detect_collision(unsigned long index_1, unsigned long index_2)
 {
+    if(index_2 == 0)
+    {
+        index_2 = m_positions.size();
+    }
+    unsigned long number_of_collisions = 0;
     unsigned long j; 
     double time_of_closest_approach;
-    for(unsigned long i = 1; i < m_positions.size(); i++)
+    for(unsigned long i = index_1; i < index_2 - number_of_collisions; i++)
     {
         j = i;
         while( j > 0 && !limit(i, j-1))
@@ -499,8 +443,9 @@ void Particle::detect_collision()
 
             if(check_for_collision(i, j -1, time_of_closest_approach))
             {
-                std::cout << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << std::endl;
+                if(j - 1 != 0) std::cout << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << std::endl;
                 merge_objects(i,j-1);
+                number_of_collisions++;
                 i--;
             }            
             j--;
@@ -510,6 +455,8 @@ void Particle::detect_collision()
     m_time_simulated += 1;
     //std::cout << "1/m_dt: "<< 1/m_dt << std::endl;
 }
+
+
 
 std::pair<double,double> Particle::calculate_possible_collison_point(unsigned long index_1, unsigned long index_2)
 {
@@ -544,6 +491,74 @@ std::pair<double,double> Particle::calculate_possible_collison_point(unsigned lo
     }
     return std::pair<double,double>(lamda,sigma);
 }
+
+/*
+void Particle::remove_by_id(unsigned long particle_id)
+{
+    unsigned long vector_index = get_vector_index(particle_id);
+    remove(vector_index);
+    return;
+}
+
+
+unsigned long Particle::get_vector_index(unsigned long id)
+{
+    unsigned long sub_vector_size;
+    unsigned long index;
+    unsigned long sub_vector_end = id;
+
+    if(id > m_used_ids.size())
+    {
+        sub_vector_end = m_used_ids.size();
+    }
+
+    if(m_used_ids[sub_vector_end] == id)
+    {
+        std::cout << "wanted: "<< id << "    simple deleted: "<< m_used_ids[id] << std::endl;
+        //m_used_ids.erase(m_used_ids.begin() + sub_vector_end);
+        return sub_vector_end;
+    }
+
+    sub_vector_size = id / 2;
+    index = 0;
+    while(index < sub_vector_end)
+    {
+        //std::cout << "sub_vector_size "<< sub_vector_size << std::endl;
+        for(int i = 0; i < 10 ; i ++)
+        {
+            int rofl;
+            int lol = 0;
+            lol = i;
+
+            rofl = lol;
+            lol = rofl;
+        }
+        unsigned long current_index = index + sub_vector_size; 
+        if(m_used_ids[current_index] == id)
+        {
+            std::cout << "wanted: " << id << "   Deleted: " << m_used_ids[current_index] << std::endl;
+            //m_used_ids.erase(m_used_ids.begin() + current_index);
+            return current_index; 
+        }
+        else
+        {
+            if(m_used_ids[current_index] < id)
+            {
+                //std::cout << "current_index > id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
+                index = current_index + 1;
+            }
+            else
+            {
+                //std::cout << "current_index < id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
+                sub_vector_end = current_index;   
+            }
+            sub_vector_size = sub_vector_size / 2;
+        }
+    }
+    std::cout << "end" << std::endl;
+    return m_max_id + 1;
+}
+*/
 
 //void Particle::write_to_archive(boost::archive::binary_oarchive *oa)
 //{
