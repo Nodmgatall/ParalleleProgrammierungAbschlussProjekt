@@ -209,6 +209,7 @@ void Simulator::simulate_parallel()
                     size,
                     MPI_DOUBLE,
                     0);
+            m_particles.update_mass_vector(mass_buffer);
             std::cout << pro_id << ": recv mass done" << std::endl;
 
             //Calculate chunk start and end
