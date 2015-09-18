@@ -38,7 +38,7 @@ std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
 {
     int chunk_size= buffer_size / number_of_procs;
     int rest = buffer_size - chunk_size * number_of_procs;
-    std::vector<int> chunks(number_of_procs);
+    std::vector<int> chunks(number_of_procs - 1);
     for(int i = 0; i < number_of_procs; i++)
     {
         if(rest > 0)
@@ -95,7 +95,7 @@ void Simulator::simulate_parallel()
 
             //Vector that contains the chunk sizes
             chunk_sizes = calculate_chunk_size(number_of_procs - 1, size);
-
+            
             m_particles.particle_bubble_sort();
 
             std::cout << "Starting broadcasts" << std::endl;
@@ -103,7 +103,7 @@ void Simulator::simulate_parallel()
             std::cout << "chunks start"<< " size of chunk: "<< chunk_sizes.size() << std::endl;
             MPI::COMM_WORLD.Bcast(&size,1,MPI_UNSIGNED_LONG,0);
             //Sending chunksizes
-            MPI_Bcast(&chunk_sizes,number_of_procs - 1,
+            MPI_Bcast(&chunk_sizes[0],number_of_procs - 1,
                     MPI_INT,
                     0,
                     MPI_COMM_WORLD);
@@ -162,10 +162,17 @@ void Simulator::simulate_parallel()
             std::cout << pro_id << "size: " << size << std::endl;
             
             //Receive chunksize vector
+            chunk_sizes = std::vector<int>(number_of_procs - 1);
             std::cout << pro_id<< ": recv chunks" << std::endl;
-            MPI::COMM_WORLD.Bcast(&chunk_sizes,number_of_procs - 1,
+            MPI::COMM_WORLD.Bcast(&chunk_sizes[0],number_of_procs - 1,
                     MPI_INT,
                     0);
+            
+            for(int i = 0; i < 3; i++)
+            {
+                std::cout << pro_id << " " << i << " CHTEST: "<< chunk_sizes[i] << std::endl;
+            }
+
             std::cout << pro_id<< ": recv chunks done" << std::endl;
             
             //Receive velo vector
@@ -192,26 +199,37 @@ void Simulator::simulate_parallel()
             //Calculate chunk start and end
             int start = 0;
             int end;
+            std::cout << pro_id << ": setting chunks start" << std::endl;
             for(int i = 0; i < pro_id - 1; i++)
             {
-                std::cout << "chunksize["<< i << "] = " << chunk_sizes[i] << std::endl;
+                std::cout << "chunk size["<< i << "] = ";
+                std::cout << chunk_sizes[i] << std::endl;
                 start += chunk_sizes[i]; 
             }
-            end = start + chunk_sizes[pro_id] - 1;
+            std::cout << pro_id<<": setting chunks for loop done" << std::endl;
+            end = (start + chunk_sizes[pro_id - 1]) - 1;
             std::cout << "start of "<< pro_id <<": "<< start << std::endl;
             std::cout << "end of "<< pro_id <<": "<< end << std::endl;
 
            
             //Actual funtion this is all for
+            std::cout << pro_id << ": start apply" << std::endl;
             m_particles.apply_gravity(start,end);
+            std::cout << pro_id << ": end apply" << std::endl;
+            
             // send buffer for velo vector chunk
+                //Send buffer
             std::vector<Vec3<double>> buffer(m_particles.get_velo_vector().begin() + start, m_particles.get_velo_vector().begin() + end);
-            //Send buffer
+            std::cout << pro_id << ": start send new velo" << std::endl;
             MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
+            std::cout << pro_id << ": end send new velo" << std::endl;
+            
             //buffer is now filled with pos vector chunk
             buffer = std::vector<Vec3<double>>(m_particles.get_pos_vector().begin() + start, m_particles.get_pos_vector().begin() + end);
             //Send pos vector chunk
+            std::cout << pro_id << ": start send new pos" << std::endl;
             MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
+            std::cout << pro_id << ": end send new pos" << std::endl;
             current_iteration++;
 
         }
