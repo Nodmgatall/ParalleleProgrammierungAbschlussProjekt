@@ -46,12 +46,12 @@ main.o: main.cpp
 
 
 # particle
-particle.o: particle.cpp particle.hpp
+particle.o: particle.cpp particle.hpp physics.hpp
 	${CC} ${CFLAGS} -c $< ${LFLAGS}
 
 
 # simulator
-simulator.o: simulator.cpp simulator.hpp
+simulator.o: simulator.cpp simulator.hpp physics.hpp
 	${CC} ${CFLAGS} -c $< ${LFLAGS}
 
 

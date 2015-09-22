@@ -31,11 +31,13 @@ static void __attribute__((unused)) applyGravity(Particle *particle, unsigned lo
 	unsigned long num_particles = particle->getNumberOfParticles();
 	double force;
 
-	pos_vec_curr = particle->getPosition(id);
+    // TODO this is where things go wrong in parallel,
+    // as the processes don't have the position vector!
+    pos_vec_curr = particle->getPosition(id);
 
 	for(unsigned int i = 0; i < id; i++)
 	{
-		pos_vec_other = particle->getPosition(i);
+        pos_vec_other = particle->getPosition(i);
 		distance_vector = pos_vec_other - pos_vec_curr;
 		force = calculateAccleration(distance_vector.getLength(),particle->getMass(i));
 		distance_vector.normalise();
