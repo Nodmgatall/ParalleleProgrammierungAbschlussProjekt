@@ -93,7 +93,6 @@ void Simulator::simulate_parallel()
             fflush(stdout);
 
             std::cout << "calculating chunksizes" << std::endl;
-            std::cout << "pro_id: "<< pro_id << "Size Pos: " << m_particles.get_pos_vector().size();
 
             //Size equals number of particles
             size = m_particles.get_velo_vector()->size();
@@ -248,16 +247,7 @@ void Simulator::simulate_parallel()
            
             //Actual funtion this is all for
             std::cout << pro_id << ": start apply" << std::endl;
-            std::cout << "pro_id: "<< pro_id << "Size Velo: " << m_particles.get_velo_vector().size();
-            std::cout << "pro_id: "<< pro_id << "Size Pos: " << m_particles.get_pos_vector().size();
-            std::cout << "pro_id: "<< pro_id << "Size mass: " << m_particles.get_mass_vector().size() << std::endl;
-            for(unsigned long i = start; i < end; i++)
-            {
-                std::cout << "Pro: " << pro_id  << " " << i << " " <<(m_particles.get_velo_vector()[i]).toString() << std::endl;
-                std::cout << "Pro: " << pro_id  << " " << i << " " <<(m_particles.get_pos_vector()[i]).toString() << std::endl;
-                std::cout << "Pro: " << pro_id  << " " << i << " " <<(m_particles.get_mass_vector()[i]) << std::endl;
-            }
-            m_particles.apply_gravity(start,end);
+                        m_particles.apply_gravity(start,end);
             std::cout << pro_id << ": end apply" << std::endl;
             
             // send buffer for velo vector chunk
