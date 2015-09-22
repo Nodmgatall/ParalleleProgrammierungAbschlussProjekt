@@ -130,18 +130,19 @@ void Simulator::simulate_parallel()
 
             
             //Receive velo vector
-            std::vector<Vec3<double>> new_velocity_vector;
+            std::vector<Vec3<double> > new_velocity_vector;
             for(int i = 1; i < number_of_procs; i++)
             {
-                std::vector<Vec3<double>> buffer(chunk_sizes[i - 1]);
+                std::vector<Vec3<double> > buffer(chunk_sizes[i - 1]);
                 MPI::COMM_WORLD.Recv(&buffer, chunk_sizes[i - 1],MPI_Vec3,i,tag);
                 new_velocity_vector.insert(new_velocity_vector.end(),buffer.begin(),buffer.end());
             }
+
             //Receive pos vector
-            std::vector<Vec3<double>> new_pos_vector;
+            std::vector<Vec3<double> > new_pos_vector;
             for(int i = 1; i < number_of_procs; i++)
             {
-                std::vector<Vec3<double>> buffer(chunk_sizes[i - 1]);
+                std::vector<Vec3<double> > buffer(chunk_sizes[i - 1]);
                 MPI::COMM_WORLD.Recv(&buffer, chunk_sizes[i - 1],MPI_Vec3,i,tag);
                 new_pos_vector.insert(new_pos_vector.end(),buffer.begin(),buffer.end());
             }
