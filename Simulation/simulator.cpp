@@ -107,6 +107,7 @@ void Simulator::simulate_parallel()
           
             std::cout << "chunks start"<< " size of chunk: "<< chunk_sizes.size() << std::endl;
             MPI::COMM_WORLD.Bcast(&size,1,MPI_UNSIGNED_LONG,0);
+            MPI::COMM_WORLD.Bcast(&m_number_of_iterations,1,MPI_UNSIGNED_LONG,0);
             //Sending chunksizes
             MPI_Bcast(&chunk_sizes[0],number_of_procs - 1,
                     MPI_INT,
@@ -170,12 +171,13 @@ void Simulator::simulate_parallel()
             //write_particle_archive_to_file();    
 
             m_particles.write_to_file(m_name_output_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::app | std::ofstream::binary);
-            current_iteration++;
             std::cout << "iteration: "<< current_iteration << " done" << std::endl;
         }
-        else if(current_iteration < m_number_of_iterations)
+        else
         {
+            std::cout << pro_id << " starting new iteration: " << current_iteration << std::endl;
             MPI::COMM_WORLD.Bcast(&size,1,MPI_UNSIGNED_LONG,0);
+            MPI::COMM_WORLD.Bcast(&m_number_of_iterations,1,MPI_UNSIGNED_LONG,0);
             std::cout << pro_id << "size: " << size << std::endl;
             
             //Receive chunksize vector
@@ -233,12 +235,8 @@ void Simulator::simulate_parallel()
                 start += chunk_sizes[i]; 
             }
             std::cout << pro_id<<": setting chunks for loop done" << std::endl;
-            end = (start + chunk_sizes[pro_id - 1]) - 1;
-            if(pro_id == 1)
-            {
-                start++;
-            }
-            
+            end = (start + chunk_sizes[pro_id - 1]);
+                        
 
             std::cout << "start of "<< pro_id <<": "<< start << std::endl;
             std::cout << "end of "<< pro_id <<": "<< end << std::endl;
@@ -255,7 +253,15 @@ void Simulator::simulate_parallel()
                 std::cout << "Pro: " << pro_id  << " " << i << " " <<(m_particles.get_pos_vector()[i]).toString() << std::endl;
                 std::cout << "Pro: " << pro_id  << " " << i << " " <<(m_particles.get_mass_vector()[i]) << std::endl;
             }
-            m_particles.apply_gravity(start,end);
+            if(pro_id == 1)
+            {
+                m_particles.apply_gravity(start + 1,end);
+            }
+            else
+            {
+                m_particles.apply_gravity(start,end);
+            
+            }
             std::cout << pro_id << ": end apply" << std::endl;
             
             // send buffer for velo vector chunk
@@ -275,17 +281,18 @@ void Simulator::simulate_parallel()
             std::cout << pro_id << ": start send new pos" << std::endl;
             MPI::COMM_WORLD.Send(&m_particles.get_pos_vector()[start],chunk_sizes[pro_id - 1],MPI_Vec3,0,tag);
             
-            
             std::cout << pro_id << ": end send new pos" << std::endl;
+            std::cout << pro_id << ": end iteration: " << current_iteration << std::endl;
+            
 
         }
-            current_iteration++;
+        current_iteration++;
         //Wrtite simulation data to file and in last iteration save last iteration
 
 
     }
     std::cout << pro_id << ": reached end" << std::endl;
-        MPI::Finalize();
+    MPI::Finalize();
 }
 #endif
 void Simulator::simulate()
