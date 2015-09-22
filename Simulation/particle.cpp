@@ -16,16 +16,6 @@
 #include <sstream>
 #include <cmath>
 
-//#include <boost/serialization/vector.hpp>
-
-
-//#include <boost/archive/binary_oarchive.hpp>
-//#include <boost/archive/binary_iarchive.hpp>
-//#include <boost/archive/text_oarchive.hpp>
-//#include <boost/archive/text_iarchive.hpp>
-
-
-
 const double PI = 3.14159265359;
 //TODO SWITCH TO UINTX_T
 // center object has to be at <0.0.0>
@@ -34,8 +24,9 @@ Particle::Particle()
 {
     m_number_of_particles = 0;
     m_max_id = 0;
-    m_dt = 0.00024;
+    m_dt = 0.00027;
     m_time_simulated = 0;
+    m_max_velo = 0;
 
 }
 void Particle::remove(unsigned long vector_index)
@@ -64,22 +55,22 @@ std::vector<Vec3<double>> Particle::get_velo_vector()
     return m_velocity_vectors;
 }
 
-std::vector<Vec3<double>> &Particle::get_pos_vector()
+std::vector<Vec3<double>> Particle::get_pos_vector()
 {
     return m_positions;
 }
 
-std::vector<double> &Particle::get_mass_vector()
+std::vector<double> Particle::get_mass_vector()
 {
     return m_masses;
 }
 
-std::vector<double> &Particle::get_radius_vector()
+std::vector<double> Particle::get_radius_vector()
 {
     return m_radiuses;
 }
 
-std::vector<unsigned long> &Particle::get_id_vector()
+std::vector<unsigned long> Particle::get_id_vector()
 {
     return m_ids;
 }
@@ -91,7 +82,7 @@ void Particle::update_velo_vector(std::vector<Vec3<double>> new_velo_vector)
 
 void Particle::update_pos_vector(std::vector<Vec3<double>> new_pos_vector)
 {
-    m_velocity_vectors = new_pos_vector;
+    m_positions = new_pos_vector;
 }
 
 void Particle::update_mass_vector(std::vector<double> new_mass_vector)

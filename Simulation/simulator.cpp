@@ -80,7 +80,7 @@ void Simulator::simulate_parallel()
 
 
     // Simulation loop
-    while(m_particles.get_time_simulated() < m_number_of_iterations)
+    while(current_iteration < m_number_of_iterations)
     {
         
         if(pro_id == 0)
@@ -93,6 +93,7 @@ void Simulator::simulate_parallel()
             fflush(stdout);
 
             std::cout << "calculating chunksizes" << std::endl;
+            std::cout << "pro_id: "<< pro_id << "Size Pos: " << m_particles.get_pos_vector().size();
 
             //Size equals number of particles
             size = m_particles.get_velo_vector().size();
@@ -132,25 +133,30 @@ void Simulator::simulate_parallel()
                     MPI_DOUBLE,
                     0);
 
-            
+           
+            std::cout << "start recieving velo vectors" << std::endl;
             //Receive velo vector
             std::vector<Vec3<double>> new_velocity_vector;
             for(int i = 1; i < number_of_procs; i++)
             {
+                std::cout << "recieving velo vector from: " << i << std::endl;
                 std::vector<Vec3<double>> buffer(chunk_sizes[i - 1]);
-                MPI::COMM_WORLD.Recv(&buffer, chunk_sizes[i - 1],MPI_Vec3,i,tag);
+                std::cout << "buffer for " << i << "alloced"<<  std::endl;
+                MPI::COMM_WORLD.Recv(&buffer[0], chunk_sizes[i - 1],MPI_Vec3,i,tag);
+                std::cout << "inserting: " << i << std::endl;
                 new_velocity_vector.insert(new_velocity_vector.end(),buffer.begin(),buffer.end());
             }
+            std::cout << "start receive pos vector" << std::endl;
             //Receive pos vector
             std::vector<Vec3<double>> new_pos_vector;
             for(int i = 1; i < number_of_procs; i++)
             {
                 std::vector<Vec3<double>> buffer(chunk_sizes[i - 1]);
-                MPI::COMM_WORLD.Recv(&buffer, chunk_sizes[i - 1],MPI_Vec3,i,tag);
+                MPI::COMM_WORLD.Recv(&buffer[0], chunk_sizes[i - 1],MPI_Vec3,i,tag);
                 new_pos_vector.insert(new_pos_vector.end(),buffer.begin(),buffer.end());
             }
            
-            //Update old vectors with new ones
+            std::cout << "Update old vectors with new ones" << std::endl;
             m_particles.update_velo_vector(new_velocity_vector);
             m_particles.update_pos_vector(new_pos_vector);    
             
@@ -167,7 +173,7 @@ void Simulator::simulate_parallel()
             current_iteration++;
             std::cout << "iteration: "<< current_iteration << " done" << std::endl;
         }
-        else
+        else if(current_iteration < m_number_of_iterations)
         {
             MPI::COMM_WORLD.Bcast(&size,1,MPI_UNSIGNED_LONG,0);
             std::cout << pro_id << "size: " << size << std::endl;
@@ -228,35 +234,58 @@ void Simulator::simulate_parallel()
             }
             std::cout << pro_id<<": setting chunks for loop done" << std::endl;
             end = (start + chunk_sizes[pro_id - 1]) - 1;
+            if(pro_id == 1)
+            {
+                start++;
+            }
+            
+
             std::cout << "start of "<< pro_id <<": "<< start << std::endl;
             std::cout << "end of "<< pro_id <<": "<< end << std::endl;
 
            
             //Actual funtion this is all for
             std::cout << pro_id << ": start apply" << std::endl;
+            std::cout << "pro_id: "<< pro_id << "Size Velo: " << m_particles.get_velo_vector().size();
+            std::cout << "pro_id: "<< pro_id << "Size Pos: " << m_particles.get_pos_vector().size();
+            std::cout << "pro_id: "<< pro_id << "Size mass: " << m_particles.get_mass_vector().size() << std::endl;
+            for(unsigned long i = start; i < end; i++)
+            {
+                std::cout << "Pro: " << pro_id  << " " << i << " " <<(m_particles.get_velo_vector()[i]).toString() << std::endl;
+                std::cout << "Pro: " << pro_id  << " " << i << " " <<(m_particles.get_pos_vector()[i]).toString() << std::endl;
+                std::cout << "Pro: " << pro_id  << " " << i << " " <<(m_particles.get_mass_vector()[i]) << std::endl;
+            }
             m_particles.apply_gravity(start,end);
             std::cout << pro_id << ": end apply" << std::endl;
             
             // send buffer for velo vector chunk
-                //Send buffer
-            std::vector<Vec3<double>> buffer(m_particles.get_velo_vector().begin() + start, m_particles.get_velo_vector().begin() + end);
+                //Send bufferi
+            std::cout << "START SEND CALCULATED VELO VEC" << std::endl;
+            //std::vector<Vec3<double>> buffer(m_particles.get_velo_vector().begin() + start, m_particles.get_velo_vector().begin() + end - 1);
+            std::cout << pro_id << ": buffer done for velo vec" << std::endl;
             std::cout << pro_id << ": start send new velo" << std::endl;
-            MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
+            MPI::COMM_WORLD.Send(&m_particles.get_velo_vector()[start],chunk_sizes[pro_id - 1],MPI_Vec3,0,tag);
             std::cout << pro_id << ": end send new velo" << std::endl;
             
             //buffer is now filled with pos vector chunk
-            buffer = std::vector<Vec3<double>>(m_particles.get_pos_vector().begin() + start, m_particles.get_pos_vector().begin() + end);
+            std::cout << "START SEND CALCULATED POS VEC" << std::endl;
+            //buffer = std::vector<Vec3<double>>(m_particles.get_pos_vector().begin() + start, m_particles.get_pos_vector().begin() + end - 1);
+            std::cout << pro_id << ": buffer done for pos vec" << std::endl;
             //Send pos vector chunk
             std::cout << pro_id << ": start send new pos" << std::endl;
-            MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
+            MPI::COMM_WORLD.Send(&m_particles.get_pos_vector()[start],chunk_sizes[pro_id - 1],MPI_Vec3,0,tag);
+            
+            
             std::cout << pro_id << ": end send new pos" << std::endl;
-            current_iteration++;
 
         }
+            current_iteration++;
         //Wrtite simulation data to file and in last iteration save last iteration
 
 
     }
+    std::cout << pro_id << ": reached end" << std::endl;
+        MPI::Finalize();
 }
 #endif
 void Simulator::simulate()

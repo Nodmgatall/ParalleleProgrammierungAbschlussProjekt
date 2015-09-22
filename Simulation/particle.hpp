@@ -38,7 +38,7 @@ class Particle
         unsigned long m_number_of_particles;
         unsigned long m_max_id;
         double m_dt;
-        double m_max_velo = 0;
+        double m_max_velo;
         unsigned long m_time_simulated;
         std::vector<unsigned long> m_deleted_ids_in_iteration;
 
@@ -55,10 +55,10 @@ class Particle
         double get_max_velo();
 
         std::vector<Vec3<double>> get_velo_vector();
-        std::vector<Vec3<double>> &get_pos_vector();
-        std::vector<double> &get_mass_vector();
-        std::vector<double> &get_radius_vector();
-        std::vector<unsigned long> &get_id_vector();
+        std::vector<Vec3<double>> get_pos_vector();
+        std::vector<double> get_mass_vector();
+        std::vector<double> get_radius_vector();
+        std::vector<unsigned long> get_id_vector();
 
         void update_velo_vector(std::vector<Vec3<double>> new_velo_vector);
         void update_pos_vector(std::vector<Vec3<double>> new_velo_vector);
