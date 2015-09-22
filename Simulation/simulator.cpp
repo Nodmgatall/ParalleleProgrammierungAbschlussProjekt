@@ -91,7 +91,7 @@ void Simulator::simulate_parallel()
             std::cout << "calculating chunksizes" << std::endl;
 
             //Size equals number of particles
-            size = m_particles.get_velo_vector().size();
+            size = m_particles.get_velo_vector()->size();
 
             //Vector that contains the chunk sizes
             chunk_sizes = calculate_chunk_size(number_of_procs - 1, size);
@@ -109,21 +109,21 @@ void Simulator::simulate_parallel()
                     MPI_COMM_WORLD);
             std::cout << "velo start" << std::endl;
             //Sending velocities vector
-            MPI::COMM_WORLD.Bcast(&m_particles.get_velo_vector()[0],
+            MPI::COMM_WORLD.Bcast(m_particles.get_velo_vector(),
                     size,
                     MPI_Vec3,
                     0);
 
             std::cout << "pos start" << std::endl;
             //Sending positions vector
-            MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
+            MPI::COMM_WORLD.Bcast(m_particles.get_pos_vector(),
                     size,
                     MPI_Vec3,
                     0);
 
             std::cout << "mass start" << std::endl;
             // Sending mass vector
-            MPI::COMM_WORLD.Bcast(&m_particles.get_mass_vector()[0],
+            MPI::COMM_WORLD.Bcast(m_particles.get_mass_vector(),
                     size,
                     MPI_DOUBLE,
                     0);
@@ -194,7 +194,7 @@ void Simulator::simulate_parallel()
             
             //Receive pos vector
             std::cout << pro_id<< ": recv pos" << std::endl;
-            std::vector<Vec3<double>> pos_buffer(size);
+            std::vector<Vec3<double> > pos_buffer(size);
             MPI::COMM_WORLD.Bcast(&pos_buffer[0],
                     size,
                     MPI_Vec3,
@@ -235,13 +235,13 @@ void Simulator::simulate_parallel()
             
             // send buffer for velo vector chunk
                 //Send buffer
-            std::vector<Vec3<double>> buffer(m_particles.get_velo_vector().begin() + start, m_particles.get_velo_vector().begin() + end);
+            std::vector<Vec3<double> > buffer(m_particles.get_velo_vector()->begin() + start, m_particles.get_velo_vector()->begin() + end);
             std::cout << pro_id << ": start send new velo" << std::endl;
             MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
             std::cout << pro_id << ": end send new velo" << std::endl;
             
             //buffer is now filled with pos vector chunk
-            buffer = std::vector<Vec3<double>>(m_particles.get_pos_vector().begin() + start, m_particles.get_pos_vector().begin() + end);
+            buffer = std::vector<Vec3<double>>(m_particles.get_pos_vector()->begin() + start, m_particles.get_pos_vector()->begin() + end);
             //Send pos vector chunk
             std::cout << pro_id << ": start send new pos" << std::endl;
             MPI::COMM_WORLD.Send(&buffer,chunk_sizes[pro_id],MPI_Vec3,0,tag);
