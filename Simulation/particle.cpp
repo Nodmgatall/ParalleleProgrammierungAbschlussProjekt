@@ -57,29 +57,29 @@ double Particle::get_time_simulated()
     return m_time_simulated;
 }
 
-std::vector<Vec3<double>> Particle::get_velo_vector()
+std::vector<Vec3<double>> * Particle::get_velo_vector()
 {
-    return m_velocity_vectors;
+    return &m_velocity_vectors;
 }
 
-std::vector<Vec3<double>> &Particle::get_pos_vector()
+std::vector<Vec3<double>> * Particle::get_pos_vector()
 {
-    return m_positions;
+    return &m_positions;
 }
 
-std::vector<double> &Particle::get_mass_vector()
+std::vector<double> * Particle::get_mass_vector()
 {
-    return m_masses;
+    return &m_masses;
 }
 
-std::vector<double> &Particle::get_radius_vector()
+std::vector<double> * Particle::get_radius_vector()
 {
-    return m_radiuses;
+    return &m_radiuses;
 }
 
-std::vector<unsigned long> &Particle::get_id_vector()
+std::vector<unsigned long> * Particle::get_id_vector()
 {
-    return m_ids;
+    return &m_ids;
 }
 
 void Particle::update_velo_vector(std::vector<Vec3<double>> new_velo_vector)
@@ -89,7 +89,7 @@ void Particle::update_velo_vector(std::vector<Vec3<double>> new_velo_vector)
 
 void Particle::update_pos_vector(std::vector<Vec3<double>> new_pos_vector)
 {
-    m_velocity_vectors = new_pos_vector;
+    m_positions = new_pos_vector;
 }
 
 void Particle::update_mass_vector(std::vector<double> new_mass_vector)

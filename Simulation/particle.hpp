@@ -54,11 +54,11 @@ class Particle
 
         double get_max_velo();
 
-        std::vector<Vec3<double>> get_velo_vector();
-        std::vector<Vec3<double>> &get_pos_vector();
-        std::vector<double> &get_mass_vector();
-        std::vector<double> &get_radius_vector();
-        std::vector<unsigned long> &get_id_vector();
+        std::vector<Vec3<double>> * get_velo_vector();
+        std::vector<Vec3<double>> * get_pos_vector();
+        std::vector<double> * get_mass_vector();
+        std::vector<double> * get_radius_vector();
+        std::vector<unsigned long> * get_id_vector();
 
         void update_velo_vector(std::vector<Vec3<double>> new_velo_vector);
         void update_pos_vector(std::vector<Vec3<double>> new_velo_vector);
