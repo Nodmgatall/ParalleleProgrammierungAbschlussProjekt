@@ -128,7 +128,7 @@ void Simulator::simulate_parallel()
                     MPI_DOUBLE,
                     0);
             //Sending radius vector
-            MPI::COMM_WORLD.Bcast(&m_particles.get_radius_vector()[0],
+            MPI::COMM_WORLD.Bcast(m_particles.get_radius_vector(),
                     size,
                     MPI_DOUBLE,
                     0);
@@ -205,7 +205,7 @@ void Simulator::simulate_parallel()
             m_particles.update_mass_vector(mass_buffer);
             
             std::vector<double> radius_buffer(size);
-            MPI::COMM_WORLD.Bcast(&mass_buffer[0],
+            MPI::COMM_WORLD.Bcast(&radius_buffer[0],
                     size,
                     MPI_DOUBLE,
                     0);
