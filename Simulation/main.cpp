@@ -31,13 +31,12 @@ int main(int argc, char **argv)
     {
         simulator.get_options(argc, argv);
         simulator.set_up_simulation();
-        simulator.simulate_parallel();
     }
-    else
-    {
-        simulator.simulate_parallel();
-    }
-
+    simulator.simulate_parallel();
+    
+    MPI::Finalize();
+    std::cout << " all done" << std::endl;
+    
     return EXIT_SUCCESS;
 }
 #else
