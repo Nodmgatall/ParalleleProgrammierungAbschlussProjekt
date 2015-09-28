@@ -90,6 +90,12 @@ void Particle::update_mass_vector(std::vector<double> new_mass_vector)
     m_masses = new_mass_vector;
 }
 
+void Particle::update_radius_vector(std::vector<double> new_radius_vector)
+{
+    m_radiuses = new_radius_vector;
+}
+
+
 double Particle::get_max_velo()
 {
     return m_max_velo;
@@ -121,7 +127,7 @@ void Particle::move_objects(unsigned long start_idx, unsigned long end_idx)
         end_idx = m_positions.size();   
     }
 
-    for(unsigned long idx = start_idx; idx <= end_idx; idx++)
+    for(unsigned long idx = start_idx; idx < end_idx; idx++)
     {
         move_Object(idx);
     }
@@ -472,7 +478,7 @@ void Particle::detect_collision(unsigned long index_1, unsigned long index_2)
         while( j > 0 && !limit(i, j-1))
         {
 
-            time_of_closest_approach = get_time_of_closest_approach(m_positions[i], m_velocity_vectors[i]/m_dt, m_positions[j - 1], m_velocity_vectors[j - 1]/m_dt);
+            time_of_closest_approach = get_time_of_closest_approach(m_positions[i], m_velocity_vectors[i]/ m_dt, m_positions[j - 1], m_velocity_vectors[j - 1]/ m_dt);
 
             if(check_for_collision(i, j -1, time_of_closest_approach))
             {
