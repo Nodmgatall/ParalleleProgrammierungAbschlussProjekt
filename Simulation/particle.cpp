@@ -50,24 +50,24 @@ double Particle::get_time_simulated()
     return m_time_simulated;
 }
 
-std::vector<Vec3<double>> * Particle::get_velo_vector()
+std::vector<Vec3<double>> Particle::get_velo_vector()
 {
-    return &m_velocity_vectors;
+    return m_velocity_vectors;
 }
 
-std::vector<Vec3<double>> * Particle::get_pos_vector()
+std::vector<Vec3<double>> Particle::get_pos_vector()
 {
-    return &m_positions;
+    return m_positions;
 }
 
-std::vector<double> * Particle::get_mass_vector()
+std::vector<double> Particle::get_mass_vector()
 {
-    return &m_masses;
+    return m_masses;
 }
 
-std::vector<double> * Particle::get_radius_vector()
+std::vector<double> Particle::get_radius_vector()
 {
-    return &m_radiuses;
+    return m_radiuses;
 }
 
 std::vector<unsigned long> * Particle::get_id_vector()

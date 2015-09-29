@@ -53,6 +53,7 @@ std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
         {
            chunks[i] = chunk_size;
         }
+        std::cout << "Chunk for pro : "<< i << "  "<< chunks[i] <<  std::endl;
     }
     return chunks;
 }
@@ -95,7 +96,7 @@ void Simulator::simulate_parallel()
             std::cout << "calculating chunksizes" << std::endl;
 
             //Size equals number of particles
-            size = m_particles.get_velo_vector()->size();
+            size = m_particles.get_velo_vector().size();
 
             //Vector that contains the chunk sizes
             chunk_sizes = calculate_chunk_size(number_of_procs - 1, size);
@@ -111,24 +112,24 @@ void Simulator::simulate_parallel()
                     0,
                     MPI_COMM_WORLD);
             //Sending velocities vector
-            MPI::COMM_WORLD.Bcast(m_particles.get_velo_vector(),
+            MPI::COMM_WORLD.Bcast(&m_particles.get_velo_vector()[0],
                     size,
                     MPI_Vec3,
                     0);
 
             //Sending positions vector
-            MPI::COMM_WORLD.Bcast(m_particles.get_pos_vector(),
+            MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
                     size,
                     MPI_Vec3,
                     0);
 
             // Sending mass vector
-            MPI::COMM_WORLD.Bcast(m_particles.get_mass_vector(),
+            MPI::COMM_WORLD.Bcast(&m_particles.get_mass_vector()[0],
                     size,
                     MPI_DOUBLE,
                     0);
             //Sending radius vector
-            MPI::COMM_WORLD.Bcast(m_particles.get_radius_vector(),
+            MPI::COMM_WORLD.Bcast(&m_particles.get_radius_vector()[0],
                     size,
                     MPI_DOUBLE,
                     0);
@@ -138,6 +139,7 @@ void Simulator::simulate_parallel()
             std::vector<Vec3<double> > new_velocity_vector;
             for(int i = 1; i < number_of_procs; i++)
             {
+                std::cout << "receiving from "<< i << std::endl;
                 std::vector<Vec3<double>> buffer(chunk_sizes[i - 1]);
                 MPI::COMM_WORLD.Recv(&buffer[0], chunk_sizes[i - 1],MPI_Vec3,i,tag);
                 new_velocity_vector.insert(new_velocity_vector.end(),buffer.begin(),buffer.end());
@@ -220,8 +222,7 @@ void Simulator::simulate_parallel()
             }
             end = (start + chunk_sizes[pro_id - 1]);
                         
-
-#ifdef OUPUT_DEBUG
+#ifdef OUTPUT_DEBUG
             std::cout << "start of "<< pro_id <<": "<< start << std::endl;
             std::cout << "end of "<< pro_id <<": "<< end << std::endl;
 
@@ -264,9 +265,6 @@ void Simulator::simulate_parallel()
             MPI::COMM_WORLD.Send(&m_particles.get_pos_vector()[start],chunk_sizes[pro_id - 1],MPI_Vec3,0,tag);
             
             
-            std::cout << pro_id << ": end send new pos" << std::endl;
-
-            MPI::COMM_WORLD.Send(&m_particles.get_pos_vector()[start],chunk_sizes[pro_id - 1],MPI_Vec3,0,tag);
         }
         current_iteration++;
         //Wrtite simulation data to file and in last iteration save last iteration
