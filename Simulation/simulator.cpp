@@ -57,6 +57,34 @@ std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
     }
     return chunks;
 }
+
+
+/*
+ *
+ * Funktions weise (grob):
+ *
+ *  ALLE:
+ *      - variablen init am anfang
+ *      - erhoen des privaten counters am ende
+ *  PRO 0:
+ *      - pro 0 errechnet die anteile an den daten vektoren von m_particles
+ *      - sortiert die vektoren nach der entfernung zum mittelpunkt 
+ *              (TODO: diesen schritt komplett abkoppeln und dann parallelisieren mit mergesort als letzen schritt und pro 1 - n mit bubble_sort)
+ *      - broadcastet particle anzahl durch das senden der size vom pos vektor
+ *      - broadcastet die kompletten pos, velo, mass, radius vektoren
+ *      - erhaelt dann in richtiger reinfolge die neu berechneten daten und fuegt sie wieder zusammen
+ *      - ueberscheibt seine alten daten mit den neuen
+ *      - berechnet collisionen 
+ *              (TODO: diesen schritt in die PRO 1 - n packen)
+ *      - gibt sie aus
+ *  PRO 1 - n
+ *      - empfaengt die broadcasts von 0
+ *      - erechnet seine start und end positionen in den vektoren
+ *      - berechnet die neunen geschwindigkeiten
+ *      - berechnet die neuen positionen
+ *      - sendet neue positionen
+ *      - sendet neue geschwindigkeiten
+ * */
 #ifdef PARALLEL_BUILD 
 void Simulator::simulate_parallel()
 {
