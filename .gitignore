@@ -1,4 +1,5 @@
 # Custom text files
+*.simdat
 *.lis
 
 # Compiled Object files
