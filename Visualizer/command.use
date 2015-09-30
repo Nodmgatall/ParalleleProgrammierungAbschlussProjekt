@@ -1,0 +1,65 @@
+long name           shot_name           argument_type                   arguments
+
+draw_ids                dis             none
+draw_it_number          din             none
+show_particle_number    spn             none
+show_simulated_time     sst             none    
+show_delta_time         sdt             none    
+display_data            dd              (unsigned long)                 [onject_id]
+show grav_range         sgr             (unsigned long) (double)        [object_id][min_force]
+focus_on_object         fon             (unsigned long)                 [object_id]
+clear_displayed_data    cdd             none 
+jump_to_time            jmp             (unsigned long)                 [interation]
+show_trajectory         st              (unsigned long) (unsigned long) [object_id] [iteration]
+clear_trajectory        st              (unsigned long)                 [object_id]
+clear_all_trajectories cat             none
+
+What they do:
+
+draw_ids:
+    draws object ids of all objects
+    clears object ids
+
+draw_it_number:
+    draws the current interation number in the top right corner
+    clears iteration number
+
+draw_particle_number:
+    draws the current number of particles
+    clears particle number
+
+show_simulated time:
+    draws the elapsed time in y* dd hh
+    clears simulated time
+
+show_delta_time:
+    shows how much time is calculated in one iteration (in seconds)
+    clears delta time
+
+display_data:
+    shows the velo, pos, radius, distance to sun, mass of given object
+    clear displayed date for given object
+
+show_grav_range:
+    draws a rircle around given object in which radius the gravitational force is larger than min_force
+    clear the circle for given object
+
+focus_on_object:
+    sets the camera to given obeject
+
+clear_displayed_data:
+    clears all object data from screen (counter to display data)
+
+jump_to_time:
+    jumps to given iteration
+
+show_trajectory:
+    draws the trajectory of given object.
+    the second arguments is for limiting the length of the line
+    if there is no second argument the complete trajectory is drawn which can cause lag if
+    sufficient iterations are loaded
+
+clear_all_trajectories:
+    clears all trajectories
+    
+
