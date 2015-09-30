@@ -338,22 +338,32 @@ void Visualizer::handle_console_input(std::string input)
         return;
     }
 
-    if(strcmp(token_vector[0], "draw_it_number") == 0 || strcmp(token_vector[0], "din") == 0)
+    if(strcmp(token_vector[0], "draw_it_number") == 0 ||
+            strcmp(token_vector[0], "din") == 0)
     {
         m_draw_it_number = !m_draw_it_number;
         return;
     }
 
-    if(strcmp(token_vector[0], "spn") == 0)
+    //For the occasional rage quit!!
+    if(strcmp(token_vector[0], "fuc*_this_shit") == 0)
+    {
+        m_running = false; 
+    }
+
+    if(strcmp(token_vector[0], "show_particle_number") == 0 ||
+                strcmp(token_vector[0], "spn") == 0)
     {
         m_draw_number_of_particles = !m_draw_number_of_particles;
     }
-    if(strcmp(token_vector[0], "sst") == 0)
+    if(strcmp(token_vector[0], "show_simulated_time") == 0||
+            strcmp(token_vector[0], "sst") == 0)
     {
         m_draw_time_simulated = !m_draw_time_simulated;
     }
 
-    if(strcmp(token_vector[0],"sdt") == 0)
+    if(strcmp(token_vector[0], "show_delta_time") == 0||
+            strcmp(token_vector[0],"sdt") == 0)
     {
         m_draw_dt = !m_draw_dt;
     }
@@ -440,7 +450,8 @@ void Visualizer::handle_console_input(std::string input)
         return;
     }
 
-    if(strcmp(token_vector[0], "fon") == 0)
+    if(strcmp(token_vector[0], "focus_on_object") == 0 ||
+            strcmp(token_vector[0], "foo") == 0)
     {
         unsigned long index = m_object_id_maps[m_iteration_number].find(strtoul(token_vector[1],NULL,0))->second;
         unsigned long x = (m_object_positions[m_iteration_number][index].getX() / m_scale) - (m_camera.w /2);
