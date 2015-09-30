@@ -69,10 +69,10 @@ Partikel haben folgende Eigenschaften:
 \end{itemize}
 Wir gehen von sphärischen Objekten aus. Spezifische Details
 Material, Temperatur oder genaure Form werden nicht berücksichtigt.
-Partikel werden immer in einer zur sonne ortogonalen laufbahn generiert
+Partikel werden immer in einer zur Sonne ortogonalen Laufbahn generiert
 um die Anzahl von Objekten die eine stabile Umlaufbahn erreichen koennen
 zu steigern. Die Dichte von Objekten wird nicht als Datensatz geschpeichert
-sondern nur bei bedarf errechnet um die Datenmenge zu reduzieren.
+sondern nur bei Bedarf errechnet um die Datenmenge zu reduzieren.
 
 \subsection{Das Zentrum}
 Im Zentrum unseres Systems befindet sich ein Partikel mit einer besonderen
@@ -117,17 +117,17 @@ class Particle
 \end{minted}
 
 \subsection{Parallelisierungsschema}
-In unserer Simulation uebernimmt Prozess 0 immer die verwaltung der daten und somit das Verteilen
-und Sammeln. Hinzu kommt das Speichern der Simulationsdaten und die ausgabe des Fortschritts.
+In unserer Simulation uebernimmt Prozess 0 immer die Verwaltung der Daten und somit das Verteilen
+und Sammeln. Hinzu kommt das Speichern der Simulationsdaten und die Ausgabe des Fortschritts.
 Alle anderen Prozesse empfangen die Daten bearbeiten sie und senden dann die
-durch die Kollisionsabfrage geaenderte laenge des Datensatzes an Prozess 0
+durch die Kollisionsabfrage geaenderte Laenge des Datensatzes an Prozess 0
 und daruf hin die geaenderten Daten.
 
 Funktions weise:
    ALLE:
        - variablen initialisierung am Anfang
        - erhoen des privaten zaehlers am Ende
-   PRO 0:
+   Prozess 0:
        - prozess 0 errechnet die anteile an den Datenvektoren des Systems
        - sortiert die Vektoren nach der Entfernung zum Mittelpunkt 
        - broadcastet die Objekt Anzahl
@@ -135,7 +135,7 @@ Funktions weise:
        - erhaelt dann in richtiger Reinfolge die neu berechneten Daten und fuegt sie wieder zusammen
        - ueberscheibt seine alten Daten mit den neuen
        - speichert sie
-   PRO 1 - n
+   Prozess 1 - n
        - empfaengt die Broadcasts von 0
        - erechnet seine start und end positionen in den vektoren
        - berechnet collisionen
@@ -260,7 +260,7 @@ Fuer die Zukunft des Projektes sind folgende Features geplant:
         - verbesserte Performance
         - neu strukturiertes Senden und Empfangens
         - erweiterung des sendes fuer Datensaetze die die maximale
-          buffer laenge von mpi ueberschreiten
+          Bufferlaenge von mpi ueberschreiten
         - performantere Kollisionsabfrage
         - physikalisch korrekte errechnung von Kollisionen und den
           Richtungsvektoren der daraus resultierenden neuen Objekte
@@ -270,6 +270,10 @@ Fuer die Zukunft des Projektes sind folgende Features geplant:
           geschwindigkeit bei einschlag etc.
         - Berechnung der Roche-Grenze und die zerstoerung von Objekten 
           durch diese Grenze.
+        - Parallelisierte Erstellung der Objekte
+        - Parallelisierter Sort-Algorithmus
+        - Verbesserung des Sort-Algorithmuses
+
     Visualizer:
         - laufbahnen als lienen darstellen
         - lienen der Laufbahnen auf wunsch der Geschwindikeit entsprechend
@@ -277,7 +281,13 @@ Fuer die Zukunft des Projektes sind folgende Features geplant:
         - temperatur Berechnung
         - Objekte bei einem gewissen Zoomfaktor als kreise Darstellen
         - Visualizer in 3D oder wenigstens rotierbar in 2 achsen
-
+        - UI-Verbesserungen
+        - Konsolenfenster
+        - Objekt daten in Repositionierbaren Fenstern
+        - Repositionierbare fuer die Simulationsdaten wie die Anzahl der Objekte
+        - Klassen der Objekte anzeigen und errechnen z.B. M klasse Planet, Asterioid etc.
+        - Performance verbesserungen inbesondere in Bezug auf die Flugbahn erstellung
+ 
 \section{Zahlen}
 \begin{itemize}
     \item ~2700 Zeilen Code
