@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#SBATCH --time=3:00:00
+#SBATCH -N 1 --tasks-per-node=4 -p compute
+#SBATCH --error=simul_2000_2000.err --output=simul_2000_2000.out
+
+date > timings
+mpiexec -n 4 ../Simulation.x 2000 2000 simul_2000_2000.simdat
+date >> timings
