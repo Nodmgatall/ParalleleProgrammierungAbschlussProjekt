@@ -378,16 +378,16 @@ void Particle::load_data_from_file(std::string filepath, unsigned long &number_o
             {
                 //std::cout << s << std::endl;
                 std::string id, x, y, z, velo_x, velo_y, velo_z, mass, radius;
-                ss = std::stringstream(s);
-                getline(ss,id,' ');
-                getline(ss,x,' ');
-                getline(ss,y,' ');
-                getline(ss,z,' ');
-                getline(ss,velo_x,' ');
-                getline(ss,velo_y,' ');
-                getline(ss,velo_z,' ');
-                getline(ss,mass,' ');
-                getline(ss,radius,' ');
+                std::stringstream n_ss(s);
+                getline(n_ss,id,' ');
+                getline(n_ss,x,' ');
+                getline(n_ss,y,' ');
+                getline(n_ss,z,' ');
+                getline(n_ss,velo_x,' ');
+                getline(n_ss,velo_y,' ');
+                getline(n_ss,velo_z,' ');
+                getline(n_ss,mass,' ');
+                getline(n_ss,radius,' ');
 
                 m_ids.push_back(std::strtoul(id.c_str(),NULL,0));
                 m_positions.push_back(Vec3<double>(std::stod(x),std::stod(y),std::stod(z)));
