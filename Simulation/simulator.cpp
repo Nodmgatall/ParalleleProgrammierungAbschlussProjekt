@@ -463,14 +463,22 @@ bool is_all_digits(char *text)
 
 void Simulator::get_options(int argc, char** argv)
 {
-    if (argc > 4)
+    if (argc < 2 || argc > 4)
     {
         std::cerr << "Error: invalid number of arguments!" << std::endl;
+        usage();
         exit(EXIT_FAILURE);
     }
 
     if(strcmp(argv[1], "load") == 0)
-    {       
+    {
+        if (argc < 4)
+        {
+            std::cerr << "Error: invalid number of arguments!" << std::endl;
+            usage();
+            exit(EXIT_FAILURE);
+        }
+
         m_option_load_from_file = true;
         m_name_input_file = argv[2];
         m_name_output_file = m_name_input_file;
@@ -484,9 +492,13 @@ void Simulator::get_options(int argc, char** argv)
         input_file.close();
         m_number_of_iterations = strtod(argv[3],NULL);
     }
+    if (strcmp(argv[1], "help") == 0)
+    {
+        print_help();
+        exit(EXIT_SUCCESS);
+    }
     else
     {
-
         m_option_load_from_file = false;
         if(!is_all_digits(argv[1]))
         {
@@ -507,3 +519,27 @@ void Simulator::get_options(int argc, char** argv)
     m_name_last_iteration_save_file = m_name_output_file + ".lis";
 
 }
+
+void Simulator::usage()
+{
+    std::cerr << "Usage: ./Simulation.x [option [file]] [particles] [iterations] [output file]" << std::endl;
+    std::cerr << "Operations:" << std::endl;
+    std::cerr << "\t./Simualtion.x help" << std::endl;
+    std::cerr << "\t./Simualtion.x load <filename> <iterations>" << std::endl;
+    std::cerr << "\t./Simualtion.x <particles> <iterations>" << std::endl;
+    std::cerr << std::endl;
+    std::cerr << "Use './Simulation.x help' for more expansive information" << std::endl;
+}
+
+void Simulator::print_help()
+{
+    std::cout << "Usage: ./Simulation.x [option [file]] [particles] [iterations] [output file]" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Option | Description" << std::endl;
+    std::cout << "-------------------------------------------------------------" << std::endl;
+    std::cout << "  help | print this help message" << std::endl;
+    std::cout << "  load | specifiy a file to load and continue simulating with" << std::endl;
+    std::cout << "<none> | simply specify a number of particles, iterations," << std::endl;
+    std::cout << "       | and an output file to run a normal simulation!" << std::endl;
+}
+
