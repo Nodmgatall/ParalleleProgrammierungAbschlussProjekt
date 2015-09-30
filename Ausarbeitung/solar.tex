@@ -105,12 +105,12 @@ Den Kern der Simulation bildet die Klasse `Particle':
 class Particle
 {
     private:
-        std::vector<Vec3<double> > m_velocity_vectors;
-        std::vector<Vec3<double> > m_positions;
-        std::vector<double> m_masses;
-        std::vector<double> m_radiuses;
-        std::vector<unsigned long> m_ids;
-        unsigned long m_number_of_particles;
+        std::vector<Vec3<double> > m\_velocity\_vectors;
+        std::vector<Vec3<double> > m\_positions;
+        std::vector<double> m\_masses;
+        std::vector<double> m\_radiuses;
+        std::vector<unsigned long> m\_ids;
+        unsigned long m\_number\_of\_particles;
 
     /* [...] */
 }
@@ -162,68 +162,68 @@ Integriert ist eine Provisorische Konsole und mehrere hotkeys fuer die einfache 
 
 Kommandos:
 
-long name           shot_name           argument_type                   arguments
+long name           shot\_name           argument\_type                   arguments
 
-draw_ids                dis             none
-draw_it_number          din             none
-show_particle_number    spn             none
-show_simulated_time     sst             none    
-show_delta_time         sdt             none    
-display_data            dd              (unsigned long)                 [onject_id]
-show grav_range         sgr             (unsigned long) (double)        [object_id][min_force]
-focus_on_object         fon             (unsigned long)                 [object_id]
-clear_displayed_data    cdd             none 
-jump_to_time            jmp             (unsigned long)                 [interation]
-show_trajectory         st              (unsigned long) (unsigned long) [object_id] [iteration]
-clear_trajectory        st              (unsigned long)                 [object_id]
-clear_all_trajectories cat             none
+draw\_ids                dis             none
+draw\_it\_number          din             none
+show\_particle\_number    spn             none
+show\_simulated\_time     sst             none    
+show\_delta\_time         sdt             none    
+display\_data            dd              (unsigned long)                 [onject\_id]
+show grav\_range         sgr             (unsigned long) (double)        [object\_id][min\_force]
+focus\_on\_object         fon             (unsigned long)                 [object\_id]
+clear\_displayed\_data    cdd             none 
+jump\_to\_time            jmp             (unsigned long)                 [interation]
+show\_trajectory         st              (unsigned long) (unsigned long) [object\_id] [iteration]
+clear\_trajectory        st              (unsigned long)                 [object\_id]
+clear\_all\_trajectories cat             none
 
 What they do:
 
-draw_ids:
+draw\_ids:
     draws object ids of all objects
     clears object ids
 
-draw_it_number:
+draw\_it\_number:
     draws the current interation number in the top right corner
     clears iteration number
 
-draw_particle_number:
+draw\_particle\_number:
     draws the current number of particles
     clears particle number
 
-show_simulated time:
+show\_simulated time:
     draws the elapsed time in y* dd hh
     clears simulated time
 
-show_delta_time:
+show\_delta\_time:
     shows how much time is calculated in one iteration (in seconds)
     clears delta time
 
-display_data:
+display\_data:
     shows the velo, pos, radius, distance to sun, mass of given object
     clear displayed date for given object
 
-show_grav_range:
-    draws a rircle around given object in which radius the gravitational force is larger than min_force
+show\_grav\_range:
+    draws a rircle around given object in which radius the gravitational force is larger than min\_force
     clear the circle for given object
 
-focus_on_object:
+focus\_on\_object:
     sets the camera to given obeject
 
-clear_displayed_data:
+clear\_displayed\_data:
     clears all object data from screen (counter to display data)
 
-jump_to_time:
+jump\_to\_time:
     jumps to given iteration
 
-show_trajectory:
+show\_trajectory:
     draws the trajectory of given object.
     the second arguments is for limiting the length of the line
     if there is no second argument the complete trajectory is drawn which can cause lag if
     sufficient iterations are loaded
 
-clear_all_trajectories:
+clear\_all\_trajectories:
     clears all trajectories
 
 Hotkeys:
