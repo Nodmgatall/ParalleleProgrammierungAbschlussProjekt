@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --time=3:00:00
-#SBATCH -N 2 --tasks-per-node=5 -p
+#SBATCH -N 2 --tasks-per-node=5 -p abu
 #SBATCH --error=simul_10000_10000.err --output=simul_10000_10000.out
 
 mpiexec -n 10 ../Simulation.x 10000 10000 simul_10000_10000.simdat
