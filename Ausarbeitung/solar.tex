@@ -117,7 +117,33 @@ class Particle
 \end{minted}
 
 \subsection{Parallelisierungsschema}
-TODO
+In unserer Simulation uebernimmt Prozess 0 immer die verwaltung der daten und somit das Verteilen
+und Sammeln. Hinzu kommt das Speichern der Simulationsdaten und die ausgabe des Fortschritts.
+Alle anderen Prozesse empfangen die Daten bearbeiten sie und senden dann die
+durch die Kollisionsabfrage geaenderte laenge des Datensatzes an Prozess 0
+und daruf hin die geaenderten Daten.
+
+Funktions weise:
+   ALLE:
+       - variablen initialisierung am Anfang
+       - erhoen des privaten zaehlers am Ende
+   PRO 0:
+       - prozess 0 errechnet die anteile an den Datenvektoren des Systems
+       - sortiert die Vektoren nach der Entfernung zum Mittelpunkt 
+       - broadcastet die Objekt Anzahl
+       - broadcastet nacheinander die Datenvektoren
+       - erhaelt dann in richtiger Reinfolge die neu berechneten Daten und fuegt sie wieder zusammen
+       - ueberscheibt seine alten Daten mit den neuen
+       - speichert sie
+   PRO 1 - n
+       - empfaengt die Broadcasts von 0
+       - erechnet seine start und end positionen in den vektoren
+       - berechnet collisionen
+       - aendert die laenge der zu bearbeitenden Daten
+       - berechnet die neunen geschwindigkeiten
+       - berechnet die neuen positionen
+       - sendet neue positionen
+       - sendet neue geschwindigkeiten
 
 \begin{minted}{C++}
 #include <Heidmann.h>
@@ -131,6 +157,91 @@ Der Visualizer visualisiert eine fertige Simulation anhand der generierten Daten
 Es handelt sich dabei um ein separates Programm, ebenfalls in C++ geschrieben,
 mit Hilfe von SDL2.
 
+Integriert ist eine Provisorische Konsole und mehrere hotkeys fuer die einfache Benutzung
+
+
+Kommandos:
+
+long name           shot_name           argument_type                   arguments
+
+draw_ids                dis             none
+draw_it_number          din             none
+show_particle_number    spn             none
+show_simulated_time     sst             none    
+show_delta_time         sdt             none    
+display_data            dd              (unsigned long)                 [onject_id]
+show grav_range         sgr             (unsigned long) (double)        [object_id][min_force]
+focus_on_object         fon             (unsigned long)                 [object_id]
+clear_displayed_data    cdd             none 
+jump_to_time            jmp             (unsigned long)                 [interation]
+show_trajectory         st              (unsigned long) (unsigned long) [object_id] [iteration]
+clear_trajectory        st              (unsigned long)                 [object_id]
+clear_all_trajectories cat             none
+
+What they do:
+
+draw_ids:
+    draws object ids of all objects
+    clears object ids
+
+draw_it_number:
+    draws the current interation number in the top right corner
+    clears iteration number
+
+draw_particle_number:
+    draws the current number of particles
+    clears particle number
+
+show_simulated time:
+    draws the elapsed time in y* dd hh
+    clears simulated time
+
+show_delta_time:
+    shows how much time is calculated in one iteration (in seconds)
+    clears delta time
+
+display_data:
+    shows the velo, pos, radius, distance to sun, mass of given object
+    clear displayed date for given object
+
+show_grav_range:
+    draws a rircle around given object in which radius the gravitational force is larger than min_force
+    clear the circle for given object
+
+focus_on_object:
+    sets the camera to given obeject
+
+clear_displayed_data:
+    clears all object data from screen (counter to display data)
+
+jump_to_time:
+    jumps to given iteration
+
+show_trajectory:
+    draws the trajectory of given object.
+    the second arguments is for limiting the length of the line
+    if there is no second argument the complete trajectory is drawn which can cause lag if
+    sufficient iterations are loaded
+
+clear_all_trajectories:
+    clears all trajectories
+
+Hotkeys:
+
+p:          pause/unpause
+s:          step forward
+b:          step backward
+r:          reset to iteration 0
+x/y:        change perspective
+enter:      start input for commands/ confirm
+esc:        quit
+up:         move camera up
+down:       move camera down
+left:       move camera left
+right:      move camera right
+mousewheel: zoom
+
+
 \section{Performance}
 ayy lmao
 
@@ -143,7 +254,29 @@ Partikel kennen.
 \subsection{Fazit}
 Das haben wir gelernt
 \subsection{Ausblick}
-locker machen wir noch mehr Dinge (lolol)
+Fuer die Zukunft des Projektes sind folgende Features geplant:
+    Simulation:
+        - verbesserte Kollision die mehrere neue Objekte generiert
+        - verbesserte Performance
+        - neu strukturiertes senden und empfangen
+        - erweiterung des sendes fuer datensaetze die die maximale
+          buffer laenge von mpi ueberschreiten
+        - performantere Kollisionsabfrage
+        - physikalisch korrekte errechnung von Kollisionen und den
+          Richtungsvektoren der daraus resultierenden neuen Objekte
+        - zusaetzliche daten zb durchschnitts Temperatur
+        - genauere angeaben welche daten gespeichert werden und welche nicht
+        - Errechnung und Speicherung fuer Kollsionsdaten z.B. impuls, Ekin,
+          geschwindigkeit bei einschlag etc.
+        - Berechnung der Roche-Grenze und die zerstoerung von Objekten 
+          durch diese Grenze.
+    Visualizer:
+        - laufbahnen als lienen darstellen
+        - lienen der Laufbahnen auf wunsch der Geschwindikeit entsprechend
+          einfaerben
+        - temperatur Berechnung
+        - Objekte bei einem gewissen Zoomfaktor als kreise Darstellen
+        - Visualizer in 3D oder wenigstens rotierbar in 2 achsen
 
 %\pagebreak
 %\nocite{*}
