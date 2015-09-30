@@ -21,22 +21,35 @@
 Aufgabenstellung: \\
 Programmierung einer parallelisierten Applikation mittels MPI. \\ \\
 Idee: \\
-Simulation von Partikeln in einem Sonnensystem
+Simulation von Partikeln in einem Sonnensystem.
 %\keywords{Keywords}
 \end{abstract}
 
 \tableofcontents
 \newpage
 \section{Idee}
-Lorem ipsum dolor sit amed
+Die Idee, die unserem Projekt zugrunde liegt, ist relativ simpel zu formulieren:
+Wir wollen ein Sonnensystem simulieren. Oder, viel mehr, einen dreidimensionalen Raum,
+gefüllt mit Objekten, und realistischer Interaktion dieser Objekte,
+was Gravitation und Kollision betrifft. Zur Vereinfachung haben wir allerdings
+ein sehr massereiches Objekt in die Mitte unseres Raumes gesetzt. Demnach
+handelt es sich praktisch um ein Sonnensystem in seiner entstehungsphase:
+Ein Stern, und sehr viele kleine Partikel, die umherfliegen und miteinander
+kollidieren.
 
 \section{Modellierung}
-In diesem Abschnitt wird ein Überblick über die Modellierung der Ideen, der Welt und der Menschen in ihr gegeben. 
-Details zur eigentlichen Implementation, insbesondere zur Aufteilung auf mehrere Prozesse, sind im Abschnitt Implementation zu finden.
+In diesem Abschnitt werden die einzelnen Aspekte der Modellierung näher dargelegt;
+
 \subsection{Das System}
-\begin{minipage}[t]{0.48\textwidth}
-    Dreidimensionaler raum mkay?
-\end{minipage}
+Wie bereits erwähnt ist die Welt, in der unsere Simulation stattfindet,
+ein System analog zu einem echten Sonnensystem. Es ist nicht räumlich begrenzt,
+und enthält eine beliebige Anzahl Partikel. Kollidieren zwei Partikel, so wird aus ihnen
+ein neues Partikel errechnet, die Population schrumpft also nur; es werden keine neuen
+hinzugefügt.
+
+%\begin{minipage}[t]{0.48\textwidth}
+%    Dreidimensionaler raum mkay?
+%\end{minipage}
 %\begin{minipage}[t]{0.48\textwidth}
 %	\begin{picture}(0,0)
 %		\put(20,-75){\includegraphics[scale=0.35]{pics/Torus.png}}
@@ -44,25 +57,58 @@ Details zur eigentlichen Implementation, insbesondere zur Aufteilung auf mehrere
 %\end{minipage}	
 
 \subsection{Die Partikel}
-Partikel sind zufällig generiert mmmkayyy?
+Partikel haben folgende Eigenschaften:
+\begin{itemize}
+    \item Geschwindigkeitsvektor
+    \item Position
+    \item Masse
+    \item Radius
+\end{itemize}
+Wir gehen von sphärischen Objekten aus. Spezifische Details wie Dichte,
+Material, Temperatur oder genaure Form werden nicht berücksichtigt.
 
 \subsection{Das Zentrum}
-Das Zentrum ist wie die Sonne, yo
+Im Zentrum unseres Systems befindet sich ein Partikel mit einer besonderen
+Eigenschaft. Es ist sehr schwer, verglichen mit den zufällig generierten.
+Ansonsten verhält es sich wie jedes andere Objekt, kann also durch Gravitaionskräfte
+beliebig bewegt werden. In der Praxis ist es allerdings meistens nahezu unbeweglich,
+aufgrund siner hohen Masse.\\
+Die Existenz dieses Zentralpartikels bewirkt einerseits eine übersichtliche Simulation,
+da sich die meisten Partikel irgendwann auf einem Orbit um die `Sonne' finden,
+und bringt die Simulation näher an die tatsächlichen Zustände in unserem Universum.
 
 \subsection{Ablauf}
-Sachen werden simuliert, verstehste?
+Der Ablauf der Simulation ansich ist relativ simpel; die Partikel werden sortiert,
+auf alle die Gravitation appliziert; es wird auf Kollisionen geprüft und dann werden
+die Objekte bewegt. Dieser loop wird für die spezifizierte Anzahl Iterationen
+fortgeführt.
 
 \subsection{Visualisierung}
-Wir haben auch nen Visualizer, geiler scheiss
-
+Zum Zweck der Visualizierung werden für jede Iteration und für jedes Partikel seine
+Eigenschaften gespeichert. Diese Daten können dann von einem separaten Programm,
+unserem Visualizer, eingelesen und die Simulation damit dargestellt werden.
 
 
 \section{Implementation}
-\subsection{Sequentieller Algorithmus}
-Da läuft das so ab
+\subsection{Allgemein}
+Den Kern der Simulation bildet die Klasse `Particle':
+\begin{minted}{C++}
+class Particle
+{
+    private:
+        std::vector<Vec3<double> > m_velocity_vectors;
+        std::vector<Vec3<double> > m_positions;
+        std::vector<double> m_masses;
+        std::vector<double> m_radiuses;
+        std::vector<unsigned long> m_ids;
+        unsigned long m_number_of_particles;
+
+    /* [...] */
+}
+\end{minted}
 
 \subsection{Parallelisierungsschema}
-Und hier läuft es so ab
+TODO
 
 \begin{minted}{C++}
 #include <Heidmann.h>
@@ -72,13 +118,17 @@ std::cout << "lol" << std::endl;
 
 
 \subsection{Visualizer}
-Der Visualizer funktioniert nämlich so
+Der Visualizer visualisiert eine fertige Simulation anhand der generierten Daten.
+Es handelt sich dabei um ein separates Programm, ebenfalls in C++ geschrieben,
+mit Hilfe von SDL2.
 
 \section{Performance}
-Performance? Was ist das?
+ayy lmao
 
 \section{Probleme}
-FOlgende probleme hatten wir lol
+Ein Problem bei der Parallelisierung war die Datenaufteilung. Da Gravitation einen effektiv
+unendlichen Einflussradius hat, muss jeder Prozess die gesamten, aktuellen Daten aller
+Partikel kennen.
 
 \section{Fazit und Ausblick}
 \subsection{Fazit}
