@@ -59,12 +59,13 @@ class Particle
         std::vector<Vec3<double>> get_pos_vector();
         std::vector<double> get_mass_vector();
         std::vector<double> get_radius_vector();
-        std::vector<unsigned long> * get_id_vector();
+        std::vector<unsigned long> get_id_vector();
 
         void update_velo_vector(std::vector<Vec3<double>> new_velo_vector);
         void update_pos_vector(std::vector<Vec3<double>> new_velo_vector);
         void update_mass_vector(std::vector<double> new_mass_vector);
         void update_radius_vector(std::vector<double> new_radius_vector);
+        void update_id_vector(std::vector<unsigned long> new_id_vector);
         void set_max_velo(double new_max_velo);
         //void remove_by_id(unsigned long particle_id);
 
@@ -177,7 +178,7 @@ Radius 429.489498\n
     //
     bool check_for_collision(unsigned long id_1, unsigned long id_2, double time_of_closest_approach);
 
-    void detect_collision(unsigned long index_1 = 1, unsigned long index_2 = 0);
+    unsigned long detect_collision(unsigned long index_1 = 1, unsigned long index_2 = 0);
 
     void particle_bubble_sort(unsigned long start_idx = 0, unsigned long end_idx = 0);
 

@@ -1,10 +1,12 @@
 #include "Util/random_generator.hpp"
 #include "particle.hpp"
 #include "physics.hpp"
+
 #ifdef PARALLEL_BUILD
 #include "globals.h"
-#endif
+#include <mpi.h>
 
+#endif
 #include <string>
 #include <vector>
 #include <math.h>
@@ -70,9 +72,9 @@ std::vector<double> Particle::get_radius_vector()
     return m_radiuses;
 }
 
-std::vector<unsigned long> * Particle::get_id_vector()
+std::vector<unsigned long> Particle::get_id_vector()
 {
-    return &m_ids;
+    return m_ids;
 }
 
 void Particle::update_velo_vector(std::vector<Vec3<double>> new_velo_vector)
@@ -95,6 +97,12 @@ void Particle::update_radius_vector(std::vector<double> new_radius_vector)
     m_radiuses = new_radius_vector;
 }
 
+void Particle::update_id_vector(std::vector<unsigned long> new_id_vector)
+{
+    m_ids = new_id_vector;
+}
+
+
 
 double Particle::get_max_velo()
 {
@@ -115,7 +123,15 @@ void Particle::apply_gravity(unsigned long start_idx, unsigned long end_idx)
 
     for (unsigned long particle_index = start_idx; particle_index < end_idx; particle_index++)
     {
+        if(particle_index == 1)
+        {
+            std::cout << "OLOLOLOLLO" << std::endl;
+        }
         applyGravity(this,particle_index,m_dt);
+            if(particle_index == 1)
+        {
+            std::cout << "OLOLOLOLLOROLLDLASDD" << std::endl;
+        }
     }
 
 }
@@ -463,14 +479,16 @@ bool Particle::limit(unsigned long index_1, unsigned long index_2)
     return dist > m_radiuses[index_1] + m_radiuses[index_2] + m_max_velo * 2;
 }
 
-void Particle::detect_collision(unsigned long index_1, unsigned long index_2)
+unsigned long Particle::detect_collision(unsigned long index_1, unsigned long index_2)
 {
+    int pro_id;
+    MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
     if(index_2 == 0)
     {
         index_2 = m_positions.size();
     }
     unsigned long number_of_collisions = 0;
-    unsigned long j; 
+    unsigned long j;
     double time_of_closest_approach;
     for(unsigned long i = index_1; i < index_2 - number_of_collisions; i++)
     {
@@ -482,7 +500,7 @@ void Particle::detect_collision(unsigned long index_1, unsigned long index_2)
 
             if(check_for_collision(i, j -1, time_of_closest_approach))
             {
-                if(j - 1 != 0) std::cout << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << std::endl;
+                std::cout << pro_id << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << "========================================="<<std::endl;
                 merge_objects(i,j-1);
                 number_of_collisions++;
                 i--;
@@ -490,8 +508,9 @@ void Particle::detect_collision(unsigned long index_1, unsigned long index_2)
             j--;
         }
     }
-
+    std::cout << pro_id << " done with col" << std::endl;
     m_time_simulated += 1;
+    return number_of_collisions;
     //std::cout << "1/m_dt: "<< 1/m_dt << std::endl;
 }
 

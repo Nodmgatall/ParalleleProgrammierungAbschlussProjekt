@@ -28,7 +28,7 @@ static void __attribute__((unused)) applyGravity(Particle *particle, unsigned lo
 	Vec3<double> pos_vec_other;
 	Vec3<double> pos_vec_curr;
 	Vec3<double> normalised_dist_vec;
-	unsigned long num_particles = particle->getNumberOfParticles();
+	unsigned long num_particles = particle->get_pos_vector().size();
 	double force;
 
     // TODO this is where things go wrong in parallel,
