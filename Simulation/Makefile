@@ -61,7 +61,21 @@ clean:
 	rm -f *.x
 
 cleanup:
-	rm -f *.x *.lis
+	rm -f *.x *.lis *.simdat
 
 mrproper:
-	rm -f *.o *.x *.lis
+	rm -f *.o *.x *.lis *.simdat
+
+help:
+	@echo 'Compilation targets:'
+	@echo '  default     - Compile the basic sequentiel version without optimizations'
+	@echo '  debug       - Like default, but with more debugging output'
+	@echo '  opti        - Compile sequentiel version with -O3 optimizations and without -W flags'
+	@echo '  clang       - Default target, but with clang instead of g++'
+	@echo '  lazy        - only use -g and -std flags'
+	@echo '  parallel    - Compile the parallel version, with -O2 optimizations'
+	@echo ''
+	@echo 'Cleanup targets:'
+	@echo '  clean       - remove the compiled binary'
+	@echo '  cleanup     - remove binary and simulated data files'
+	@echo '  mrproper    - remove binary, simulated data and object files'
