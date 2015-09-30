@@ -124,7 +124,6 @@ void Simulator::simulate_parallel()
 
 
             //Size equals number of particles
-            std::cout << pro_id << ": " << std::endl;
             size = m_particles.get_velo_vector().size();
 
             chunk_sizes = calculate_chunk_size(number_of_procs - 1, size);
@@ -240,14 +239,13 @@ void Simulator::simulate_parallel()
             std::cout << pro_id << ": starting update" << std::endl;    
 #endif
 
-
-#ifdef OUTPUT_DEBUG
             m_particles.update_velo_vector(new_velocity_vector);
             m_particles.update_pos_vector(new_pos_vector);     
-#endif
+
+#ifdef OUTPUT_DEBUG
             std::cout << pro_id << ": update done\n" << std::endl;
             std::cout << pro_id << ": starting file write" << std::endl;
-
+#endif
             if(current_iteration == m_number_of_iterations - 1)
             {
                 m_particles.write_to_file(m_name_last_iteration_save_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::trunc | std::ofstream::binary);
@@ -359,9 +357,10 @@ void Simulator::simulate_parallel()
             MPI::COMM_WORLD.Send(&m_particles.get_radius_vector()[start],new_size,MPI_DOUBLE,0,tag);
             MPI::COMM_WORLD.Send(&m_particles.get_mass_vector()[start],new_size,MPI_DOUBLE,0,tag);
             MPI::COMM_WORLD.Send(&m_particles.get_id_vector()[start],new_size,MPI_UNSIGNED_LONG,0,tag);
-            
-            std::cout << pro_id << ": iteration done" << std::endl;
 
+#ifdef OUTPUT_DEBUG 
+            std::cout << pro_id << ": iteration done" << std::endl;
+#endif
         }
         current_iteration++;
         //Wrtite simulation data to file and in last iteration save last iteration

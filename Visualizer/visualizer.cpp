@@ -125,7 +125,7 @@ void Visualizer::main_loop()
     SDL_DestroyWindow(m_window);
     SDL_Quit();
 }
-
+/** pause loop*/
 void Visualizer::pause_loop()
 {
     while(m_pause == true)
@@ -133,7 +133,7 @@ void Visualizer::pause_loop()
         update();
     }
 }
-
+/** function for drawing Text */
 void Visualizer::draw_text(std::string text, int pos_x, int pos_y, SDL_Color color)
 {
     SDL_Rect rect{pos_x, pos_y,12 * (int)text.length(),12};
@@ -143,7 +143,7 @@ void Visualizer::draw_text(std::string text, int pos_x, int pos_y, SDL_Color col
     SDL_FreeSurface(font_surf);
     SDL_DestroyTexture(font_tex);
 }
-
+/** Function for getting and processing user keyboard input*/
 void Visualizer::update()
 {
     unsigned long zoom = 100000000;
@@ -314,6 +314,8 @@ void Visualizer::update()
     }
 }
 
+
+/** function for processing console input */
 void Visualizer::handle_console_input(std::string input)
 {
     char *c_input = (char *)input.c_str();
