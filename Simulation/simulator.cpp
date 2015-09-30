@@ -76,12 +76,11 @@ std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
  *      - broadcastet die kompletten pos, velo, mass, radius vektoren
  *      - erhaelt dann in richtiger reinfolge die neu berechneten daten und fuegt sie wieder zusammen
  *      - ueberscheibt seine alten daten mit den neuen
- *      - berechnet collisionen 
- *              (TODO: diesen schritt in die PRO 1 - n packen)
  *      - gibt sie aus
  *  PRO 1 - n
  *      - empfaengt die broadcasts von 0
  *      - erechnet seine start und end positionen in den vektoren
+ *      - berechnet collisionen 
  *      - berechnet die neunen geschwindigkeiten
  *      - berechnet die neuen positionen
  *      - sendet neue positionen
@@ -125,9 +124,9 @@ void Simulator::simulate_parallel()
 
 
             //Size equals number of particles
+            std::cout << pro_id << ": " << std::endl;
             size = m_particles.get_velo_vector().size();
 
-            //Vector that contains the chunk sizes
             chunk_sizes = calculate_chunk_size(number_of_procs - 1, size);
             
             m_particles.particle_bubble_sort();
@@ -135,47 +134,75 @@ void Simulator::simulate_parallel()
           
             MPI::COMM_WORLD.Bcast(&size,1,MPI_UNSIGNED_LONG,0);
             MPI::COMM_WORLD.Bcast(&m_number_of_iterations,1,MPI_UNSIGNED_LONG,0);
+
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": chunsize/sort/set_size done" << std::endl;
+            std::cout << pro_id << ": starting sending object data(chuck size)" << std::endl;
+#endif          
             //Sending chunksizes
             MPI_Bcast(&chunk_sizes[0],number_of_procs - 1,
                     MPI_INT,
                     0,
                     MPI_COMM_WORLD);
             //Sending velocities vector
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": starting sending object data(velo)" << std::endl;
+#endif
             MPI::COMM_WORLD.Bcast(&m_particles.get_velo_vector()[0],
                     size,
                     MPI_Vec3,
                     0);
 
             //Sending positions vector
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": starting sending object data(pos)" << std::endl;
+#endif
             MPI::COMM_WORLD.Bcast(&m_particles.get_pos_vector()[0],
                     size,
                     MPI_Vec3,
                     0);
 
             // Sending mass vector
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": starting sending object data(vector)" << std::endl;
+#endif
             MPI::COMM_WORLD.Bcast(&m_particles.get_mass_vector()[0],
                     size,
                     MPI_DOUBLE,
                     0);
             //Sending radius vector
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": starting sending object data(radius)" << std::endl;
+#endif
             MPI::COMM_WORLD.Bcast(&m_particles.get_radius_vector()[0],
                     size,
                     MPI_DOUBLE,
                     0);
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": starting sending object data(id)" << std::endl;
+#endif
 
             MPI::COMM_WORLD.Bcast(&m_particles.get_id_vector()[0],
                     size,
                     MPI_DOUBLE,
                     0);
-
-
-           
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": sending object data done\n " << std::endl;
+#endif
+    
+            
             //Receive velo vector
             std::vector<Vec3<double> > new_velocity_vector;
             std::vector<Vec3<double> > new_pos_vector;
             std::vector<double> new_mass_vector;
             std::vector<double> new_radius_vector;
             std::vector<unsigned long> new_id_vector;
+
+#ifdef OUTPUT_DEBUG        
+            std::cout << pro_id << ": " << std::endl;
+            std::cout << pro_id << ": starting receiveing" << std::endl;
+#endif           
+            
             for(int i = 1; i < number_of_procs; i++)
             {
                 unsigned long new_size;
@@ -198,10 +225,28 @@ void Simulator::simulate_parallel()
         
                 MPI::COMM_WORLD.Recv(&ul_buffer[0], new_size,MPI_Vec3,i,tag);
                 new_id_vector.insert(new_id_vector.end(),ul_buffer.begin(),ul_buffer.end());
-        }
+            }
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": done receiving" << std::endl;
+            std::cout << pro_id << ": starting update\n" << std::endl;
+    
+#endif
+
             m_particles.update_velo_vector(new_velocity_vector);
             m_particles.update_pos_vector(new_pos_vector);    
 
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": done receiving" << std::endl;
+            std::cout << pro_id << ": starting update" << std::endl;    
+#endif
+
+
+#ifdef OUTPUT_DEBUG
+            m_particles.update_velo_vector(new_velocity_vector);
+            m_particles.update_pos_vector(new_pos_vector);     
+#endif
+            std::cout << pro_id << ": update done\n" << std::endl;
+            std::cout << pro_id << ": starting file write" << std::endl;
 
             if(current_iteration == m_number_of_iterations - 1)
             {
@@ -210,6 +255,9 @@ void Simulator::simulate_parallel()
             //write_particle_archive_to_file();    
 
             m_particles.write_to_file(m_name_output_file, current_iteration + m_number_of_iterations_previous_run, std::ofstream::app | std::ofstream::binary);
+#ifdef OUTPUT_DEBUG
+            std::cout << pro_id << ": file write done\n\n" << std::endl; 
+#endif
         }
         else
         {
@@ -300,7 +348,6 @@ void Simulator::simulate_parallel()
             }
             else
             {
-
                 m_particles.apply_gravity_loop(start, end);
                 m_particles.move_objects(start, end); 
             }
@@ -312,7 +359,8 @@ void Simulator::simulate_parallel()
             MPI::COMM_WORLD.Send(&m_particles.get_radius_vector()[start],new_size,MPI_DOUBLE,0,tag);
             MPI::COMM_WORLD.Send(&m_particles.get_mass_vector()[start],new_size,MPI_DOUBLE,0,tag);
             MPI::COMM_WORLD.Send(&m_particles.get_id_vector()[start],new_size,MPI_UNSIGNED_LONG,0,tag);
-
+            
+            std::cout << pro_id << ": iteration done" << std::endl;
 
         }
         current_iteration++;
@@ -320,7 +368,7 @@ void Simulator::simulate_parallel()
     }
 
 #ifdef OUTPUT_DEBUG
-    std::cout << "+++++++++++++++++++++++++++++++++++++" << std::endl;
+    std::cout << "all done" << std::endl;
 #endif
     //std::cout << pro_id << ": reached end" << std::endl;
 }
@@ -329,8 +377,6 @@ void Simulator::simulate()
 {
     unsigned long current_iteration = 0;
     std::cout << "== Simulating ==" << std::endl;
-
-
 
     // Simulation loop
     while(m_particles.get_time_simulated() < m_number_of_iterations)
@@ -362,7 +408,6 @@ void Simulator::simulate()
 
 /**
  * Generates random objects or loads data.
- *
  * */
 void Simulator::set_up_simulation()
 {
@@ -397,6 +442,9 @@ void Simulator::set_up_simulation()
 
 }
 
+/** 
+ *  checks if a string is all digits
+ * */
 bool is_all_digits(char *text)
 {
 
