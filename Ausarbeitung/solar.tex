@@ -178,7 +178,7 @@ show\_trajectory         st              (unsigned long) (unsigned long) [object
 clear\_trajectory        st              (unsigned long)                 [object\_id]
 clear\_all\_trajectories cat             none
 
-What they do:
+Commands explanation:
 
 draw\_ids:
     draws object ids of all objects
@@ -250,20 +250,25 @@ Ein Problem bei der Parallelisierung war die Datenaufteilung. Da Gravitation ein
 unendlichen Einflussradius hat, muss jeder Prozess die gesamten, aktuellen Daten aller
 Partikel kennen.
 
+Besonders die Kollisionsabfrage benoetigt alle Daten da bei einer Kollision der Komplette
+Datensatz fuer das Objekt geloescht werden muss.
+
 \section{Fazit und Ausblick}
 \subsection{Fazit}
 Das haben wir gelernt
 \subsection{Ausblick}
 Fuer die Zukunft des Projektes sind folgende Features geplant:
     Simulation:
-        - verbesserte Kollision die mehrere neue Objekte generiert
-        - verbesserte Performance
+        - Redukion der zu verchickenden Daten durch refactoring der Kollisionsabfrage
+          z.B nur die ids der Kollisionspartner speichern und spaeter Prozess 0 das loeschen
+          der Daten ueberlassen
         - neu strukturiertes Senden und Empfangens
         - erweiterung des sendes fuer Datensaetze die die maximale
           Bufferlaenge von mpi ueberschreiten
         - performantere Kollisionsabfrage
         - physikalisch korrekte errechnung von Kollisionen und den
-          Richtungsvektoren der daraus resultierenden neuen Objekte
+          Richtungsvektoren der daraus resultierenden neuen Objekte sowie
+          die errechnung der anzahl der generierten Objekte
         - zusaetzliche daten zb durchschnitts Temperatur
         - genauere angeaben welche daten gespeichert werden und welche nicht
         - Errechnung und Speicherung fuer Kollsionsdaten z.B. impuls, Ekin,
@@ -273,6 +278,7 @@ Fuer die Zukunft des Projektes sind folgende Features geplant:
         - Parallelisierte Erstellung der Objekte
         - Parallelisierter Sort-Algorithmus
         - Verbesserung des Sort-Algorithmuses
+        - Ausschreiben von Kollisonsdaten
 
     Visualizer:
         - laufbahnen als lienen darstellen
@@ -287,7 +293,8 @@ Fuer die Zukunft des Projektes sind folgende Features geplant:
         - Repositionierbare fuer die Simulationsdaten wie die Anzahl der Objekte
         - Klassen der Objekte anzeigen und errechnen z.B. M klasse Planet, Asterioid etc.
         - Performance verbesserungen inbesondere in Bezug auf die Flugbahn erstellung
- 
+        - Markierung von Kollisionspunkten
+
 \section{Zahlen}
 \begin{itemize}
     \item ~2700 Zeilen Code
