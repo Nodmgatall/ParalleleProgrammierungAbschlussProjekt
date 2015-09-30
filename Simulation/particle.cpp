@@ -19,8 +19,6 @@
 #include <cmath>
 
 const double PI = 3.14159265359;
-//TODO SWITCH TO UINTX_T
-// center object has to be at <0.0.0>
 
 Particle::Particle()
 {
@@ -29,8 +27,11 @@ Particle::Particle()
     m_dt = 0.00027;
     m_time_simulated = 0;
     m_max_velo = 0;
-
 }
+
+/**
+ *  removes all data about a particle form the system, decrements m_number_of_particles
+ * */
 void Particle::remove(unsigned long vector_index)
 {
     m_velocity_vectors.erase(m_velocity_vectors.begin() + vector_index);
@@ -102,8 +103,6 @@ void Particle::update_id_vector(std::vector<unsigned long> new_id_vector)
     m_ids = new_id_vector;
 }
 
-
-
 double Particle::get_max_velo()
 {
     return m_max_velo;
@@ -114,7 +113,7 @@ void Particle::set_max_velo(double new_max_velo)
     m_max_velo = new_max_velo;
 }
 
-void Particle::apply_gravity(unsigned long start_idx, unsigned long end_idx)
+void Particle::apply_gravity_loop(unsigned long start_idx, unsigned long end_idx)
 {
     if(end_idx == 0)
     {
@@ -123,11 +122,14 @@ void Particle::apply_gravity(unsigned long start_idx, unsigned long end_idx)
 
     for (unsigned long particle_index = start_idx; particle_index < end_idx; particle_index++)
     {
-        applyGravity(this,particle_index,m_dt);
+        apply_gravity(this,particle_index,m_dt);
     }
 
 }
 
+/**
+ *  Iterates over all objects and calls move_Object() for each
+ * */
 void Particle::move_objects(unsigned long start_idx, unsigned long end_idx)
 {
     if(end_idx == 0)
@@ -137,25 +139,24 @@ void Particle::move_objects(unsigned long start_idx, unsigned long end_idx)
 
     for(unsigned long idx = start_idx; idx < end_idx; idx++)
     {
-        move_Object(idx);
+        move_object(idx);
     }
 }
 
-// move each object by their velocity, if the stepsize is equal to 1second 
-void Particle::move_Object(unsigned long particle_index)
+/**
+ * move each object by their velocity 
+ */
+void Particle::move_object(unsigned long particle_index)
 {
-    //m_positions[particle_index].display();
     m_positions[particle_index] += m_velocity_vectors[particle_index] / m_dt;
-    //m_positions[particle_index].display();
-
 }
 
-Vec3<double> Particle::getVelocityVector(unsigned long particle_index)
+Vec3<double> Particle::get_velocity_vector(unsigned long particle_index)
 {
     return m_velocity_vectors[particle_index];	
 }
 
-void Particle::addAccelerationVector(unsigned long particle_index, Vec3<double> accelerationVector)
+void Particle::add_acceleration_vector(unsigned long particle_index, Vec3<double> accelerationVector)
 {
     m_velocity_vectors[particle_index] += accelerationVector;
 }
@@ -165,12 +166,12 @@ Vec3<double> Particle::getPosition(unsigned long particle_index)
     return m_positions[particle_index];
 }
 
-double Particle::getMass(unsigned long particle_index)
+double Particle::get_mass(unsigned long particle_index)
 {
     return m_masses[particle_index];
 }
 
-double Particle::getRadius(unsigned long particle_index)
+double Particle::get_radius(unsigned long particle_index)
 {
     return m_radiuses[particle_index];
 }
@@ -180,6 +181,9 @@ unsigned long Particle::getNumberOfParticles()
     return m_number_of_particles;
 }
 
+/**
+ *  Calculates the logical direction a object takes when generated
+ * */
 Vec3<double> Particle::calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector)
 {
     //Step1: calculate a vector v1 that in combination with pos_vec describes a plane from which
@@ -198,8 +202,10 @@ Vec3<double> Particle::calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_ve
     return v2;
 }
 
-
-unsigned long Particle::generateRandomParticle(double max_pos, double max_velo,
+/**
+ *  generates a new particle with no attribute larger than given max_value
+ * */
+unsigned long Particle::generate_random_object(double max_pos, double max_velo,
         double max_mass, double max_radius)
 {
     Vec3<double> new_position = generateRandomVec3<double>(-max_pos,max_pos);
@@ -207,9 +213,7 @@ unsigned long Particle::generateRandomParticle(double max_pos, double max_velo,
     double new_mass = generateRandomNumber<double>(0,max_mass);
     double new_radius = generateRandomNumber<double>(0,max_radius);
 
-    //new_position.setZ(0);
-    //new_velocity_vector.setZ(0);
-    return createParticle(
+    return create_object(
             new_position,
             calculate_ortogonal_vector_to_pos_vec(new_position,new_velocity_vector),
             new_mass,
@@ -217,7 +221,11 @@ unsigned long Particle::generateRandomParticle(double max_pos, double max_velo,
 
 }
 
-unsigned long Particle::generateRandomParticle(
+
+/**
+ *  generates a random particle within given ranges
+ * */
+unsigned long Particle::generate_random_object(
         std::pair<double,double> range_position,
         std::pair<double,double> range_velocity,
         std::pair<double,double> range_mass,
@@ -238,7 +246,7 @@ unsigned long Particle::generateRandomParticle(
 
     new_position.setZ(0);
     new_velocity_vector.setZ(0);
-    return createParticle(
+    return create_object(
             new_position,
             calculate_ortogonal_vector_to_pos_vec(new_position,new_velocity_vector),
             new_mass,
@@ -246,8 +254,10 @@ unsigned long Particle::generateRandomParticle(
 
 }
 
-//IDEA : retutn iterator instead of index
-unsigned long Particle::createParticle(
+/**
+ *  Creates a new particle
+ * */
+unsigned long Particle::create_object(
         Vec3<double> p,
         Vec3<double> v,
         double m,
@@ -263,8 +273,10 @@ unsigned long Particle::createParticle(
     return m_number_of_particles - 1;
 }
 
-
-void Particle::printParticle(unsigned long particle_index)
+/**
+ *  prints a single particle
+ * */
+void Particle::print_object(unsigned long particle_index)
 {
     printf("ParicleID: %lu\nDistance from center: %f\nPosition:\n	X: %f\n	Y: %f\n	Z: %f\nVelocity: %f\n	X: %f\n	Y: %f\n	Z: %f\nMass: %f\nRadius %f\n\n",
             particle_index,
@@ -280,14 +292,20 @@ void Particle::printParticle(unsigned long particle_index)
             m_radiuses[particle_index]);
 }
 
-void Particle::printAllParticles()
+/**
+ *  prints the current status of all particels
+ * */
+void Particle::print_all_objects()
 {
     for(unsigned long i = 0; i <  m_number_of_particles; i++)
     {
-        printParticle(i);
+        print_object(i);
     }
 }
 
+/**
+ *  writes the current state of the system to given file 
+ * */
 void Particle::write_to_file(std::string filename, unsigned long iteration_number, std::ios_base::openmode mode)
 {
     std::ofstream file(filename, mode);
@@ -319,6 +337,7 @@ void Particle::write_to_file(std::string filename, unsigned long iteration_numbe
         file << ">\n";
     }
 }
+
 
 void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
 {
@@ -352,7 +371,9 @@ void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
     remove(obj_id_1);
     return;
 }
-
+/**
+ *  DOENST WORK
+ * */
 void Particle::load_data_from_file(std::string filepath, unsigned long &number_of_previous_iterations)
 {
     std::ifstream file(filepath);
@@ -541,83 +562,3 @@ std::pair<double,double> Particle::calculate_possible_collison_point(unsigned lo
     }
     return std::pair<double,double>(lamda,sigma);
 }
-
-/*
-   void Particle::remove_by_id(unsigned long particle_id)
-   {
-   unsigned long vector_index = get_vector_index(particle_id);
-   remove(vector_index);
-   return;
-   }
-
-
-   unsigned long Particle::get_vector_index(unsigned long id)
-   {
-   unsigned long sub_vector_size;
-   unsigned long index;
-   unsigned long sub_vector_end = id;
-
-   if(id > m_used_ids.size())
-   {
-   sub_vector_end = m_used_ids.size();
-   }
-
-   if(m_used_ids[sub_vector_end] == id)
-   {
-   std::cout << "wanted: "<< id << "    simple deleted: "<< m_used_ids[id] << std::endl;
-                //m_used_ids.erase(m_used_ids.begin() + sub_vector_end);
-                return sub_vector_end;
-                }
-
-                sub_vector_size = id / 2;
-                index = 0;
-                while(index < sub_vector_end)
-                {
-//std::cout << "sub_vector_size "<< sub_vector_size << std::endl;
-for(int i = 0; i < 10 ; i ++)
-{
-int rofl;
-int lol = 0;
-lol = i;
-
-rofl = lol;
-lol = rofl;
-}
-unsigned long current_index = index + sub_vector_size; 
-if(m_used_ids[current_index] == id)
-{
-std::cout << "wanted: " << id << "   Deleted: " << m_used_ids[current_index] << std::endl;
-    //m_used_ids.erase(m_used_ids.begin() + current_index);
-    return current_index; 
-    }
-    else
-    {
-    if(m_used_ids[current_index] < id)
-    {
-    //std::cout << "current_index > id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
-    index = current_index + 1;
-    }
-    else
-    {
-    //std::cout << "current_index < id" << std::endl << m_used_ids[current_index] << std::endl << id << std::endl;
-    sub_vector_end = current_index;   
-    }
-    sub_vector_size = sub_vector_size / 2;
-    }
-    }
-    std::cout << "end" << std::endl;
-    return m_max_id + 1;
-    }
-    */
-
-    //void Particle::write_to_archive(boost::archive::binary_oarchive *oa)
-    //{
-    //    *oa << m_positions;
-    //    *oa << m_velocity_vectors;
-    //    *oa << m_masses;
-    //    *oa << m_radiuses;
-    //    *oa << m_ids;
-    //    //oa << m_deleted_ids_in_iteration;
-    //    *oa << m_dt;
-    //}
-

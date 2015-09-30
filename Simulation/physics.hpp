@@ -21,7 +21,7 @@ static double __attribute__((unused)) get_time_of_closest_approach(Vec3<double> 
     return -Vec3<double>::dotProduct((pos1 - pos2) ,vec1 - vec2)/ Vec3<double>::dotProduct(vec1 - vec2, vec1 - vec2);
 }
 
-static void __attribute__((unused)) applyGravity(Particle *particle, unsigned long id, double dt)
+static void __attribute__((unused)) apply_gravity(Particle *particle, unsigned long id, double dt)
 {
 	Vec3<double> distance_vector;
 	Vec3<double> accelration_vector;
@@ -39,30 +39,25 @@ static void __attribute__((unused)) applyGravity(Particle *particle, unsigned lo
 	{
         pos_vec_other = particle->getPosition(i);
 		distance_vector = pos_vec_other - pos_vec_curr;
-		force = calculateAccleration(distance_vector.getLength(),particle->getMass(i));
+		force = calculateAccleration(distance_vector.getLength(),particle->get_mass(i));
 		distance_vector.normalise();
 		accelration_vector = distance_vector * force / dt;
 		// puts("acc: ");
 		// accleration_vector.display();
-		particle->addAccelerationVector(id,accelration_vector);
+		particle->add_acceleration_vector(id,accelration_vector);
         particle->set_max_velo(std::fmax(accelration_vector.getLength(), particle->get_max_velo()));
 	}
 	for(unsigned int i = id + 1; i < num_particles; i++)
 	{
 		pos_vec_other = particle->getPosition(i);
 		distance_vector = pos_vec_other - pos_vec_curr;
-		force = calculateAccleration(distance_vector.getLength(),particle->getMass(i));
+		force = calculateAccleration(distance_vector.getLength(),particle->get_mass(i));
 		distance_vector.normalise();
 		accelration_vector = distance_vector * force / dt;
 		// puts("acc: ");
 		// accleration_vector.display();
-		particle->addAccelerationVector(id,accelration_vector);
+		particle->add_acceleration_vector(id,accelration_vector);
         particle->set_max_velo(std::fmax(accelration_vector.getLength(), particle->get_max_velo()));
 	}
 }
-
-// static void applyGravity(Particle &particle, unsigned long id, std::vector<unsigned long> id_vector)
-// {
-
-// }
 #endif
