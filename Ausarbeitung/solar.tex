@@ -163,15 +163,16 @@ mit Hilfe von SDL2.
 Integriert ist eine provisorische Konsole und mehrere Hotkeys für die einfache Benutzung.
 
 \section{Performance}
-ayy lmao
+Die Simulation läuft akzeptabel schnell und ein Speedup bei paralleler
+Ausführung ist erkennbar.
 
 \section{Probleme}
 Ein Problem bei der Parallelisierung war die Datenaufteilung. Da Gravitation einen effektiv
 unendlichen Einflussradius hat, muss jeder Prozess die gesamten, aktuellen Daten aller
 Partikel kennen.
 
-Besonders die Kollisionsabfrage benoetigt alle Daten da bei einer Kollision der Komplette
-Datensatz fuer das Objekt geloescht werden muss.
+Besonders die Kollisionsabfrage benötigt alle Daten, da bei einer Kollision der komplette
+Datensatz für eines der kollidierenden Objekte gelöscht werden muss.
 
 \section{Fazit und Ausblick}
 \subsection{Fazit}
@@ -208,7 +209,7 @@ Visualizer:
 
 \section{Zahlen}
 \begin{itemize}
-    \item ~2700 Zeilen Code
+    \item ca. 2700 Zeilen Code
     \item 163 Commits bis jetzt
     \item $>$20 Gb generierte Simulations-Daten
 \end{itemize}
