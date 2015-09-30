@@ -45,3 +45,14 @@ clean:
 
 mrproper:
 	rm -f *.o *.x
+
+help:
+	@echo 'Compilation targets:'
+	@echo '  default   - compile with regular flags'
+	@echo '  opti      - compile with -O3 optimizations'
+	@echo '  lazy      - compile without any restricting flags'
+	@echo '  clang     - like default, but use clang instead of gcc'
+	@echo ''
+	@echo 'Cleaning targets:'
+	@echo '  clean     - remove binary'
+	@echo '  mrproper  - remove binary as well as object files'
