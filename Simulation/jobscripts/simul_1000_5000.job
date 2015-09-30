@@ -4,4 +4,4 @@
 #SBATCH -N 1 --tasks-per-node=4 -p compute
 #SBATCH --error=simul_1000_5000.err --output=simul_1000_5000.out
 
-mpiexec -n 4 ../Simulation.x 1000 5000 simul_10000_10000.simdat
+mpiexec -n 4 ../Simulation.x 1000 5000 simul_1000_5000.simdat
