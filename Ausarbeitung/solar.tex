@@ -170,9 +170,14 @@ Ausführung ist erkennbar.
 Ein Problem bei der Parallelisierung war die Datenaufteilung. Da Gravitation einen effektiv
 unendlichen Einflussradius hat, muss jeder Prozess die gesamten, aktuellen Daten aller
 Partikel kennen.
+Zusaetzlich ist es uns nicht gelungen herauszufinden warum unser Programm bei einigen \\ \\
 
 Besonders die Kollisionsabfrage benötigt alle Daten, da bei einer Kollision der komplette
-Datensatz für eines der kollidierenden Objekte gelöscht werden muss.
+Datensatz für eines der kollidierenden Objekte gelöscht werden muss. \\ \\
+
+Prozessanzahlen ohne Probleme funktioniert und bei anderen nicht. Zum Beispiel laueft das
+Programm bei 4 Prozessen einwandfrei, bei 8 oder 13 jedoch nicht und es beendet mit einem
+Seqfault. \\ \\
 
 \section{Fazit und Ausblick}
 \subsection{Fazit}
