@@ -123,15 +123,7 @@ void Particle::apply_gravity(unsigned long start_idx, unsigned long end_idx)
 
     for (unsigned long particle_index = start_idx; particle_index < end_idx; particle_index++)
     {
-        if(particle_index == 1)
-        {
-            std::cout << "OLOLOLOLLO" << std::endl;
-        }
         applyGravity(this,particle_index,m_dt);
-            if(particle_index == 1)
-        {
-            std::cout << "OLOLOLOLLOROLLDLASDD" << std::endl;
-        }
     }
 
 }
@@ -481,8 +473,10 @@ bool Particle::limit(unsigned long index_1, unsigned long index_2)
 
 unsigned long Particle::detect_collision(unsigned long index_1, unsigned long index_2)
 {
+#ifdef PARALLEL_BUILD
     int pro_id;
     MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
+#endif
     if(index_2 == 0)
     {
         index_2 = m_positions.size();
@@ -500,7 +494,6 @@ unsigned long Particle::detect_collision(unsigned long index_1, unsigned long in
 
             if(check_for_collision(i, j -1, time_of_closest_approach))
             {
-                std::cout << pro_id << "Collision Detected: " << m_ids[i] << " " << m_ids[j - 1] << "========================================="<<std::endl;
                 merge_objects(i,j-1);
                 number_of_collisions++;
                 i--;
@@ -508,7 +501,6 @@ unsigned long Particle::detect_collision(unsigned long index_1, unsigned long in
             j--;
         }
     }
-    std::cout << pro_id << " done with col" << std::endl;
     m_time_simulated += 1;
     return number_of_collisions;
     //std::cout << "1/m_dt: "<< 1/m_dt << std::endl;

@@ -53,7 +53,9 @@ std::vector<int> calculate_chunk_size(int number_of_procs, int buffer_size)
         {
            chunks[i] = chunk_size;
         }
+#ifdef OUTPUT_DEBUG
         std::cout << "Chunk for pro : "<< i << "  "<< chunks[i] <<  std::endl;
+#endif
     }
     return chunks;
 }
@@ -121,7 +123,6 @@ void Simulator::simulate_parallel()
 
             fflush(stdout);
 
-            std::cout << "calculating chunksizes" << std::endl;
 
             //Size equals number of particles
             size = m_particles.get_velo_vector().size();
@@ -183,13 +184,9 @@ void Simulator::simulate_parallel()
                 std::vector<double> d_buffer(new_size);
                 std::vector<double> ul_buffer(new_size);
         
-                std::cout << pro_id << ": recv new_size" << std::endl;
-                std::cout << "receiving from "<< i << std::endl;
-                std::cout << pro_id << ": recv velo" << std::endl;
                 MPI::COMM_WORLD.Recv(&v3_buffer[0], new_size,MPI_Vec3,i,tag);
                 new_velocity_vector.insert(new_velocity_vector.end(),v3_buffer.begin(),v3_buffer.end());
                 
-                std::cout << pro_id << ": recv pos" << std::endl;
                 MPI::COMM_WORLD.Recv(&v3_buffer[0], new_size,MPI_Vec3,i,tag);
                 new_pos_vector.insert(new_pos_vector.end(),v3_buffer.begin(),v3_buffer.end());
                 
@@ -235,7 +232,6 @@ void Simulator::simulate_parallel()
             m_particles.update_velo_vector(velo_buffer);
 
             //Receive pos vector
-            std::cout << pro_id<< ": recv pos" << std::endl;
             std::vector<Vec3<double> > pos_buffer(size);
             MPI::COMM_WORLD.Bcast(&pos_buffer[0],
                     size,
@@ -293,20 +289,14 @@ void Simulator::simulate_parallel()
             }
 #endif
 
-            std::cout << pro_id << " asd1" << std::endl;
             unsigned long number_of_collisons = m_particles.detect_collision(start + 2, end);
-            std::cout << pro_id << " asd2" << std::endl;
             
             end = end - number_of_collisons;
-            std::cout << pro_id << " asd3" << std::endl;
             unsigned long new_size = chunk_sizes[pro_id - 1] - number_of_collisons;
-            std::cout << pro_id << " asd4 " << start << " " << end << std::endl;
             if(pro_id == 1)
             {
                 m_particles.apply_gravity(start + 1,end);
-            std::cout << pro_id << " asd5" << std::endl;
                 m_particles.move_objects(start + 1 , end);
-            std::cout << pro_id << " asd6" << std::endl;
             }
             else
             {
@@ -314,22 +304,11 @@ void Simulator::simulate_parallel()
                 m_particles.apply_gravity(start, end);
                 m_particles.move_objects(start, end); 
             }
-            std::cout << pro_id << " asd7" << std::endl;
 
 
-            // send buffer for velo vector chunk
-            //Send bufferi
-            std::cout << pro_id <<" " << new_size <<" START SEND CALCULATED VELO VEC" << std::endl;
             MPI::COMM_WORLD.Send(&new_size,1,MPI_UNSIGNED_LONG, 0 ,tag);
-            std::cout << pro_id << ": start send new velo" << std::endl;
             MPI::COMM_WORLD.Send(&m_particles.get_velo_vector()[start],new_size,MPI_Vec3,0,tag);
-            std::cout << pro_id << ": end send new velo" << std::endl;
-
             MPI::COMM_WORLD.Send(&m_particles.get_pos_vector()[start],new_size,MPI_Vec3,0,tag);
-            //buffer is now filled with pos vector chunk
-            std::cout << "START SEND CALCULATED POS VEC" << std::endl;
-            //Send pos vector chunk
-            std::cout << pro_id << ": start send new pos" << std::endl;
             MPI::COMM_WORLD.Send(&m_particles.get_radius_vector()[start],new_size,MPI_DOUBLE,0,tag);
             MPI::COMM_WORLD.Send(&m_particles.get_mass_vector()[start],new_size,MPI_DOUBLE,0,tag);
             MPI::COMM_WORLD.Send(&m_particles.get_id_vector()[start],new_size,MPI_UNSIGNED_LONG,0,tag);
@@ -442,10 +421,9 @@ bool is_all_digits(char *text)
 
 void Simulator::get_options(int argc, char** argv)
 {
-    if (argc > 4 || argc < 2)
+    if (argc > 4)
     {
         std::cerr << "Error: invalid number of arguments!" << std::endl;
-        usage();
         exit(EXIT_FAILURE);
     }
 
@@ -458,7 +436,7 @@ void Simulator::get_options(int argc, char** argv)
         std::ifstream input_file(m_name_input_file);
         if(!(bool)input_file)
         {
-            std::cerr << "Error: File does not exists " << m_name_input_file << std::endl;
+            std::cout << "Error: File does not exists " << m_name_input_file << std::endl;
             exit(EXIT_FAILURE);
         }
         input_file.close();
@@ -469,17 +447,9 @@ void Simulator::get_options(int argc, char** argv)
         m_run_test = true;
         m_option_load_from_file = false;
 
-        if (argc < 3)
-        {
-            std::cerr << "Error: invalid number of arguments!" << std::endl;
-            usage();
-            exit(EXIT_FAILURE);
-        }
-
         if(!is_all_digits(argv[2]))
         {
-            std::cerr << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
-            usage();
+            std::cout << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
             exit(EXIT_FAILURE);
         } 
         std::string test_id = argv[2];
@@ -487,18 +457,12 @@ void Simulator::get_options(int argc, char** argv)
         m_name_output_file = "test_run" + test_id;
         std::cout << m_name_output_file << std::endl;
     }
-    else if(strcmp(argv[1], "help") == 0)
-    {
-        print_help();
-        exit(EXIT_SUCCESS);
-    }
     else
     {
         m_option_load_from_file = false;
         if(!is_all_digits(argv[1]))
         {
-            std::cerr << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
-            usage();
+            std::cout << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
             exit(EXIT_FAILURE);
         }
         m_number_of_iterations = atof(argv[2]);
@@ -508,39 +472,13 @@ void Simulator::get_options(int argc, char** argv)
         std::ifstream out_file(m_name_output_file);
         if((bool)out_file)
         {
-            std::cerr << "Error: File already exists " << m_name_input_file << std::endl;
+            std::cout << "Error: File already exists " << m_name_input_file << std::endl;
             exit(EXIT_FAILURE);
         }
     }
     m_name_last_iteration_save_file = m_name_output_file + ".lis";
 
 }
-
-void Simulator::usage()
-{
-    std::cerr << "Usage: ./Simulation.x [option [file]] [particles] [iterations] [output file]" << std::endl;
-    std::cerr << "Operations:" << std::endl;
-    std::cerr << "\t./Simualtion.x help" << std::endl;
-    std::cerr << "\t./Simualtion.x load <filename> <iterations>" << std::endl;
-    std::cerr << "\t./Simualtion.x test <test id>" << std::endl;
-    std::cerr << "\t./Simualtion.x <particles> <iterations>" << std::endl;
-    std::cerr << std::endl;
-    std::cerr << "Use './Simulation.x help' for more expansive information" << std::endl;
-}
-
-void Simulator::print_help()
-{
-    std::cout << "Usage: ./Simulation.x [option [file]] [particles] [iterations] [output file]" << std::endl;
-    std::cout << std::endl;
-    std::cout << "Option | Description" << std::endl;
-    std::cout << "-------------------------------------------------------------" << std::endl;
-    std::cout << "  help | print this help message" << std::endl;
-    std::cout << "  load | specifiy a file to load and continue simulating with" << std::endl;
-    std::cout << "  test | specify a test to be run" << std::endl;
-    std::cout << "<none> | simply specify a number of particles, iterations," << std::endl;
-    std::cout << "       | and an output file to run a normal simulation!" << std::endl;
-}
-
 // THIS IS SP... , i mean, DEAD CODE!
 /*
    bool Simulator::intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB)
