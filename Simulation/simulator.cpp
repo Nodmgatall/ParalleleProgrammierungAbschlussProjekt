@@ -295,13 +295,13 @@ void Simulator::simulate_parallel()
             unsigned long new_size = chunk_sizes[pro_id - 1] - number_of_collisons;
             if(pro_id == 1)
             {
-                m_particles.apply_gravity(start + 1,end);
+                m_particles.apply_gravity_loop(start + 1,end);
                 m_particles.move_objects(start + 1 , end);
             }
             else
             {
 
-                m_particles.apply_gravity(start, end);
+                m_particles.apply_gravity_loop(start, end);
                 m_particles.move_objects(start, end); 
             }
 
