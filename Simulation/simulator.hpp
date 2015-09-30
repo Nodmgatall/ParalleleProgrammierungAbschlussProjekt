@@ -15,7 +15,6 @@ class Simulator
         void get_options(int argc, char** argv);
         void usage();
         void print_help();
-        void setup_test(int test_id);
         std::string set_up_loading_bar();
         //void write_particle_archive_to_file();
 

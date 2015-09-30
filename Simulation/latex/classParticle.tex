@@ -1,0 +1,433 @@
+\hypertarget{classParticle}{}\section{Particle Class Reference}
+\label{classParticle}\index{Particle@{Particle}}
+
+
+{\ttfamily \#include $<$particle.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classParticle_a1b9b969dd9c1d2a8147640bde85913ca}{remove} (unsigned long vector\+\_\+index)
+\item 
+double \hyperlink{classParticle_a5344328ce568e08c414df7cd2af774bb}{get\+\_\+dt} ()
+\item 
+double \hyperlink{classParticle_adedd7d997eed2f047229245e4f19fa9e}{get\+\_\+time\+\_\+simulated} ()
+\item 
+double \hyperlink{classParticle_a7968aa69a99407f560a9edb8fee17eb4}{get\+\_\+max\+\_\+velo} ()
+\item 
+std\+::vector$<$ Vec3$<$ double $>$ $>$ \hyperlink{classParticle_a4de80e4923f09e3128dea04b4ea5a8c5}{get\+\_\+velo\+\_\+vector} ()
+\item 
+std\+::vector$<$ Vec3$<$ double $>$ $>$ \hyperlink{classParticle_adeed1a237686198f78c75b0e075d54b6}{get\+\_\+pos\+\_\+vector} ()
+\item 
+std\+::vector$<$ double $>$ \hyperlink{classParticle_a471e857745f9b262410f8e14da24b193}{get\+\_\+mass\+\_\+vector} ()
+\item 
+std\+::vector$<$ double $>$ \hyperlink{classParticle_aa34ecd2ae3139ba565c68e70f0002c61}{get\+\_\+radius\+\_\+vector} ()
+\item 
+std\+::vector$<$ unsigned long $>$ \hyperlink{classParticle_a2a245867fb618f8dada136670268ffa3}{get\+\_\+id\+\_\+vector} ()
+\item 
+void \hyperlink{classParticle_a9ab5c769473c26e53df88c2e645b804d}{update\+\_\+velo\+\_\+vector} (std\+::vector$<$ Vec3$<$ double $>$$>$ new\+\_\+velo\+\_\+vector)
+\item 
+void \hyperlink{classParticle_a2273f8e8fdbc05954a6d1e61dece5bf6}{update\+\_\+pos\+\_\+vector} (std\+::vector$<$ Vec3$<$ double $>$$>$ new\+\_\+velo\+\_\+vector)
+\item 
+void \hyperlink{classParticle_a49baa909e6948f888ad62084273af332}{update\+\_\+mass\+\_\+vector} (std\+::vector$<$ double $>$ new\+\_\+mass\+\_\+vector)
+\item 
+void \hyperlink{classParticle_a302b498f288a8bd367f0ed6c45dfdc27}{update\+\_\+radius\+\_\+vector} (std\+::vector$<$ double $>$ new\+\_\+radius\+\_\+vector)
+\item 
+void \hyperlink{classParticle_a7094fdedac6a745846bfd2dc028907f9}{update\+\_\+id\+\_\+vector} (std\+::vector$<$ unsigned long $>$ new\+\_\+id\+\_\+vector)
+\item 
+\hypertarget{classParticle_aec9f3d1848cf9adc13f6ee75c0bded7b}{}void {\bfseries set\+\_\+max\+\_\+velo} (double new\+\_\+max\+\_\+velo)\label{classParticle_aec9f3d1848cf9adc13f6ee75c0bded7b}
+
+\item 
+\hypertarget{classParticle_af9920f720bfedc0f739b9255bda83f06}{}std\+::pair$<$ double, double $>$ {\bfseries calculate\+\_\+possible\+\_\+collison\+\_\+point} (unsigned long index\+\_\+1, unsigned long index\+\_\+2)\label{classParticle_af9920f720bfedc0f739b9255bda83f06}
+
+\item 
+double \hyperlink{classParticle_abf747e26491e7a7af1792aa7d0d69aef}{get\+\_\+distance\+\_\+to\+\_\+center} (unsigned long particle\+\_\+index)
+\item 
+void \hyperlink{classParticle_a8216ccd02b4d81b99afe7dba67464393}{move\+\_\+\+Object} (unsigned long particle\+\_\+index)
+\item 
+void \hyperlink{classParticle_ab110062c4b5f2ee718d8adc598a461c2}{move\+\_\+objects} (unsigned long start\+\_\+idx=1, unsigned long end\+\_\+idx=0)
+\item 
+Vec3$<$ double $>$ \hyperlink{classParticle_a2c1432771a7136cefed15c4032492386}{get\+Velocity\+Vector} (unsigned long particle\+\_\+index)
+\item 
+void \hyperlink{classParticle_a693efabec6e47d2aec0cf70d3eae983b}{add\+Acceleration\+Vector} (unsigned long particle\+\_\+index, Vec3$<$ double $>$ acceleration\+Vector)
+\item 
+Vec3$<$ double $>$ \hyperlink{classParticle_a8912fcab8b7a963bc8a4002176463d00}{get\+Position} (unsigned long particle\+\_\+index)
+\item 
+Vec3$<$ Vec3$<$ double $>$ $>$ \hyperlink{classParticle_a2cb38b3e1f0ca76084ce6f3b6c88f78f}{save\+Position\+Data} ()
+\item 
+void \hyperlink{classParticle_a09d3893513e28a124301446a03de4c2c}{write\+\_\+to\+\_\+file} (std\+::string filename, unsigned long iteration\+\_\+number, std\+::ios\+\_\+base\+::openmode mode)
+\item 
+double \hyperlink{classParticle_abfd6556526b15b5bee3384ae7baec48b}{get\+Mass} (unsigned long particle\+\_\+index)
+\item 
+double \hyperlink{classParticle_a699d893583b4fabeffd48c0a509bd50e}{get\+Radius} (unsigned long particle\+\_\+index)
+\item 
+unsigned long \hyperlink{classParticle_a06514801da39b213dc9d408d40e2adc1}{get\+Number\+Of\+Particles} ()
+\item 
+Vec3$<$ double $>$ \hyperlink{classParticle_aa42c00ad9144eddd0fde06255a4169c9}{calculate\+\_\+ortogonal\+\_\+vector\+\_\+to\+\_\+pos\+\_\+vec} (Vec3$<$ double $>$ pos\+\_\+vec, Vec3$<$ double $>$ velocity\+\_\+vector)
+\item 
+unsigned long \hyperlink{classParticle_af9d4982b196dbcaf9cdf59377dd5b2ee}{generate\+Random\+Particle} (std\+::pair$<$ double, double $>$ range\+\_\+position, std\+::pair$<$ double, double $>$ range\+\_\+velocity, std\+::pair$<$ double, double $>$ range\+\_\+mass, std\+::pair$<$ double, double $>$ range\+\_\+radius)
+\item 
+unsigned long \hyperlink{classParticle_aa08eae09137e5ecb9440ad956c2b4ed7}{generate\+Random\+Particle} (double max\+\_\+pos, double max\+\_\+velo, double max\+\_\+mass, double max\+\_\+radius)
+\item 
+unsigned long \hyperlink{classParticle_ad13916c98c9d37de12420205299f1e2a}{create\+Particle} (Vec3$<$ double $>$ positon, Vec3$<$ double $>$ velocity\+\_\+vector, double mass, double radius)
+\item 
+void \hyperlink{classParticle_ac68f9be7c033bc006fac8b90b31fad6b}{print\+Particle} (unsigned long particle\+\_\+index)
+\item 
+void \hyperlink{classParticle_a9acb129d789df24580508e20816f2922}{print\+All\+Particles} ()
+\item 
+void \hyperlink{classParticle_a9eebf91161c113031c3f0816134edb9f}{apply\+\_\+gravity} (unsigned long start\+\_\+idx=1, unsigned long end\+\_\+idx=0)
+\item 
+\hypertarget{classParticle_afeafa33cfa8f5f921c8e2dbe1a05619b}{}void {\bfseries calculate\+\_\+collision} (unsigned long obj\+\_\+id\+\_\+1, unsigned long obj\+\_\+id\+\_\+2)\label{classParticle_afeafa33cfa8f5f921c8e2dbe1a05619b}
+
+\item 
+void \hyperlink{classParticle_a735866943458453aa5e7b9936497ca0a}{merge\+\_\+objects} (unsigned long obj\+\_\+id\+\_\+1, unsigned long obj\+\_\+id\+\_\+2)
+\item 
+void \hyperlink{classParticle_a1debf31d79f42067ec29523c8ac330fe}{load\+\_\+data\+\_\+from\+\_\+file} (std\+::string filepath, unsigned long \&number\+\_\+of\+\_\+previous\+\_\+iterations)
+\item 
+bool \hyperlink{classParticle_a70dfb979ff9b1af7cd4b984b3f88f4ea}{check\+\_\+for\+\_\+collision} (unsigned long id\+\_\+1, unsigned long id\+\_\+2, double time\+\_\+of\+\_\+closest\+\_\+approach)
+\item 
+unsigned long \hyperlink{classParticle_a3bcbd18f7b6f23282c64b6b91ca0404e}{detect\+\_\+collision} (unsigned long index\+\_\+1=1, unsigned long index\+\_\+2=0)
+\item 
+void \hyperlink{classParticle_ab46533030ac2e5a8df69f2cfe862e29c}{particle\+\_\+bubble\+\_\+sort} (unsigned long start\+\_\+idx=0, unsigned long end\+\_\+idx=0)
+\item 
+bool \hyperlink{classParticle_aed2328ab3e7f1b839b2d73834557d6ce}{limit} (unsigned long index\+\_\+1, unsigned long index\+\_\+2)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data structure to store and manage particles.~\newline
+Paritcles are stored in a std\+::vector$<$double$>$ and are accsessed by their index. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classParticle_a693efabec6e47d2aec0cf70d3eae983b}{}\index{Particle@{Particle}!add\+Acceleration\+Vector@{add\+Acceleration\+Vector}}
+\index{add\+Acceleration\+Vector@{add\+Acceleration\+Vector}!Particle@{Particle}}
+\subsubsection[{add\+Acceleration\+Vector(unsigned long particle\+\_\+index, Vec3$<$ double $>$ acceleration\+Vector)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::add\+Acceleration\+Vector (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{particle\+\_\+index, }
+\item[{Vec3$<$ double $>$}]{acceleration\+Vector}
+\end{DoxyParamCaption}
+)}\label{classParticle_a693efabec6e47d2aec0cf70d3eae983b}
+adds a acceleration vector to the velocity vectof of specified object \hypertarget{classParticle_a9eebf91161c113031c3f0816134edb9f}{}\index{Particle@{Particle}!apply\+\_\+gravity@{apply\+\_\+gravity}}
+\index{apply\+\_\+gravity@{apply\+\_\+gravity}!Particle@{Particle}}
+\subsubsection[{apply\+\_\+gravity(unsigned long start\+\_\+idx=1, unsigned long end\+\_\+idx=0)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::apply\+\_\+gravity (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{start\+\_\+idx = {\ttfamily 1}, }
+\item[{unsigned long}]{end\+\_\+idx = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{classParticle_a9eebf91161c113031c3f0816134edb9f}
+Iterates over all objects and calls apply\+Gravity() (from \hyperlink{physics_8hpp_source}{physics.\+hpp}) for each \hypertarget{classParticle_aa42c00ad9144eddd0fde06255a4169c9}{}\index{Particle@{Particle}!calculate\+\_\+ortogonal\+\_\+vector\+\_\+to\+\_\+pos\+\_\+vec@{calculate\+\_\+ortogonal\+\_\+vector\+\_\+to\+\_\+pos\+\_\+vec}}
+\index{calculate\+\_\+ortogonal\+\_\+vector\+\_\+to\+\_\+pos\+\_\+vec@{calculate\+\_\+ortogonal\+\_\+vector\+\_\+to\+\_\+pos\+\_\+vec}!Particle@{Particle}}
+\subsubsection[{calculate\+\_\+ortogonal\+\_\+vector\+\_\+to\+\_\+pos\+\_\+vec(\+Vec3$<$ double $>$ pos\+\_\+vec, Vec3$<$ double $>$ velocity\+\_\+vector)}]{\setlength{\rightskip}{0pt plus 5cm}Vec3$<$ double $>$ Particle\+::calculate\+\_\+ortogonal\+\_\+vector\+\_\+to\+\_\+pos\+\_\+vec (
+\begin{DoxyParamCaption}
+\item[{Vec3$<$ double $>$}]{pos\+\_\+vec, }
+\item[{Vec3$<$ double $>$}]{velocity\+\_\+vector}
+\end{DoxyParamCaption}
+)}\label{classParticle_aa42c00ad9144eddd0fde06255a4169c9}
+calculates the vector that is on the same plane as pos\+\_\+vec and velocity\+\_\+vector that is orthogonal to pos\+\_\+vec
+
+Calculates the logical direction a object takes when generated \hypertarget{classParticle_a70dfb979ff9b1af7cd4b984b3f88f4ea}{}\index{Particle@{Particle}!check\+\_\+for\+\_\+collision@{check\+\_\+for\+\_\+collision}}
+\index{check\+\_\+for\+\_\+collision@{check\+\_\+for\+\_\+collision}!Particle@{Particle}}
+\subsubsection[{check\+\_\+for\+\_\+collision(unsigned long id\+\_\+1, unsigned long id\+\_\+2, double time\+\_\+of\+\_\+closest\+\_\+approach)}]{\setlength{\rightskip}{0pt plus 5cm}bool Particle\+::check\+\_\+for\+\_\+collision (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{id\+\_\+1, }
+\item[{unsigned long}]{id\+\_\+2, }
+\item[{double}]{time\+\_\+of\+\_\+closest\+\_\+approach}
+\end{DoxyParamCaption}
+)}\label{classParticle_a70dfb979ff9b1af7cd4b984b3f88f4ea}
+returns true if distance between two objects is smaller than the sum of their radiuses \hypertarget{classParticle_ad13916c98c9d37de12420205299f1e2a}{}\index{Particle@{Particle}!create\+Particle@{create\+Particle}}
+\index{create\+Particle@{create\+Particle}!Particle@{Particle}}
+\subsubsection[{create\+Particle(\+Vec3$<$ double $>$ positon, Vec3$<$ double $>$ velocity\+\_\+vector, double mass, double radius)}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long Particle\+::create\+Particle (
+\begin{DoxyParamCaption}
+\item[{Vec3$<$ double $>$}]{p, }
+\item[{Vec3$<$ double $>$}]{v, }
+\item[{double}]{m, }
+\item[{double}]{r}
+\end{DoxyParamCaption}
+)}\label{classParticle_ad13916c98c9d37de12420205299f1e2a}
+Discription\+:~\newline
+
+\begin{DoxyItemize}
+\item Generates a new \hyperlink{classParticle}{Particle} with specified values~\newline
+Return value\+:~\newline
+returns the index of the new \hyperlink{classParticle}{Particle}
+\end{DoxyItemize}
+
+Creates a new particle \hypertarget{classParticle_a3bcbd18f7b6f23282c64b6b91ca0404e}{}\index{Particle@{Particle}!detect\+\_\+collision@{detect\+\_\+collision}}
+\index{detect\+\_\+collision@{detect\+\_\+collision}!Particle@{Particle}}
+\subsubsection[{detect\+\_\+collision(unsigned long index\+\_\+1=1, unsigned long index\+\_\+2=0)}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long Particle\+::detect\+\_\+collision (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{index\+\_\+1 = {\ttfamily 1}, }
+\item[{unsigned long}]{index\+\_\+2 = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{classParticle_a3bcbd18f7b6f23282c64b6b91ca0404e}
+iterates over all particles and checks for collisions \hypertarget{classParticle_af9d4982b196dbcaf9cdf59377dd5b2ee}{}\index{Particle@{Particle}!generate\+Random\+Particle@{generate\+Random\+Particle}}
+\index{generate\+Random\+Particle@{generate\+Random\+Particle}!Particle@{Particle}}
+\subsubsection[{generate\+Random\+Particle(std\+::pair$<$ double, double $>$ range\+\_\+position, std\+::pair$<$ double, double $>$ range\+\_\+velocity, std\+::pair$<$ double, double $>$ range\+\_\+mass, std\+::pair$<$ double, double $>$ range\+\_\+radius)}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long Particle\+::generate\+Random\+Particle (
+\begin{DoxyParamCaption}
+\item[{std\+::pair$<$ double, double $>$}]{range\+\_\+position, }
+\item[{std\+::pair$<$ double, double $>$}]{range\+\_\+velocity, }
+\item[{std\+::pair$<$ double, double $>$}]{range\+\_\+mass, }
+\item[{std\+::pair$<$ double, double $>$}]{range\+\_\+radius}
+\end{DoxyParamCaption}
+)}\label{classParticle_af9d4982b196dbcaf9cdf59377dd5b2ee}
+Discription\+:~\newline
+Generates a new particle witch random atributes within ranges ~\newline
+Return value\+:~\newline
+returns the index of the new \hyperlink{classParticle}{Particle}
+
+generates a random particle within given ranges \hypertarget{classParticle_aa08eae09137e5ecb9440ad956c2b4ed7}{}\index{Particle@{Particle}!generate\+Random\+Particle@{generate\+Random\+Particle}}
+\index{generate\+Random\+Particle@{generate\+Random\+Particle}!Particle@{Particle}}
+\subsubsection[{generate\+Random\+Particle(double max\+\_\+pos, double max\+\_\+velo, double max\+\_\+mass, double max\+\_\+radius)}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long Particle\+::generate\+Random\+Particle (
+\begin{DoxyParamCaption}
+\item[{double}]{max\+\_\+pos, }
+\item[{double}]{max\+\_\+velo, }
+\item[{double}]{max\+\_\+mass, }
+\item[{double}]{max\+\_\+radius}
+\end{DoxyParamCaption}
+)}\label{classParticle_aa08eae09137e5ecb9440ad956c2b4ed7}
+Discription\+:~\newline
+Generates a new particle witch random atributes form range 0 to max\+\_\+$<$atr$>$ ~\newline
+Return value\+:~\newline
+returns the index of the new \hyperlink{classParticle}{Particle}
+
+generates a new particle with no attribute larger than given max\+\_\+value \hypertarget{classParticle_abf747e26491e7a7af1792aa7d0d69aef}{}\index{Particle@{Particle}!get\+\_\+distance\+\_\+to\+\_\+center@{get\+\_\+distance\+\_\+to\+\_\+center}}
+\index{get\+\_\+distance\+\_\+to\+\_\+center@{get\+\_\+distance\+\_\+to\+\_\+center}!Particle@{Particle}}
+\subsubsection[{get\+\_\+distance\+\_\+to\+\_\+center(unsigned long particle\+\_\+index)}]{\setlength{\rightskip}{0pt plus 5cm}double Particle\+::get\+\_\+distance\+\_\+to\+\_\+center (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{particle\+\_\+index}
+\end{DoxyParamCaption}
+)}\label{classParticle_abf747e26491e7a7af1792aa7d0d69aef}
+returns the distance from the center of the system \hypertarget{classParticle_a5344328ce568e08c414df7cd2af774bb}{}\index{Particle@{Particle}!get\+\_\+dt@{get\+\_\+dt}}
+\index{get\+\_\+dt@{get\+\_\+dt}!Particle@{Particle}}
+\subsubsection[{get\+\_\+dt()}]{\setlength{\rightskip}{0pt plus 5cm}double Particle\+::get\+\_\+dt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_a5344328ce568e08c414df7cd2af774bb}
+returns delta time \hypertarget{classParticle_a2a245867fb618f8dada136670268ffa3}{}\index{Particle@{Particle}!get\+\_\+id\+\_\+vector@{get\+\_\+id\+\_\+vector}}
+\index{get\+\_\+id\+\_\+vector@{get\+\_\+id\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{get\+\_\+id\+\_\+vector()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ unsigned long $>$ Particle\+::get\+\_\+id\+\_\+vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_a2a245867fb618f8dada136670268ffa3}
+Vector storing the id\textquotesingle{}s of objects \hypertarget{classParticle_a471e857745f9b262410f8e14da24b193}{}\index{Particle@{Particle}!get\+\_\+mass\+\_\+vector@{get\+\_\+mass\+\_\+vector}}
+\index{get\+\_\+mass\+\_\+vector@{get\+\_\+mass\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{get\+\_\+mass\+\_\+vector()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ double $>$ Particle\+::get\+\_\+mass\+\_\+vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_a471e857745f9b262410f8e14da24b193}
+Vector storing the masses ob objects \hypertarget{classParticle_a7968aa69a99407f560a9edb8fee17eb4}{}\index{Particle@{Particle}!get\+\_\+max\+\_\+velo@{get\+\_\+max\+\_\+velo}}
+\index{get\+\_\+max\+\_\+velo@{get\+\_\+max\+\_\+velo}!Particle@{Particle}}
+\subsubsection[{get\+\_\+max\+\_\+velo()}]{\setlength{\rightskip}{0pt plus 5cm}double Particle\+::get\+\_\+max\+\_\+velo (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_a7968aa69a99407f560a9edb8fee17eb4}
+returns the current highest velocity \hypertarget{classParticle_adeed1a237686198f78c75b0e075d54b6}{}\index{Particle@{Particle}!get\+\_\+pos\+\_\+vector@{get\+\_\+pos\+\_\+vector}}
+\index{get\+\_\+pos\+\_\+vector@{get\+\_\+pos\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{get\+\_\+pos\+\_\+vector()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ Vec3$<$ double $>$ $>$ Particle\+::get\+\_\+pos\+\_\+vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_adeed1a237686198f78c75b0e075d54b6}
+Vector storing the positios ob objects \hypertarget{classParticle_aa34ecd2ae3139ba565c68e70f0002c61}{}\index{Particle@{Particle}!get\+\_\+radius\+\_\+vector@{get\+\_\+radius\+\_\+vector}}
+\index{get\+\_\+radius\+\_\+vector@{get\+\_\+radius\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{get\+\_\+radius\+\_\+vector()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ double $>$ Particle\+::get\+\_\+radius\+\_\+vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_aa34ecd2ae3139ba565c68e70f0002c61}
+Vector storing the radiuses of objects \hypertarget{classParticle_adedd7d997eed2f047229245e4f19fa9e}{}\index{Particle@{Particle}!get\+\_\+time\+\_\+simulated@{get\+\_\+time\+\_\+simulated}}
+\index{get\+\_\+time\+\_\+simulated@{get\+\_\+time\+\_\+simulated}!Particle@{Particle}}
+\subsubsection[{get\+\_\+time\+\_\+simulated()}]{\setlength{\rightskip}{0pt plus 5cm}double Particle\+::get\+\_\+time\+\_\+simulated (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_adedd7d997eed2f047229245e4f19fa9e}
+retuns eleapsed time \hypertarget{classParticle_a4de80e4923f09e3128dea04b4ea5a8c5}{}\index{Particle@{Particle}!get\+\_\+velo\+\_\+vector@{get\+\_\+velo\+\_\+vector}}
+\index{get\+\_\+velo\+\_\+vector@{get\+\_\+velo\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{get\+\_\+velo\+\_\+vector()}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ Vec3$<$ double $>$ $>$ Particle\+::get\+\_\+velo\+\_\+vector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_a4de80e4923f09e3128dea04b4ea5a8c5}
+Vector storing the velocities ob objects \hypertarget{classParticle_abfd6556526b15b5bee3384ae7baec48b}{}\index{Particle@{Particle}!get\+Mass@{get\+Mass}}
+\index{get\+Mass@{get\+Mass}!Particle@{Particle}}
+\subsubsection[{get\+Mass(unsigned long particle\+\_\+index)}]{\setlength{\rightskip}{0pt plus 5cm}double Particle\+::get\+Mass (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{particle\+\_\+index}
+\end{DoxyParamCaption}
+)}\label{classParticle_abfd6556526b15b5bee3384ae7baec48b}
+returns the mass of given particle \hypertarget{classParticle_a06514801da39b213dc9d408d40e2adc1}{}\index{Particle@{Particle}!get\+Number\+Of\+Particles@{get\+Number\+Of\+Particles}}
+\index{get\+Number\+Of\+Particles@{get\+Number\+Of\+Particles}!Particle@{Particle}}
+\subsubsection[{get\+Number\+Of\+Particles()}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long Particle\+::get\+Number\+Of\+Particles (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_a06514801da39b213dc9d408d40e2adc1}
+returns the number of existing particles \hypertarget{classParticle_a8912fcab8b7a963bc8a4002176463d00}{}\index{Particle@{Particle}!get\+Position@{get\+Position}}
+\index{get\+Position@{get\+Position}!Particle@{Particle}}
+\subsubsection[{get\+Position(unsigned long particle\+\_\+index)}]{\setlength{\rightskip}{0pt plus 5cm}Vec3$<$ double $>$ Particle\+::get\+Position (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{particle\+\_\+index}
+\end{DoxyParamCaption}
+)}\label{classParticle_a8912fcab8b7a963bc8a4002176463d00}
+returns the positon of given particle \hypertarget{classParticle_a699d893583b4fabeffd48c0a509bd50e}{}\index{Particle@{Particle}!get\+Radius@{get\+Radius}}
+\index{get\+Radius@{get\+Radius}!Particle@{Particle}}
+\subsubsection[{get\+Radius(unsigned long particle\+\_\+index)}]{\setlength{\rightskip}{0pt plus 5cm}double Particle\+::get\+Radius (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{particle\+\_\+index}
+\end{DoxyParamCaption}
+)}\label{classParticle_a699d893583b4fabeffd48c0a509bd50e}
+returns the radius of given particle \hypertarget{classParticle_a2c1432771a7136cefed15c4032492386}{}\index{Particle@{Particle}!get\+Velocity\+Vector@{get\+Velocity\+Vector}}
+\index{get\+Velocity\+Vector@{get\+Velocity\+Vector}!Particle@{Particle}}
+\subsubsection[{get\+Velocity\+Vector(unsigned long particle\+\_\+index)}]{\setlength{\rightskip}{0pt plus 5cm}Vec3$<$ double $>$ Particle\+::get\+Velocity\+Vector (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{particle\+\_\+index}
+\end{DoxyParamCaption}
+)}\label{classParticle_a2c1432771a7136cefed15c4032492386}
+returns the velocity vector of given particle \hypertarget{classParticle_aed2328ab3e7f1b839b2d73834557d6ce}{}\index{Particle@{Particle}!limit@{limit}}
+\index{limit@{limit}!Particle@{Particle}}
+\subsubsection[{limit(unsigned long index\+\_\+1, unsigned long index\+\_\+2)}]{\setlength{\rightskip}{0pt plus 5cm}bool Particle\+::limit (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{index\+\_\+1, }
+\item[{unsigned long}]{index\+\_\+2}
+\end{DoxyParamCaption}
+)}\label{classParticle_aed2328ab3e7f1b839b2d73834557d6ce}
+checks if distances from sun are greater than 2 x max\+\_\+velo retuns true if distance is greater than 2x max velo \hypertarget{classParticle_a1debf31d79f42067ec29523c8ac330fe}{}\index{Particle@{Particle}!load\+\_\+data\+\_\+from\+\_\+file@{load\+\_\+data\+\_\+from\+\_\+file}}
+\index{load\+\_\+data\+\_\+from\+\_\+file@{load\+\_\+data\+\_\+from\+\_\+file}!Particle@{Particle}}
+\subsubsection[{load\+\_\+data\+\_\+from\+\_\+file(std\+::string filepath, unsigned long \&number\+\_\+of\+\_\+previous\+\_\+iterations)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::load\+\_\+data\+\_\+from\+\_\+file (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{filepath, }
+\item[{unsigned long \&}]{number\+\_\+of\+\_\+previous\+\_\+iterations}
+\end{DoxyParamCaption}
+)}\label{classParticle_a1debf31d79f42067ec29523c8ac330fe}
+loads data from earlier run
+
+D\+O\+E\+N\+S\+T W\+O\+R\+K \hypertarget{classParticle_a735866943458453aa5e7b9936497ca0a}{}\index{Particle@{Particle}!merge\+\_\+objects@{merge\+\_\+objects}}
+\index{merge\+\_\+objects@{merge\+\_\+objects}!Particle@{Particle}}
+\subsubsection[{merge\+\_\+objects(unsigned long obj\+\_\+id\+\_\+1, unsigned long obj\+\_\+id\+\_\+2)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::merge\+\_\+objects (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{obj\+\_\+id\+\_\+1, }
+\item[{unsigned long}]{obj\+\_\+id\+\_\+2}
+\end{DoxyParamCaption}
+)}\label{classParticle_a735866943458453aa5e7b9936497ca0a}
+merges 2 kolliding objects and replaces the one that is nearer to the center of the world with a new one, deletes the second one, effectively shrinking the number of objects by one. A Exeption is if a objects collides with the sun or the main center of gravity (always pos 0), here only the object is deletet and no new object is generated. \hypertarget{classParticle_a8216ccd02b4d81b99afe7dba67464393}{}\index{Particle@{Particle}!move\+\_\+\+Object@{move\+\_\+\+Object}}
+\index{move\+\_\+\+Object@{move\+\_\+\+Object}!Particle@{Particle}}
+\subsubsection[{move\+\_\+\+Object(unsigned long particle\+\_\+index)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::move\+\_\+\+Object (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{particle\+\_\+index}
+\end{DoxyParamCaption}
+)}\label{classParticle_a8216ccd02b4d81b99afe7dba67464393}
+move each object by their velocity, if the stepsize is equal to 1second
+
+move each object by their velocity \hypertarget{classParticle_ab110062c4b5f2ee718d8adc598a461c2}{}\index{Particle@{Particle}!move\+\_\+objects@{move\+\_\+objects}}
+\index{move\+\_\+objects@{move\+\_\+objects}!Particle@{Particle}}
+\subsubsection[{move\+\_\+objects(unsigned long start\+\_\+idx=1, unsigned long end\+\_\+idx=0)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::move\+\_\+objects (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{start\+\_\+idx = {\ttfamily 1}, }
+\item[{unsigned long}]{end\+\_\+idx = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{classParticle_ab110062c4b5f2ee718d8adc598a461c2}
+Iterates over all objects and calls \hyperlink{classParticle_a8216ccd02b4d81b99afe7dba67464393}{move\+\_\+\+Object()} for each \hypertarget{classParticle_ab46533030ac2e5a8df69f2cfe862e29c}{}\index{Particle@{Particle}!particle\+\_\+bubble\+\_\+sort@{particle\+\_\+bubble\+\_\+sort}}
+\index{particle\+\_\+bubble\+\_\+sort@{particle\+\_\+bubble\+\_\+sort}!Particle@{Particle}}
+\subsubsection[{particle\+\_\+bubble\+\_\+sort(unsigned long start\+\_\+idx=0, unsigned long end\+\_\+idx=0)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::particle\+\_\+bubble\+\_\+sort (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{start\+\_\+idx = {\ttfamily 0}, }
+\item[{unsigned long}]{end\+\_\+idx = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}\label{classParticle_ab46533030ac2e5a8df69f2cfe862e29c}
+Sorts particle data for distance to sun \hypertarget{classParticle_a9acb129d789df24580508e20816f2922}{}\index{Particle@{Particle}!print\+All\+Particles@{print\+All\+Particles}}
+\index{print\+All\+Particles@{print\+All\+Particles}!Particle@{Particle}}
+\subsubsection[{print\+All\+Particles()}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::print\+All\+Particles (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_a9acb129d789df24580508e20816f2922}
+prints all particles to the console
+
+prints the current status of all particels \hypertarget{classParticle_ac68f9be7c033bc006fac8b90b31fad6b}{}\index{Particle@{Particle}!print\+Particle@{print\+Particle}}
+\index{print\+Particle@{print\+Particle}!Particle@{Particle}}
+\subsubsection[{print\+Particle(unsigned long particle\+\_\+index)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::print\+Particle (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{particle\+\_\+index}
+\end{DoxyParamCaption}
+)}\label{classParticle_ac68f9be7c033bc006fac8b90b31fad6b}
+prints all data about given particle to the console Example output\+:~\newline
+Paricle\+I\+D\+: 0~\newline
+Distance from center\+: 58984654.\+079628~\newline
+Position\+: X\+: 2656945.\+474053~\newline
+Y\+: 46291973.\+436072~\newline
+Z\+: 36457965.\+563581~\newline
+Velocity\+: 1.\+805316~\newline
+X\+: 0.\+730751~\newline
+Y\+: 1.\+311961~\newline
+Z\+: 1.\+001961~\newline
+Mass\+: 2255.\+501134~\newline
+Radius 429.\+489498~\newline
+ prints a single particle \hypertarget{classParticle_a1b9b969dd9c1d2a8147640bde85913ca}{}\index{Particle@{Particle}!remove@{remove}}
+\index{remove@{remove}!Particle@{Particle}}
+\subsubsection[{remove(unsigned long vector\+\_\+index)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::remove (
+\begin{DoxyParamCaption}
+\item[{unsigned long}]{vector\+\_\+index}
+\end{DoxyParamCaption}
+)}\label{classParticle_a1b9b969dd9c1d2a8147640bde85913ca}
+removes all data about a particle form the system, decrements m\+\_\+number\+\_\+of\+\_\+particles \hypertarget{classParticle_a2cb38b3e1f0ca76084ce6f3b6c88f78f}{}\index{Particle@{Particle}!save\+Position\+Data@{save\+Position\+Data}}
+\index{save\+Position\+Data@{save\+Position\+Data}!Particle@{Particle}}
+\subsubsection[{save\+Position\+Data()}]{\setlength{\rightskip}{0pt plus 5cm}Vec3$<$Vec3$<$double$>$ $>$ Particle\+::save\+Position\+Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classParticle_a2cb38b3e1f0ca76084ce6f3b6c88f78f}
+returns a pointer to a copied m\+\_\+positions Vector for saving \hypertarget{classParticle_a7094fdedac6a745846bfd2dc028907f9}{}\index{Particle@{Particle}!update\+\_\+id\+\_\+vector@{update\+\_\+id\+\_\+vector}}
+\index{update\+\_\+id\+\_\+vector@{update\+\_\+id\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{update\+\_\+id\+\_\+vector(std\+::vector$<$ unsigned long $>$ new\+\_\+id\+\_\+vector)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::update\+\_\+id\+\_\+vector (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ unsigned long $>$}]{new\+\_\+id\+\_\+vector}
+\end{DoxyParamCaption}
+)}\label{classParticle_a7094fdedac6a745846bfd2dc028907f9}
+updates the id vector by overwriting it with a new one \hypertarget{classParticle_a49baa909e6948f888ad62084273af332}{}\index{Particle@{Particle}!update\+\_\+mass\+\_\+vector@{update\+\_\+mass\+\_\+vector}}
+\index{update\+\_\+mass\+\_\+vector@{update\+\_\+mass\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{update\+\_\+mass\+\_\+vector(std\+::vector$<$ double $>$ new\+\_\+mass\+\_\+vector)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::update\+\_\+mass\+\_\+vector (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ double $>$}]{new\+\_\+mass\+\_\+vector}
+\end{DoxyParamCaption}
+)}\label{classParticle_a49baa909e6948f888ad62084273af332}
+updates the mass vector by overwriting it with a new one \hypertarget{classParticle_a2273f8e8fdbc05954a6d1e61dece5bf6}{}\index{Particle@{Particle}!update\+\_\+pos\+\_\+vector@{update\+\_\+pos\+\_\+vector}}
+\index{update\+\_\+pos\+\_\+vector@{update\+\_\+pos\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{update\+\_\+pos\+\_\+vector(std\+::vector$<$ Vec3$<$ double $>$$>$ new\+\_\+velo\+\_\+vector)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::update\+\_\+pos\+\_\+vector (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ Vec3$<$ double $>$$>$}]{new\+\_\+velo\+\_\+vector}
+\end{DoxyParamCaption}
+)}\label{classParticle_a2273f8e8fdbc05954a6d1e61dece5bf6}
+updates the position vector by overwriting it with a new one \hypertarget{classParticle_a302b498f288a8bd367f0ed6c45dfdc27}{}\index{Particle@{Particle}!update\+\_\+radius\+\_\+vector@{update\+\_\+radius\+\_\+vector}}
+\index{update\+\_\+radius\+\_\+vector@{update\+\_\+radius\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{update\+\_\+radius\+\_\+vector(std\+::vector$<$ double $>$ new\+\_\+radius\+\_\+vector)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::update\+\_\+radius\+\_\+vector (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ double $>$}]{new\+\_\+radius\+\_\+vector}
+\end{DoxyParamCaption}
+)}\label{classParticle_a302b498f288a8bd367f0ed6c45dfdc27}
+updates radius vector by overwriting it with a new one \hypertarget{classParticle_a9ab5c769473c26e53df88c2e645b804d}{}\index{Particle@{Particle}!update\+\_\+velo\+\_\+vector@{update\+\_\+velo\+\_\+vector}}
+\index{update\+\_\+velo\+\_\+vector@{update\+\_\+velo\+\_\+vector}!Particle@{Particle}}
+\subsubsection[{update\+\_\+velo\+\_\+vector(std\+::vector$<$ Vec3$<$ double $>$$>$ new\+\_\+velo\+\_\+vector)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::update\+\_\+velo\+\_\+vector (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ Vec3$<$ double $>$$>$}]{new\+\_\+velo\+\_\+vector}
+\end{DoxyParamCaption}
+)}\label{classParticle_a9ab5c769473c26e53df88c2e645b804d}
+updates the velocity vector by overwriting it with a new one \hypertarget{classParticle_a09d3893513e28a124301446a03de4c2c}{}\index{Particle@{Particle}!write\+\_\+to\+\_\+file@{write\+\_\+to\+\_\+file}}
+\index{write\+\_\+to\+\_\+file@{write\+\_\+to\+\_\+file}!Particle@{Particle}}
+\subsubsection[{write\+\_\+to\+\_\+file(std\+::string filename, unsigned long iteration\+\_\+number, std\+::ios\+\_\+base\+::openmode mode)}]{\setlength{\rightskip}{0pt plus 5cm}void Particle\+::write\+\_\+to\+\_\+file (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{filename, }
+\item[{unsigned long}]{iteration\+\_\+number, }
+\item[{std\+::ios\+\_\+base\+::openmode}]{mode}
+\end{DoxyParamCaption}
+)}\label{classParticle_a09d3893513e28a124301446a03de4c2c}
+writes the current state of the system to given file 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+particle.\+hpp\item 
+particle.\+cpp\end{DoxyCompactItemize}
