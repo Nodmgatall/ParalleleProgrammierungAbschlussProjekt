@@ -442,9 +442,10 @@ bool is_all_digits(char *text)
 
 void Simulator::get_options(int argc, char** argv)
 {
-    if (argc > 4)
+    if (argc > 4 || argc < 2)
     {
         std::cerr << "Error: invalid number of arguments!" << std::endl;
+        usage();
         exit(EXIT_FAILURE);
     }
 
@@ -457,7 +458,7 @@ void Simulator::get_options(int argc, char** argv)
         std::ifstream input_file(m_name_input_file);
         if(!(bool)input_file)
         {
-            std::cout << "Error: File does not exists " << m_name_input_file << std::endl;
+            std::cerr << "Error: File does not exists " << m_name_input_file << std::endl;
             exit(EXIT_FAILURE);
         }
         input_file.close();
@@ -468,9 +469,17 @@ void Simulator::get_options(int argc, char** argv)
         m_run_test = true;
         m_option_load_from_file = false;
 
+        if (argc < 3)
+        {
+            std::cerr << "Error: invalid number of arguments!" << std::endl;
+            usage();
+            exit(EXIT_FAILURE);
+        }
+
         if(!is_all_digits(argv[2]))
         {
-            std::cout << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
+            std::cerr << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
+            usage();
             exit(EXIT_FAILURE);
         } 
         std::string test_id = argv[2];
@@ -478,12 +487,18 @@ void Simulator::get_options(int argc, char** argv)
         m_name_output_file = "test_run" + test_id;
         std::cout << m_name_output_file << std::endl;
     }
+    else if(strcmp(argv[1], "help") == 0)
+    {
+        print_help();
+        exit(EXIT_SUCCESS);
+    }
     else
     {
         m_option_load_from_file = false;
         if(!is_all_digits(argv[1]))
         {
-            std::cout << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
+            std::cerr << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
+            usage();
             exit(EXIT_FAILURE);
         }
         m_number_of_iterations = atof(argv[2]);
@@ -493,13 +508,39 @@ void Simulator::get_options(int argc, char** argv)
         std::ifstream out_file(m_name_output_file);
         if((bool)out_file)
         {
-            std::cout << "Error: File already exists " << m_name_input_file << std::endl;
+            std::cerr << "Error: File already exists " << m_name_input_file << std::endl;
             exit(EXIT_FAILURE);
         }
     }
     m_name_last_iteration_save_file = m_name_output_file + ".lis";
 
 }
+
+void Simulator::usage()
+{
+    std::cerr << "Usage: ./Simulation.x [option [file]] [particles] [iterations] [output file]" << std::endl;
+    std::cerr << "Operations:" << std::endl;
+    std::cerr << "\t./Simualtion.x help" << std::endl;
+    std::cerr << "\t./Simualtion.x load <filename> <iterations>" << std::endl;
+    std::cerr << "\t./Simualtion.x test <test id>" << std::endl;
+    std::cerr << "\t./Simualtion.x <particles> <iterations>" << std::endl;
+    std::cerr << std::endl;
+    std::cerr << "Use './Simulation.x help' for more expansive information" << std::endl;
+}
+
+void Simulator::print_help()
+{
+    std::cout << "Usage: ./Simulation.x [option [file]] [particles] [iterations] [output file]" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Option | Description" << std::endl;
+    std::cout << "-------------------------------------------------------------" << std::endl;
+    std::cout << "  help | print this help message" << std::endl;
+    std::cout << "  load | specifiy a file to load and continue simulating with" << std::endl;
+    std::cout << "  test | specify a test to be run" << std::endl;
+    std::cout << "<none> | simply specify a number of particles, iterations," << std::endl;
+    std::cout << "       | and an output file to run a normal simulation!" << std::endl;
+}
+
 // THIS IS SP... , i mean, DEAD CODE!
 /*
    bool Simulator::intersects(Vec3<double> posA, double radiusA, Vec3<double> posB, double radiusB)

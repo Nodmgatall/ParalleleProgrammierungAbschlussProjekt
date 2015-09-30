@@ -11,7 +11,7 @@ EXECUTABLE = Visualizer.x
 ## SDL stuff ##
 SDL2_LIBS = $(shell sdl2-config --libs --cflags) -lSDL2_image -lSDL2_ttf
 # append SDL2 flags to CFLAGS
-CFLAGS += ${SDL2_LIBS}
+LFLAGS += ${SDL2_LIBS}
 
 ### targets ###
 # normal
