@@ -210,10 +210,11 @@ void Visualizer::update()
 
                 switch(event.key.keysym.sym)
                 {
+                    /*
                     case SDLK_LCTRL:
                         m_rotation_active = !m_rotation_active;
                         break;
-
+                    */
                     case SDLK_RETURN:
                         if(m_input == false)
                         {

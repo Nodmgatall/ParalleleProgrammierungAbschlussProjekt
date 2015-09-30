@@ -61,5 +61,22 @@ show_trajectory:
 
 clear_all_trajectories:
     clears all trajectories
+
+Hotkeys:
+
+p:          pause/unpause
+s:          step forward
+b:          step backward
+r:          reset to iteration 0
+x/y:        change perspective
+enter:      start input for commands/ confirm
+esc:        quit
+up:         move camera up
+down:       move camera down
+left:       move camera left
+right:      move camera right
+mousewheel: zoom
+
+
     
 

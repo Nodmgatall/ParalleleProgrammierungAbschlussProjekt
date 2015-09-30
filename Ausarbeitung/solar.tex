@@ -72,7 +72,7 @@ Material, Temperatur oder genauere Form werden nicht berücksichtigt.
 Partikel werden immer in einer zur Sonne orthogonalen Laufbahn generiert
 um die Anzahl von Objekten, die eine stabile Umlaufbahn erreichen können,
 zu steigern. Die Dichte von Objekten wird nicht als Datensatz gespeichert,
-sondern nur bei Bedarf errechnet um die Datenmenge zu reduzieren.
+sondern nur bei Bedarf errechnet, um die Datenmenge zu reduzieren.
 
 \subsection{Das Zentrum}
 Im Zentrum unseres Systems befindet sich ein Partikel mit einer besonderen
@@ -169,6 +169,9 @@ ayy lmao
 Ein Problem bei der Parallelisierung war die Datenaufteilung. Da Gravitation einen effektiv
 unendlichen Einflussradius hat, muss jeder Prozess die gesamten, aktuellen Daten aller
 Partikel kennen.
+
+Besonders die Kollisionsabfrage benoetigt alle Daten da bei einer Kollision der Komplette
+Datensatz fuer das Objekt geloescht werden muss.
 
 \section{Fazit und Ausblick}
 \subsection{Fazit}
