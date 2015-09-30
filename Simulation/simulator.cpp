@@ -484,23 +484,9 @@ void Simulator::get_options(int argc, char** argv)
         input_file.close();
         m_number_of_iterations = strtod(argv[3],NULL);
     }
-    else if(strcmp(argv[1], "test") == 0)
-    {
-        m_run_test = true;
-        m_option_load_from_file = false;
-
-        if(!is_all_digits(argv[2]))
-        {
-            std::cout << "ERROR: argument 2 ["<< argv[1] <<"] contains non digit parts" << std::endl;
-            exit(EXIT_FAILURE);
-        } 
-        std::string test_id = argv[2];
-        m_test_id = atoi(argv[2]);
-        m_name_output_file = "test_run" + test_id;
-        std::cout << m_name_output_file << std::endl;
-    }
     else
     {
+
         m_option_load_from_file = false;
         if(!is_all_digits(argv[1]))
         {
