@@ -86,7 +86,7 @@ Der Ablauf der Simulation ansich ist relativ simpel; die Partikel werden sortier
 auf alle die Gravitation appliziert; es wird auf Kollisionen geprüft und dann werden
 die Objekte bewegt. Dieser loop wird für die spezifizierte Anzahl Iterationen
 fortgeführt.
-
+\\
 Die parallelisierte Version hat eine andere Reinfolge.
 Hier haben wir die Kollisionsabfrage vor den Bewegungsbefehl und die Errechnung
 der neuen Geschwindigkeiten verlegt. Dies geschah um den Datentransfer zwischen
@@ -191,16 +191,12 @@ Für die Zukunft des Projektes sind folgende Features geplant:
 \\
 Simulation:
 \begin{itemize}
-    \item Redukion der zu verchickenden Daten durch refactoring der Kollisionsabfrage
-          z.B nur die ids der Kollisionspartner speichern und spaeter Prozess 0 das loeschen
-          der Daten ueberlassen
+    \item Redukion der zu verchickenden Daten durch Refactoring der Kollisionsabfrage, z.B nur die IDs der Kollisionspartner speichern und später Prozess 0 das löschen der Daten überlassen
     \item verbesserte Performance
     \item neu strukturiertes Senden und Empfangen
     \item Erweiterung des Sendens für Datensätze die die maximale Bufferlänge von MPI überschreiten
     \item performantere Kollisionsabfrage
-    \item physikalisch korrekte Errechnung von Kollisionen, 
-          Richtungsvektoren, den daraus resultierenden neuen Objekte,
-          die errechnung der anzahl der generierten Objekte    
+    \item physikalisch korrekte Errechnung von Kollisionen, Richtungsvektoren, den daraus resultierenden neuen Objekte,i die errechnung der anzahl der generierten Objekte    
     \item zusätzliche Daten z.B. Durchschnittstemperatur
     \item genauere Angaben, welche Daten gespeichert werden und welche nicht
     \item Errechnung und Speicherung für Kollsionsdaten z.B. Impuls, kinetische Energie, Geschwindigkeit bei Einschlag etc.
