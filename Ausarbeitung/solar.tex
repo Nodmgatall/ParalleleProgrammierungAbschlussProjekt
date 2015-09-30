@@ -31,11 +31,11 @@ Simulation von Partikeln in einem Sonnensystem.
 Die Idee, die unserem Projekt zugrunde liegt, ist relativ simpel zu formulieren:
 Wir wollen ein Sonnensystem simulieren. In diesem System sollten die enthaltenen
 Objekte realistisch miteinander interagieren. Alle Objekte beinflussen sich durch
-die Gravitation und durch physischen Kontakt also Kollisionen. 
+die Gravitation und durch physischen Kontakt, also Kollisionen. 
 
 \section{Modellierung}
 In unserem System
-wird die Bewegung des ganzen Systems nicht beruecktsichtig und somit ist die 
+wird die Bewegung des ganzen Systems nicht berücktsichtigt und somit ist die 
 Geschwindigkeit und die Position des sich in der Mitte befindlichen massereichesten
 Objektes fixiert.
 Kollisionen sind nur teilweise realistisch umgesetzt. Bei einer Kollision werden
@@ -67,16 +67,16 @@ Partikel haben folgende Eigenschaften:
     \item Masse
     \item Radius
 \end{itemize}
-Wir gehen von sphärischen Objekten aus. Spezifische Details
-Material, Temperatur oder genaure Form werden nicht berücksichtigt.
-Partikel werden immer in einer zur sonne ortogonalen laufbahn generiert
-um die Anzahl von Objekten die eine stabile Umlaufbahn erreichen koennen
-zu steigern. Die Dichte von Objekten wird nicht als Datensatz geschpeichert
-sondern nur bei bedarf errechnet um die Datenmenge zu reduzieren.
+Wir gehen von sphärischen Objekten aus. Spezifische Details wie z.B.
+Material, Temperatur oder genauere Form werden nicht berücksichtigt.
+Partikel werden immer in einer zur Sonne orthogonalen Laufbahn generiert
+um die Anzahl von Objekten, die eine stabile Umlaufbahn erreichen können,
+zu steigern. Die Dichte von Objekten wird nicht als Datensatz gespeichert,
+sondern nur bei Bedarf errechnet um die Datenmenge zu reduzieren.
 
 \subsection{Das Zentrum}
 Im Zentrum unseres Systems befindet sich ein Partikel mit einer besonderen
-Eigenschaft. Es ist vielfaches schwerer als die zufällig generierten Objekte.
+Eigenschaft. Es ist um ein Vielfaches schwerer als die zufällig generierten Objekte.
 Die Existenz dieses Zentralpartikels bewirkt einerseits eine übersichtliche Simulation,
 da sich die meisten Partikel irgendwann auf einem Orbit um die `Sonne' finden,
 und bringt die Simulation näher an die tatsächlichen Zustände in unserem Universum.
@@ -87,9 +87,9 @@ auf alle die Gravitation appliziert; es wird auf Kollisionen geprüft und dann w
 die Objekte bewegt. Dieser loop wird für die spezifizierte Anzahl Iterationen
 fortgeführt.
 
-Die Parallelisierte Version hat eine andere Reinfolge.
+Die parallelisierte Version hat eine andere Reinfolge.
 Hier haben wir die Kollisionsabfrage vor den Bewegungsbefehl und die Errechnung
-der neuen geschwindigkeiten verlegt. Dies geschah um den datentransfaer zwischen
+der neuen Geschwindigkeiten verlegt. Dies geschah um den Datentransfer zwischen
 den einzelnen Prozessen zu veringern.
 
 \subsection{Visualisierung}
@@ -105,51 +105,54 @@ Den Kern der Simulation bildet die Klasse `Particle':
 class Particle
 {
     private:
-        std::vector<Vec3<double> > m\_velocity\_vectors;
-        std::vector<Vec3<double> > m\_positions;
-        std::vector<double> m\_masses;
-        std::vector<double> m\_radiuses;
-        std::vector<unsigned long> m\_ids;
-        unsigned long m\_number\_of\_particles;
+        std::vector<Vec3<double> > m_velocity_vectors;
+        std::vector<Vec3<double> > m_positions;
+        std::vector<double> m_masses;
+        std::vector<double> m_radiuses;
+        std::vector<unsigned long> m_ids;
+        unsigned long m_number_of_particles;
 
     /* [...] */
 }
 \end{minted}
 
 \subsection{Parallelisierungsschema}
-In unserer Simulation uebernimmt Prozess 0 immer die verwaltung der daten und somit das Verteilen
-und Sammeln. Hinzu kommt das Speichern der Simulationsdaten und die ausgabe des Fortschritts.
-Alle anderen Prozesse empfangen die Daten bearbeiten sie und senden dann die
-durch die Kollisionsabfrage geaenderte laenge des Datensatzes an Prozess 0
-und daruf hin die geaenderten Daten.
+In unserer Simulation übernimmt Prozess 0 immer die verwaltung der daten und somit das Verteilen
+und Sammeln. Hinzu kommen das Speichern der Simulationsdaten und die Ausgabe des Fortschritts.
+Alle anderen Prozesse empfangen die Daten, bearbeiten sie, und senden dann die
+durch die Kollisionsabfrage geänderte Länge des Datensatzes an Prozess 0.
 
-Funktions weise:
-   ALLE:
-       - variablen initialisierung am Anfang
-       - erhoen des privaten zaehlers am Ende
-   PRO 0:
-       - prozess 0 errechnet die anteile an den Datenvektoren des Systems
-       - sortiert die Vektoren nach der Entfernung zum Mittelpunkt 
-       - broadcastet die Objekt Anzahl
-       - broadcastet nacheinander die Datenvektoren
-       - erhaelt dann in richtiger Reinfolge die neu berechneten Daten und fuegt sie wieder zusammen
-       - ueberscheibt seine alten Daten mit den neuen
-       - speichert sie
-   PRO 1 - n
-       - empfaengt die Broadcasts von 0
-       - erechnet seine start und end positionen in den vektoren
-       - berechnet collisionen
-       - aendert die laenge der zu bearbeitenden Daten
-       - berechnet die neunen geschwindigkeiten
-       - berechnet die neuen positionen
-       - sendet neue positionen
-       - sendet neue geschwindigkeiten
+\newpage
 
-\begin{minted}{C++}
-#include <Heidmann.h>
-std::cout << "lol" << std::endl;
-\end{minted}
-%\quad \\
+\subsubsection{Funktionsweise:}
+\ \\
+ALLE:
+\begin{itemize}
+   \item Variableninitialisierung am Anfang
+   \item Erhöhung des privaten Zählers am Ende
+\end{itemize}
+PRO 0:
+\begin{itemize}
+    \item Prozess 0 errechnet die Anteile an den Datenvektoren des Systems
+    \item sortiert die Vektoren nach der Entfernung zum Mittelpunkt 
+    \item broadcastet die Objekt-Anzahl
+    \item broadcastet nacheinander die Datenvektoren
+    \item erhält dann in richtiger Reihenfolge die neu berechneten Daten und fügt sie wieder zusammen
+    \item überscheibt seine alten Daten mit den neuen
+    \item speichert sie
+\end{itemize}
+PRO 1 - n
+\begin{itemize}
+    \item empfängt die Broadcasts von 0
+    \item errechnet seine Start- und End-Positionen in den Vektoren
+    \item berechnet Kollisionen
+    \item ändert die Länge der zu bearbeitenden Daten
+    \item berechnet die neuen Geschwindigkeiten
+    \item berechnet die neuen Positionen
+    \item sendet neue Positionen
+    \item sendet neue Geschwindigkeiten
+\end{itemize}
+
 
 
 \subsection{Visualizer}
@@ -157,90 +160,7 @@ Der Visualizer visualisiert eine fertige Simulation anhand der generierten Daten
 Es handelt sich dabei um ein separates Programm, ebenfalls in C++ geschrieben,
 mit Hilfe von SDL2.
 
-Integriert ist eine Provisorische Konsole und mehrere hotkeys fuer die einfache Benutzung
-
-
-Kommandos:
-
-long name           shot\_name           argument\_type                   arguments
-
-draw\_ids                dis             none
-draw\_it\_number          din             none
-show\_particle\_number    spn             none
-show\_simulated\_time     sst             none    
-show\_delta\_time         sdt             none    
-display\_data            dd              (unsigned long)                 [onject\_id]
-show grav\_range         sgr             (unsigned long) (double)        [object\_id][min\_force]
-focus\_on\_object         fon             (unsigned long)                 [object\_id]
-clear\_displayed\_data    cdd             none 
-jump\_to\_time            jmp             (unsigned long)                 [interation]
-show\_trajectory         st              (unsigned long) (unsigned long) [object\_id] [iteration]
-clear\_trajectory        st              (unsigned long)                 [object\_id]
-clear\_all\_trajectories cat             none
-
-What they do:
-
-draw\_ids:
-    draws object ids of all objects
-    clears object ids
-
-draw\_it\_number:
-    draws the current interation number in the top right corner
-    clears iteration number
-
-draw\_particle\_number:
-    draws the current number of particles
-    clears particle number
-
-show\_simulated time:
-    draws the elapsed time in y* dd hh
-    clears simulated time
-
-show\_delta\_time:
-    shows how much time is calculated in one iteration (in seconds)
-    clears delta time
-
-display\_data:
-    shows the velo, pos, radius, distance to sun, mass of given object
-    clear displayed date for given object
-
-show\_grav\_range:
-    draws a rircle around given object in which radius the gravitational force is larger than min\_force
-    clear the circle for given object
-
-focus\_on\_object:
-    sets the camera to given obeject
-
-clear\_displayed\_data:
-    clears all object data from screen (counter to display data)
-
-jump\_to\_time:
-    jumps to given iteration
-
-show\_trajectory:
-    draws the trajectory of given object.
-    the second arguments is for limiting the length of the line
-    if there is no second argument the complete trajectory is drawn which can cause lag if
-    sufficient iterations are loaded
-
-clear\_all\_trajectories:
-    clears all trajectories
-
-Hotkeys:
-
-p:          pause/unpause
-s:          step forward
-b:          step backward
-r:          reset to iteration 0
-x/y:        change perspective
-enter:      start input for commands/ confirm
-esc:        quit
-up:         move camera up
-down:       move camera down
-left:       move camera left
-right:      move camera right
-mousewheel: zoom
-
+Integriert ist eine provisorische Konsole und mehrere Hotkeys für die einfache Benutzung.
 
 \section{Performance}
 ayy lmao
@@ -254,29 +174,29 @@ Partikel kennen.
 \subsection{Fazit}
 Das haben wir gelernt
 \subsection{Ausblick}
-Fuer die Zukunft des Projektes sind folgende Features geplant:
-    Simulation:
-        - verbesserte Kollision die mehrere neue Objekte generiert
-        - verbesserte Performance
-        - neu strukturiertes senden und empfangen
-        - erweiterung des sendes fuer datensaetze die die maximale
-          buffer laenge von mpi ueberschreiten
-        - performantere Kollisionsabfrage
-        - physikalisch korrekte errechnung von Kollisionen und den
-          Richtungsvektoren der daraus resultierenden neuen Objekte
-        - zusaetzliche daten zb durchschnitts Temperatur
-        - genauere angeaben welche daten gespeichert werden und welche nicht
-        - Errechnung und Speicherung fuer Kollsionsdaten z.B. impuls, Ekin,
-          geschwindigkeit bei einschlag etc.
-        - Berechnung der Roche-Grenze und die zerstoerung von Objekten 
-          durch diese Grenze.
-    Visualizer:
-        - laufbahnen als lienen darstellen
-        - lienen der Laufbahnen auf wunsch der Geschwindikeit entsprechend
-          einfaerben
-        - temperatur Berechnung
-        - Objekte bei einem gewissen Zoomfaktor als kreise Darstellen
-        - Visualizer in 3D oder wenigstens rotierbar in 2 achsen
+Für die Zukunft des Projektes sind folgende Features geplant:
+Simulation:
+\begin{itemize}
+    \item verbesserte Kollision die mehrere neue Objekte generiert
+    \item verbesserte Performance
+    \item neu strukturiertes Senden und Empfangen
+    \item Erweiterung des Sendens für Datensätze die die maximale Bufferlänge von MPI überschreiten
+    \item performantere Kollisionsabfrage
+    \item physikalisch korrekte Errechnung von Kollisionen und den Richtungsvektoren der daraus resultierenden neuen Objekte
+    \item zusätzliche Daten z.B. Durchschnittstemperatur
+    \item genauere Angaben, welche Daten gespeichert werden und welche nicht
+    \item Errechnung und Speicherung für Kollsionsdaten z.B. Impuls, kinetische Energie, Geschwindigkeit bei Einschlag etc.
+    \item Berechnung der Roche-Grenze und die Zerstörung von Objekten durch diese Grenze.
+\end{itemize}
+Visualizer:
+\begin{itemize}
+    \item Laufbahnen als lienen darstellen
+    \item Lienen der Laufbahnen auf Wunsch der Geschwindikeit entsprechend
+    \item einfärben
+    \item Temperaturberechnung
+    \item Objekte bei einem gewissen Zoomfaktor als Kreise Darstellen
+    \item Visualizer in 3D, oder wenigstens rotierbar in 2 Achsen
+\end{itemize}
 
 \section{Zahlen}
 \begin{itemize}
