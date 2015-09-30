@@ -180,16 +180,25 @@ Das haben wir gelernt
 Für die Zukunft des Projektes sind folgende Features geplant:
 Simulation:
 \begin{itemize}
-    \item verbesserte Kollision die mehrere neue Objekte generiert
+    \item Redukion der zu verchickenden Daten durch refactoring der Kollisionsabfrage
+          z.B nur die ids der Kollisionspartner speichern und spaeter Prozess 0 das loeschen
+          der Daten ueberlassen
     \item verbesserte Performance
     \item neu strukturiertes Senden und Empfangen
     \item Erweiterung des Sendens für Datensätze die die maximale Bufferlänge von MPI überschreiten
     \item performantere Kollisionsabfrage
-    \item physikalisch korrekte Errechnung von Kollisionen und den Richtungsvektoren der daraus resultierenden neuen Objekte
+    \item physikalisch korrekte Errechnung von Kollisionen, 
+          Richtungsvektoren, den daraus resultierenden neuen Objekte,
+          die errechnung der anzahl der generierten Objekte    
     \item zusätzliche Daten z.B. Durchschnittstemperatur
     \item genauere Angaben, welche Daten gespeichert werden und welche nicht
     \item Errechnung und Speicherung für Kollsionsdaten z.B. Impuls, kinetische Energie, Geschwindigkeit bei Einschlag etc.
     \item Berechnung der Roche-Grenze und die Zerstörung von Objekten durch diese Grenze.
+    \item Parallelisierte Erstellung der Objekte
+    \item Parallelisierter Sort-Algorithmus
+    \item Verbesserung des Sort-Algorithmuses
+    \item Ausschreiben von Kollisonsdaten
+
 \end{itemize}
 Visualizer:
 \begin{itemize}
@@ -199,6 +208,15 @@ Visualizer:
     \item Temperaturberechnung
     \item Objekte bei einem gewissen Zoomfaktor als Kreise Darstellen
     \item Visualizer in 3D, oder wenigstens rotierbar in 2 Achsen
+    \item UI-Verbesserungen
+    \item Konsolenfenster
+    \item Objektdaten in Repositionierbaren Fenstern
+    \item Repositionierbare fuer die Simulationsdaten wie die Anzahl der Objekte
+    \item Klassen der Objekte anzeigen und errechnen z.B. M klasse Planet, Asterioid etc.
+    \item Performance Verbesserungen. Inbesondere in Bezug auf die Flugbahn erstellung
+    \item Markierung von Kollisionspunkten
+
+
 \end{itemize}
 
 \section{Zahlen}
