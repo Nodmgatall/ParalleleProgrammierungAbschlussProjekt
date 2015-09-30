@@ -29,23 +29,26 @@ Simulation von Partikeln in einem Sonnensystem.
 \newpage
 \section{Idee}
 Die Idee, die unserem Projekt zugrunde liegt, ist relativ simpel zu formulieren:
-Wir wollen ein Sonnensystem simulieren. Oder, viel mehr, einen dreidimensionalen Raum,
-gefüllt mit Objekten, und realistischer Interaktion dieser Objekte,
-was Gravitation und Kollision betrifft. Zur Vereinfachung haben wir allerdings
-ein sehr massereiches Objekt in die Mitte unseres Raumes gesetzt. Demnach
-handelt es sich praktisch um ein Sonnensystem in seiner entstehungsphase:
-Ein Stern, und sehr viele kleine Partikel, die umherfliegen und miteinander
-kollidieren.
+Wir wollen ein Sonnensystem simulieren. In diesem System sollten die enthaltenen
+Objekte realistisch miteinander interagieren. Alle Objekte beinflussen sich durch
+die Gravitation und durch physischen Kontakt also Kollisionen. 
 
 \section{Modellierung}
-In diesem Abschnitt werden die einzelnen Aspekte der Modellierung näher dargelegt;
+In unserem System
+wird die Bewegung des ganzen Systems nicht beruecktsichtig und somit ist die 
+Geschwindigkeit und die Position des sich in der Mitte befindlichen massereichesten
+Objektes fixiert.
+Kollisionen sind nur teilweise realistisch umgesetzt. Bei einer Kollision werden
+zwei Objekte miteinder verschmolzen und es werden keine weiteren kleineren Objekte
+erzeugt.
+Alle einheiten sind in SI-Einheiten.
 
-\subsection{Das System}
-Wie bereits erwähnt ist die Welt, in der unsere Simulation stattfindet,
-ein System analog zu einem echten Sonnensystem. Es ist nicht räumlich begrenzt,
-und enthält eine beliebige Anzahl Partikel. Kollidieren zwei Partikel, so wird aus ihnen
-ein neues Partikel errechnet, die Population schrumpft also nur; es werden keine neuen
-hinzugefügt.
+%\subsection{Das System}
+%Wie bereits erwähnt ist die Welt, in der unsere Simulation stattfindet,
+%ein System analog zu einem echten Sonnensystem. Es ist nicht räumlich begrenzt,
+%und enthält eine beliebige Anzahl Partikel. Kollidieren zwei Partikel, so wird aus ihnen
+%ein neues Partikel errechnet, die Population schrumpft also nur; es werden keine neuen
+%hinzugefügt.
 
 %\begin{minipage}[t]{0.48\textwidth}
 %    Dreidimensionaler raum mkay?
@@ -64,15 +67,16 @@ Partikel haben folgende Eigenschaften:
     \item Masse
     \item Radius
 \end{itemize}
-Wir gehen von sphärischen Objekten aus. Spezifische Details wie Dichte,
+Wir gehen von sphärischen Objekten aus. Spezifische Details
 Material, Temperatur oder genaure Form werden nicht berücksichtigt.
+Partikel werden immer in einer zur sonne ortogonalen laufbahn generiert
+um die Anzahl von Objekten die eine stabile Umlaufbahn erreichen koennen
+zu steigern. Die Dichte von Objekten wird nicht als Datensatz geschpeichert
+sondern nur bei bedarf errechnet um die Datenmenge zu reduzieren.
 
 \subsection{Das Zentrum}
 Im Zentrum unseres Systems befindet sich ein Partikel mit einer besonderen
-Eigenschaft. Es ist sehr schwer, verglichen mit den zufällig generierten.
-Ansonsten verhält es sich wie jedes andere Objekt, kann also durch Gravitaionskräfte
-beliebig bewegt werden. In der Praxis ist es allerdings meistens nahezu unbeweglich,
-aufgrund siner hohen Masse.\\
+Eigenschaft. Es ist vielfaches schwerer als die zufällig generierten Objekte.
 Die Existenz dieses Zentralpartikels bewirkt einerseits eine übersichtliche Simulation,
 da sich die meisten Partikel irgendwann auf einem Orbit um die `Sonne' finden,
 und bringt die Simulation näher an die tatsächlichen Zustände in unserem Universum.
@@ -82,6 +86,11 @@ Der Ablauf der Simulation ansich ist relativ simpel; die Partikel werden sortier
 auf alle die Gravitation appliziert; es wird auf Kollisionen geprüft und dann werden
 die Objekte bewegt. Dieser loop wird für die spezifizierte Anzahl Iterationen
 fortgeführt.
+
+Die Parallelisierte Version hat eine andere Reinfolge.
+Hier haben wir die Kollisionsabfrage vor den Bewegungsbefehl und die Errechnung
+der neuen geschwindigkeiten verlegt. Dies geschah um den datentransfaer zwischen
+den einzelnen Prozessen zu veringern.
 
 \subsection{Visualisierung}
 Zum Zweck der Visualizierung werden für jede Iteration und für jedes Partikel seine
