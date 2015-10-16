@@ -19,6 +19,7 @@
 #ifdef PARALLEL_BUILD
     #include <mpi.h>
     MPI::Datatype MPI_Vec3;
+    MPI::Datatype MPI_Vec3_ul;
 #endif
 
 #ifdef PARALLEL_BUILD

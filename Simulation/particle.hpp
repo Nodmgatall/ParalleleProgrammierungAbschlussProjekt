@@ -40,7 +40,7 @@ class Particle
         double m_dt;
         double m_max_velo;
         unsigned long m_time_simulated;
-        std::vector<unsigned long> m_deleted_ids_in_iteration;
+        std::vector<Vec3<unsigned long>> m_collision_data;
 
     public:
 
@@ -75,6 +75,8 @@ class Particle
     /** Vector storing the id's of objects */
     std::vector<unsigned long> get_id_vector();
 
+    std::vector<Vec3<unsigned long>> get_collision_data();
+
     /** updates the velocity vector by overwriting it with a new one */
     void update_velo_vector(std::vector<Vec3<double>> new_velo_vector);
     /** updates the position vector by overwriting it with a new one */
@@ -85,6 +87,8 @@ class Particle
     void update_radius_vector(std::vector<double> new_radius_vector);
     /** updates the id vector by overwriting it with a new one */
     void update_id_vector(std::vector<unsigned long> new_id_vector);
+    
+    void update_collision_data_vector(std::vector<Vec3<unsigned long>> new_collision_data_vector);
 
     void set_max_velo(double new_max_velo);
     //void remove_by_id(unsigned long particle_id);
@@ -121,7 +125,7 @@ class Particle
     double get_radius(unsigned long particle_index);
 
     /** returns the number of existing particles */
-    unsigned long getNumberOfParticles();
+    unsigned long get_number_of_particles();
 
     /** 
      * calculates the vector that is on the same plane as pos_vec and velocity_vector
@@ -209,7 +213,7 @@ class Particle
     bool check_for_collision(unsigned long id_1, unsigned long id_2, double time_of_closest_approach);
 
     /** iterates over all particles and checks for collisions */
-    unsigned long detect_collision(unsigned long index_1 = 1, unsigned long index_2 = 0);
+    void detect_collision(unsigned long index_1 = 1, unsigned long index_2 = 0);
 
     /** Sorts particle data for distance to sun*/
     void particle_bubble_sort(unsigned long start_idx = 0, unsigned long end_idx = 0);
@@ -217,6 +221,9 @@ class Particle
     /** checks if distances from sun are greater than 2 x max_velo 
      * retuns true if distance is greater than 2x max velo
      * */
+#ifdef PARALLEL_BUILD
+    void broadcast_object_data(unsigned long size);
+#endif
     bool limit(unsigned long index_1, unsigned long index_2);
 };
 

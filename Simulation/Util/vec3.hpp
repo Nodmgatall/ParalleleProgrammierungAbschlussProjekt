@@ -24,7 +24,7 @@ template <class T> class Vec3
         // ------------ Constructors ------------
         /// only works for doubles... very hacky
 #ifdef PARALLEL_BUILD
-        static void create_mpi_type()
+       static void create_mpi_type_vec3_double()
         {
             int counts[3] = {1, 1, 1};
             MPI::Aint displacements[3] = {
@@ -32,10 +32,26 @@ template <class T> class Vec3
                 offsetof(Vec3, y),
                 offsetof(Vec3, z)
             };
-            MPI::Datatype types[3] = {MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE};
+            MPI::Datatype d_types[3] = {MPI_DOUBLE, MPI_DOUBLE, MPI_DOUBLE};
 
-            MPI_Vec3 = MPI::Datatype::Create_struct(3, counts, displacements, types);
+            MPI_Vec3 = MPI::Datatype::Create_struct(3, counts, displacements, d_types);
             MPI_Vec3.Commit();
+
+        }
+
+        static void create_mpi_type_vec3_ul()
+        {
+            int counts[3] = {1, 1, 1};
+            MPI::Aint displacements[3] = {
+                offsetof(Vec3, x),
+                offsetof(Vec3, y),
+                offsetof(Vec3, z)
+            };
+            MPI::Datatype ul_types[3] = {MPI_UNSIGNED_LONG, MPI_UNSIGNED_LONG, MPI_UNSIGNED_LONG};
+
+            MPI_Vec3_ul = MPI::Datatype::Create_struct(3, counts, displacements, ul_types);
+            MPI_Vec3_ul.Commit();
+
         }
 #endif
         /// Default constructor

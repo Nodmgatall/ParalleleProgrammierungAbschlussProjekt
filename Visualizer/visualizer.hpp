@@ -20,6 +20,9 @@ class Visualizer
         std::vector<std::vector<double> > m_object_radiuses;
         std::vector<std::vector<unsigned long> >m_object_ids;
         std::vector<double> m_iteration_dts;
+        std::vector<std::vector<Vec3<unsigned long>>> m_collision_data;
+        std::vector<std::vector<Vec3<double>>> m_collision_points;
+        std::map<unsigned long, std::vector<std::pair<SDL_Color, Vec3<double>>>> m_trajectory_lines;
         int m_screen_width;
         int m_screen_height;
         bool m_running;
@@ -50,6 +53,7 @@ class Visualizer
         SDL_Rect m_background;
         TTF_Font *m_font;
 
+        void create_info_window(unsigned long object_id);
         void init_SDL();
         void load_object_data_from_file(std::string filepath);
         void load_textures();
@@ -59,7 +63,7 @@ class Visualizer
         void pause_loop();
         void update();
         void draw_all_trajectory_lines();
-        void generate_trajectory_line(unsigned long obj_id, unsigned long draw_range);
+        void generate_trajectory_line(unsigned long obj_id);
         void handle_console_input(std::string input);
         void clear_trajectory_lines();
         void draw_text(std::string text, int pos_x, int pos_y, SDL_Color color);
@@ -70,9 +74,15 @@ class Visualizer
         void display_all_grav_ranges();
         std::string format_seconds_to_time(double time);
         void load_particle_archive_from_file(std::string filename);
+        SDL_Color set_color_gradient_for_speed(double speed, double max_speed, SDL_Color lowest_speed_color, SDL_Color middle_speed_color, SDL_Color highest_speed_color);
 
         void draw_vector(Vec3<double> pos_vec, Vec3<double> vec);
         bool is_all_digits(char *text);
+        void draw_collison_marks();
+        void calculate_collision_points();
+        void draw_all_object_circles();
+        void set_color(SDL_Color);
+
     
     public:
         

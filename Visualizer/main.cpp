@@ -21,6 +21,7 @@ int main(int argc, char** argv)
             return EXIT_SUCCESS;
     }
 
+    std::cout << argv[1] << std::endl;
     Visualizer visualizer(argv[1]);
 
     return EXIT_SUCCESS;

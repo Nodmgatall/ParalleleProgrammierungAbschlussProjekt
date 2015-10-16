@@ -22,6 +22,7 @@ opti: default
 parallel: CC = mpic++
 parallel: CFLAGS = -O2 -pedantic -std=c++14
 parallel: CFLAGS += -DPARALLEL_BUILD
+#parallel: CFLAGS += -DOUTPUT_DEBUG
 parallel: default
 
 # clang target, why not

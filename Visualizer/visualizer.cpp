@@ -60,8 +60,10 @@ Visualizer::Visualizer(std::string filename)
     m_y_rot_deg = 0.0;
     m_camera = {-m_screen_width/2, -m_screen_height/2, m_screen_width, m_screen_height};
     m_scale = 5000000000;
+    std::cout << "HERE" << std::endl;
     load_object_data_from_file(filename);
-    //load_particle_archive_from_file(filename);
+    calculate_collision_points();
+    std::cout << "HERE" << std::endl;
     init_SDL();
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
     load_textures();
@@ -119,6 +121,17 @@ void Visualizer::main_loop()
         }
         SDL_Delay(10);
         //std::cout << lol++ << std::endl;
+        for(unsigned long i = 0; i < i; i++)
+        {
+            if(m_collision_data[i].size() > 0)
+            {
+                for(unsigned long j = 0; j < m_collision_data[i].size(); j++)
+                {
+                    //std::cout << m_collision_data[i][j].toString() << std::endl;
+                }
+            }
+            std::cout << std::endl;
+        }
     }
     m_resource_manager.shutdown();
     SDL_DestroyRenderer(m_renderer);
@@ -147,7 +160,7 @@ void Visualizer::draw_text(std::string text, int pos_x, int pos_y, SDL_Color col
 void Visualizer::update()
 {
     unsigned long zoom = 100000000;
- 
+
     SDL_Event event;
     while(SDL_PollEvent(&event))
     {
@@ -211,10 +224,10 @@ void Visualizer::update()
                 switch(event.key.keysym.sym)
                 {
                     /*
-                    case SDLK_LCTRL:
-                        m_rotation_active = !m_rotation_active;
-                        break;
-                    */
+                       case SDLK_LCTRL:
+                       m_rotation_active = !m_rotation_active;
+                       break;
+                       */
                     case SDLK_RETURN:
                         if(m_input == false)
                         {
@@ -355,7 +368,7 @@ void Visualizer::handle_console_input(std::string input)
     }
 
     if(strcmp(token_vector[0], "show_particle_number") == 0 ||
-                strcmp(token_vector[0], "spn") == 0)
+            strcmp(token_vector[0], "spn") == 0)
     {
         m_draw_number_of_particles = !m_draw_number_of_particles;
     }
@@ -551,7 +564,8 @@ void Visualizer::handle_console_input(std::string input)
             std::cout << "Error: Argument 1 is too large, should be smaller than " << m_object_positions.size() - 1 << std::endl;
             return;
         }
-        m_line_draw_active.insert(std::pair<unsigned long, unsigned long>(particle_id, draw_length));
+        m_line_draw_active.insert(std::make_pair(particle_id,draw_length));
+        generate_trajectory_line(particle_id);
         return;
     }
 
@@ -603,7 +617,7 @@ bool Visualizer::is_all_digits(char *text)
     {
         if(text[i] == '.')
         {
-            i++;
+              i++;
         }
 
         if(!isdigit(text[i]))
@@ -648,6 +662,7 @@ void Visualizer::draw_main_loop()
        }
        }
        */
+    draw_all_object_circles();
     for(auto it : m_object_id_maps[m_iteration_number])
     {
         unsigned long index = it.second;
@@ -662,7 +677,7 @@ void Visualizer::draw_main_loop()
         }
         pos_x = (int)(m_object_positions[m_iteration_number][index].getX()/m_scale) - m_camera.x;
 
-        render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x - 8, pos_y - 8, 0, 16, 16);
+        //render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x - 8, pos_y - 8, 0, 16, 16);
 
         if(m_draw_ids)
         {
@@ -702,11 +717,41 @@ void Visualizer::draw_main_loop()
     {
         draw_text(command, 50, 50, {255, 255 ,255 ,255});
     }
+    draw_collison_marks();
     draw_text(std::to_string(m_camera.x + m_camera.w / 2) + " " + std::to_string(m_camera.y + m_camera.h / 2),50, 700, {255, 255, 255, 255});
     SDL_RenderPresent(m_renderer);
 
     m_time_simulated += 1/ m_iteration_dts[m_iteration_number];
 }
+
+void Visualizer::set_color(SDL_Color color)
+{
+    SDL_SetRenderDrawColor(m_renderer,color.r, color.g, color.b, color.a);
+}
+
+void Visualizer::generate_trajectory_line(unsigned long particle_id)
+{
+    unsigned long particle_index_a; 
+    SDL_Color line_segment_color;
+
+    std::vector<std::pair<SDL_Color,Vec3<double>>> line_points;
+    for(unsigned long iteration = 0; iteration <  m_object_positions.size(); iteration++)
+    {
+        particle_index_a = m_object_id_maps[iteration].find(particle_id)->second;
+        Vec3<double> line_point(
+                m_object_positions[iteration][particle_index_a].getX(),
+                m_object_positions[iteration][particle_index_a].getY(),
+                m_object_positions[iteration][particle_index_a].getZ());
+        
+        line_segment_color = set_color_gradient_for_speed(
+                m_object_velocities[iteration][particle_index_a].getLength()
+                ,200000,{255,0,0,255},{0,0,255,255},{0,0,255,255});
+        
+        line_points.push_back(std::make_pair(line_segment_color,line_point));
+    }
+    m_trajectory_lines.insert(std::make_pair(particle_id, line_points));
+}
+
 
 void Visualizer::draw_all_trajectory_lines()
 {
@@ -714,11 +759,19 @@ void Visualizer::draw_all_trajectory_lines()
     {
         for(auto it = m_line_draw_active.begin(); it != m_line_draw_active.end(); ++it)
         {
-            generate_trajectory_line(it->first, it->second);
-            //std::cout << it->first << "   " << it->second << std::endl;
+            for(unsigned long index = 0; index < m_object_radiuses.size() - 1; index++)
+            {
+                int x1 = (m_trajectory_lines[it->first][index].second.getX() / m_scale) - m_camera.x;
+                int x2 = (m_trajectory_lines[it->first][index + 1].second.getX() / m_scale) - m_camera.x;
+                int y1 = (m_trajectory_lines[it->first][index].second.getY()/ m_scale) - m_camera.y;
+                int y2 = (m_trajectory_lines[it->first][index + 1].second.getY()/ m_scale) - m_camera.y;
+
+                set_color(m_trajectory_lines[it->first][index].first);
+                SDL_RenderDrawLine(m_renderer,x1,y1,x2,y2);
+            }
         }
     }
-    return;
+    set_color({225, 255, 255, 255});
 }
 
 void Visualizer::display_all_grav_ranges()
@@ -728,6 +781,14 @@ void Visualizer::display_all_grav_ranges()
         //std::cout << it->first << " " << it->second<< std::endl;
         display_grav_range(it->first,it->second);
 
+    }
+}
+
+void Visualizer::draw_all_object_circles()
+{
+    for(unsigned long i = 0; i < m_object_positions[m_iteration_number].size(); i++)
+    {
+        draw_object_circle(m_object_id_maps[m_iteration_number][i]);
     }
 }
 
@@ -803,42 +864,28 @@ void Visualizer::draw_data()
         display_data(*it);
     }
 }
-
-void Visualizer::generate_trajectory_line(unsigned long particle_id, unsigned long draw_range)
+SDL_Color Visualizer::set_color_gradient_for_speed(double speed, double max_speed, SDL_Color highest_speed_color,SDL_Color middle_speed_color, SDL_Color lowest_speed_color)
 {
-    double coord2;
-    std::vector<SDL_Point> line;
-    unsigned long start = m_iteration_number - draw_range;
-    unsigned long end = m_iteration_number + draw_range;
-    if (m_iteration_number < draw_range)
+    if(speed < max_speed / 4)
     {
-        start = 0;
+        middle_speed_color = highest_speed_color;
     }
-
-    if(m_iteration_number + draw_range > m_object_positions.size())
+    else
     {
-        end = m_object_positions.size() - 1; 
+        middle_speed_color = lowest_speed_color;
     }
-
-    for(unsigned long index = start;  index < end; index++)
+    double val = sqrt(speed / max_speed);
+    if (val > 1)
     {
-        unsigned long particle_index = m_object_id_maps[index].find(particle_id)->second;
-        if(m_perspective == 'x')
-        {
-            coord2 = m_object_positions[index][particle_index].getY();
-        }
-        else
-        {
-            coord2 = m_object_positions[index][particle_index].getZ(); 
-        }
-        SDL_Point new_point = {
-            (int)(((m_object_positions[index][particle_index].getX())/ m_scale) - m_camera.x),
-            (int)(((coord2)/ m_scale ) - m_camera.y)};
-        line.push_back(new_point);
+        val = 1;
     }
-    SDL_Point *line_array = &line[0];
-    SDL_RenderDrawPoints(m_renderer, line_array, line.size());
+    Uint8 r = lowest_speed_color.r + val * (highest_speed_color.r - lowest_speed_color.r);
+    Uint8 g = lowest_speed_color.g + val * (highest_speed_color.g - lowest_speed_color.g);
+    Uint8 b = lowest_speed_color.b + val * (highest_speed_color.b - lowest_speed_color.b);
+    return{r, g, b, 255};
 }
+
+
 
 void Visualizer::clear_trajectory_lines()
 {
@@ -857,18 +904,64 @@ void Visualizer::load_textures()
 
     m_resource_manager.load_texture("Circle","Textures/circle.bmp", m_renderer);
     m_resource_manager.load_texture("grav_range","Textures/grav_range.bmp", m_renderer);
+    m_resource_manager.load_texture("collision_detected","Textures/coll.bmp", m_renderer);
 }
 
 void Visualizer::draw_object_circle(unsigned long id)
 {
     unsigned long x,y,z;
     z = 0;
-    double width_height = (((m_object_radiuses[m_iteration_number][id]) * 2) / m_scale);
+    double width_height = (((m_object_radiuses[m_iteration_number][id])) * 2 / m_scale);
     //std::cout << m_scale << std::endl << m_object_radiuses[m_iteration_number][id] << std::endl << width_height<< std::endl;
     x = (((m_object_positions[m_iteration_number][id].getX()/ m_scale) - (width_height/2)) - m_camera.x) ;
-    y = (((m_object_positions[m_iteration_number][id].getY()/ m_scale) - (width_height/2)) + m_camera.y);
+    y = (((m_object_positions[m_iteration_number][id].getY()/ m_scale) - (width_height/2)) - m_camera.y);
     render_texture(m_resource_manager.get_texture("Circle"), x, y, z, width_height, width_height );
 }
+
+void Visualizer::calculate_collision_points()
+{
+
+    std::cout << "size: " << m_collision_data.size() << std::endl;
+    for(unsigned long i = 0; i < m_collision_data.size(); i++)
+    {
+        std::vector<Vec3<double>> it_collision_points;
+        for(unsigned long j = 0; j < m_collision_data[i].size(); j++)
+        {
+            std::cout << i  <<  " "<< j <<" "<< m_collision_data[i].size() << std::endl;
+            unsigned long obj_1_index =  m_object_id_maps[i].find(m_collision_data[i][j].getY())->second;
+            unsigned long obj_2_index =  m_object_id_maps[i].find(m_collision_data[i][j].getZ())->second;
+            Vec3<double> pos1 = m_object_positions[i][obj_1_index];
+            Vec3<double> vec1 = m_object_velocities[i][obj_1_index];
+            Vec3<double> pos2 = m_object_positions[i][obj_2_index];
+            Vec3<double> vec2 = m_object_velocities[i][obj_2_index];
+            double t = -Vec3<double>::dotProduct((pos1 - pos2) ,vec1 - vec2)/ Vec3<double>::dotProduct(vec1 - vec2, vec1 - vec2);
+            it_collision_points.push_back((pos1 + (vec1 * t)));
+            std::cout << "lol " << obj_1_index << " "<< obj_2_index << " " << ((pos1 + (vec1 * -t))/m_scale).toString()<< " " << (m_collision_data[i][j].getX()) << " " 
+                << (m_collision_data[i][j].getY()) << " " << (m_collision_data[i][j].getZ())<<" " << pos2.toString() 
+                << " " << vec1.toString() <<  " " << pos1.toString() << " " << vec2.toString() << std::endl;
+        }
+        m_collision_points.push_back(it_collision_points);
+    }
+}
+
+void Visualizer::draw_collison_marks()
+{
+    unsigned long x,y,z;
+    int width_height = 32;
+    for(unsigned long j = 0; j < m_iteration_number; j++)
+    {
+        for(unsigned long i = 0; i < m_collision_points[j].size(); i++)
+        {
+            z = 0;
+            x = (((m_collision_points[j][i].getX()/m_scale) - (width_height/2)) - m_camera.x) ;
+            y = (((m_collision_points[j][i].getY()/m_scale) - (width_height/2)) - m_camera.y);
+            render_texture(m_resource_manager.get_texture("collision_detected"), x, y, z, width_height, width_height);
+            draw_text(m_collision_data[j][i].toString(),x + 36, y,{255,255,255,255});
+            std::cout << j << " " << m_collision_points[j][i].getX() / m_scale<< " " << m_collision_points[j][i].getY()/ m_scale<< std::endl;
+        }
+    }
+}
+
 
 void Visualizer::load_fonts()
 {
@@ -892,6 +985,7 @@ void Visualizer::render_texture(SDL_Texture *texture, int x, int y, int z,int p_
 void Visualizer::load_object_data_from_file(std::string filepath)
 {
 
+    std::cout << "I should be here" << std::endl;
     std::vector<char *> file_name_token;
     std::ifstream file(filepath, std::ifstream::binary);
     std::string s;
@@ -901,6 +995,7 @@ void Visualizer::load_object_data_from_file(std::string filepath)
     std::vector<double> it_radiuses;
     std::vector<unsigned long>it_ids;
     std::map<unsigned long, unsigned long> it_ids_map;
+    std::vector<Vec3<unsigned long>> it_collision_data;
     //int next_bar = 1;
     std::string bars = "";
 
@@ -946,10 +1041,28 @@ void Visualizer::load_object_data_from_file(std::string filepath)
 
                 getline(ss, it_dt,' ');
                 m_iteration_dts.push_back(std::strtod(it_dt.c_str(),NULL));
-
+                //Collisons
                 getline(file,s);
+                std::stringstream collision_data_stream(s);
 
-            }
+                std::string iteration_number, id1, id2;
+                it_collision_data.clear();
+
+                while(getline(collision_data_stream, iteration_number, ' ')
+                        && iteration_number.compare("NO_COLLISIONS") != 0)
+                {
+                    getline(collision_data_stream, id1,' ');
+                    getline(collision_data_stream, id2,' ');
+                    it_collision_data.push_back(Vec3<unsigned long>
+                            (std::strtoul(iteration_number.c_str(),NULL,0),
+                             std::strtoul(id1.c_str(),NULL,0),
+                             std::strtoul(id2.c_str(),NULL,0)
+                            ));
+                    std::cout <<"tezt"<< it_collision_data.back().toString() << std::endl;;
+                }
+                m_collision_data.push_back(it_collision_data);
+
+            } 
             else 
             {
                 //std::cout << s << std::endl;
@@ -1000,64 +1113,64 @@ std::string Visualizer::format_seconds_to_time(double time)
     return (std::to_string(p->tm_year) + " " + std::to_string(p ->tm_yday) + " " + std::to_string(p -> tm_hour) + " " + std::to_string(p -> tm_min));
 }
 /*
-void Visualizer::load_particle_archive_from_file(std::string filename)
-{
-    std::ifstream ifs("../Simulation/archive.test",std::ios::binary);
-    boost::archive::binary_iarchive ia(ifs, boost::archive::no_header);
-    double cur_iteration = 0;
-    double max_iteration = 1;
-    double it_dt;
-    
-    std::vector<Vec3<double> > it_pos_vector;
-    std::vector<Vec3<double> > it_velo_vector;
-    std::vector<double> it_masses;
-    std::vector<double> it_radiuses;
-    std::vector<unsigned long>it_ids;
-    std::map<unsigned long, unsigned long>it_ids_map; 
-    while(cur_iteration < max_iteration)
-    {
+   void Visualizer::load_particle_archive_from_file(std::string filename)
+   {
+   std::ifstream ifs("../Simulation/archive.test",std::ios::binary);
+   boost::archive::binary_iarchive ia(ifs, boost::archive::no_header);
+   double cur_iteration = 0;
+   double max_iteration = 1;
+   double it_dt;
+
+   std::vector<Vec3<double> > it_pos_vector;
+   std::vector<Vec3<double> > it_velo_vector;
+   std::vector<double> it_masses;
+   std::vector<double> it_radiuses;
+   std::vector<unsigned long>it_ids;
+   std::map<unsigned long, unsigned long>it_ids_map; 
+   while(cur_iteration < max_iteration)
+   {
 
 
-        std::cout << "HERE1" << std::endl;
-        ia >> cur_iteration;
-        std::cout << "HERE2" << std::endl;
-        ia >> max_iteration;
-        std::cout << cur_iteration << " " <<  max_iteration << std::endl;
-        std::cout << "HERE3" << std::endl;
-        m_object_positions.push_back(std::vector<Vec3<double>>());
-        ia >> m_object_positions.back(); 
-        
-        std::cout << "HERE4" << std::endl;
-        ia >> it_velo_vector;
-        std::cout << "HERE5" << std::endl;
-        ia >> it_masses;
-        std::cout << "HERE6" << std::endl;
-        ia >> it_radiuses;
-        std::cout << "HERE7" << std::endl;
-        ia >> it_ids;
-        std::cout << "HERE8" << std::endl;
-        ia >> it_dt;
+   std::cout << "HERE1" << std::endl;
+   ia >> cur_iteration;
+   std::cout << "HERE2" << std::endl;
+   ia >> max_iteration;
+   std::cout << cur_iteration << " " <<  max_iteration << std::endl;
+   std::cout << "HERE3" << std::endl;
+   m_object_positions.push_back(std::vector<Vec3<double>>());
+   ia >> m_object_positions.back(); 
 
-        for(unsigned long i = 0; i < it_pos_vector.size(); i ++)
-        {
-            std::cout << it_pos_vector[i].toString() << std::endl;
-        }
+   std::cout << "HERE4" << std::endl;
+   ia >> it_velo_vector;
+   std::cout << "HERE5" << std::endl;
+   ia >> it_masses;
+   std::cout << "HERE6" << std::endl;
+   ia >> it_radiuses;
+   std::cout << "HERE7" << std::endl;
+   ia >> it_ids;
+   std::cout << "HERE8" << std::endl;
+   ia >> it_dt;
 
-        for(unsigned long i = 0; i < it_ids.size(); i++)
-        {
-            it_ids_map.insert(std::pair<unsigned long, unsigned long>(it_ids[i],i));
-        }
-        m_object_id_maps.push_back(it_ids_map);
-        m_object_ids.push_back(it_ids);
-        m_object_positions.push_back(it_pos_vector);
-        m_object_velocities.push_back(it_velo_vector);
-        m_object_masses.push_back(it_masses);
-        m_object_radiuses.push_back(it_radiuses);
+   for(unsigned long i = 0; i < it_pos_vector.size(); i ++)
+   {
+   std::cout << it_pos_vector[i].toString() << std::endl;
+   }
+
+   for(unsigned long i = 0; i < it_ids.size(); i++)
+   {
+   it_ids_map.insert(std::pair<unsigned long, unsigned long>(it_ids[i],i));
+   }
+   m_object_id_maps.push_back(it_ids_map);
+   m_object_ids.push_back(it_ids);
+   m_object_positions.push_back(it_pos_vector);
+   m_object_velocities.push_back(it_velo_vector);
+   m_object_masses.push_back(it_masses);
+   m_object_radiuses.push_back(it_radiuses);
         //std::cout << m_object_ids.size() << std::endl;
         //stT::cout << m_object_positions.size() << std::endl;
-        
+
         std::cout << it_pos_vector.size() << std::endl;
-    }
-}
+        }
+        }
 
 */

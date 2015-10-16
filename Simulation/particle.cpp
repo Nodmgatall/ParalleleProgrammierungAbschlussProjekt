@@ -1,12 +1,13 @@
 #include "Util/random_generator.hpp"
+#include "Util/vec3.hpp"
 #include "particle.hpp"
 #include "physics.hpp"
 
 #ifdef PARALLEL_BUILD
 #include "globals.h"
 #include <mpi.h>
-
 #endif
+
 #include <string>
 #include <vector>
 #include <math.h>
@@ -43,6 +44,63 @@ void Particle::remove(unsigned long vector_index)
     return;
 }
 
+#ifdef PARALLEL_BUILD
+void Particle::broadcast_object_data(unsigned long size)
+{
+    int pro_id;
+    MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
+#ifdef OUTPUT_DEBUG
+    std::cout << pro_id << ": starting sending object data(velo)" << std::endl;
+#endif
+    MPI::COMM_WORLD.Bcast(&m_velocity_vectors[0],
+            size,
+            MPI_Vec3,
+            0);
+
+    //Sending positions vector
+#ifdef OUTPUT_DEBUG
+    std::cout << pro_id << ": starting sending object data(pos)" << std::endl;
+#endif
+    MPI::COMM_WORLD.Bcast(&m_positions[0],
+            size,
+            MPI_Vec3,
+            0);
+
+    // Sending mass vector
+#ifdef OUTPUT_DEBUG
+    std::cout << pro_id << ": starting sending object data(vector)" << std::endl;
+#endif
+    MPI::COMM_WORLD.Bcast(&m_masses[0],
+            size,
+            MPI_DOUBLE,
+            0);
+    //Sending radius vector
+#ifdef OUTPUT_DEBUG
+    std::cout << pro_id << ": starting sending object data(radius)" << std::endl;
+#endif
+    MPI::COMM_WORLD.Bcast(&m_radiuses[0],
+            size,
+            MPI_DOUBLE,
+            0);
+#ifdef OUTPUT_DEBUG
+    std::cout << pro_id << ": starting sending object data(id)" << std::endl;
+    for(unsigned long i = 0; i < m_ids.size(); i++)
+    {
+        std::cout << m_ids[i] << std::endl;
+    }
+#endif
+
+    MPI::COMM_WORLD.Bcast(&m_ids[0],
+            size,
+            MPI_UNSIGNED_LONG,
+            0);
+#ifdef OUTPUT_DEBUG
+    std::cout << pro_id << ": sending object data done\n " << std::endl;
+#endif
+
+}
+#endif
+
 double Particle::get_distance_to_center(unsigned long particle_index)
 {
     return m_positions[particle_index].getLength();
@@ -78,6 +136,11 @@ std::vector<unsigned long> Particle::get_id_vector()
     return m_ids;
 }
 
+std::vector<Vec3<unsigned long>> Particle::get_collision_data()
+{
+    return m_collision_data;
+}
+
 void Particle::update_velo_vector(std::vector<Vec3<double>> new_velo_vector)
 {
     m_velocity_vectors = new_velo_vector;
@@ -101,6 +164,10 @@ void Particle::update_radius_vector(std::vector<double> new_radius_vector)
 void Particle::update_id_vector(std::vector<unsigned long> new_id_vector)
 {
     m_ids = new_id_vector;
+}
+void Particle::update_collision_data_vector(std::vector<Vec3<unsigned long>> new_collision_data_vector)
+{
+    m_collision_data = new_collision_data_vector;
 }
 
 double Particle::get_max_velo()
@@ -176,7 +243,7 @@ double Particle::get_radius(unsigned long particle_index)
     return m_radiuses[particle_index];
 }
 
-unsigned long Particle::getNumberOfParticles()
+unsigned long Particle::get_number_of_particles()
 {
     return m_number_of_particles;
 }
@@ -314,13 +381,12 @@ void Particle::write_to_file(std::string filename, unsigned long iteration_numbe
         std::string deleted_ids_string;
 
         file << std::to_string(iteration_number) + " " + std::to_string(m_number_of_particles) + " " + std::to_string(m_dt) + "\n"; 
-        if(m_deleted_ids_in_iteration.size() > 0)
+        if(m_collision_data.size() > 0)
         {
-            deleted_ids_string = std::to_string(m_deleted_ids_in_iteration[0]);
-            for(unsigned long i = 1; i < m_number_of_particles; i++)
+            deleted_ids_string = m_collision_data[0].toString();
+            for(unsigned long i = 1; i < m_collision_data.size(); i++)
             {
-                deleted_ids_string += " ";
-                deleted_ids_string += std::to_string(m_deleted_ids_in_iteration[i]);
+                deleted_ids_string += m_collision_data[i].toString();
             }
         }
         else
@@ -367,7 +433,6 @@ void Particle::merge_objects(unsigned long obj_id_1, unsigned long obj_id_2)
     m_masses[obj_id_2] = new_mass;
     m_velocity_vectors[obj_id_2] = new_velocity;
     m_radiuses[obj_id_2] = new_radius;
-    std::cout << m_max_id - 1 << std::endl;
     remove(obj_id_1);
     return;
 }
@@ -492,12 +557,13 @@ bool Particle::limit(unsigned long index_1, unsigned long index_2)
     return dist > m_radiuses[index_1] + m_radiuses[index_2] + m_max_velo * 2;
 }
 
-unsigned long Particle::detect_collision(unsigned long index_1, unsigned long index_2)
+void Particle::detect_collision(unsigned long index_1, unsigned long index_2)
 {
 #ifdef PARALLEL_BUILD
     int pro_id;
     MPI_Comm_rank(MPI_COMM_WORLD, &pro_id);
 #endif
+    m_collision_data.clear();
     if(index_2 == 0)
     {
         index_2 = m_positions.size();
@@ -515,6 +581,8 @@ unsigned long Particle::detect_collision(unsigned long index_1, unsigned long in
 
             if(check_for_collision(i, j -1, time_of_closest_approach))
             {
+                std::cout << pro_id << " " << m_time_simulated << " " << m_ids[i] << " " << m_ids[j - 1] << std::endl;
+                m_collision_data.push_back(Vec3<unsigned long>(m_time_simulated,m_ids[i],m_ids[j-1]));
                 merge_objects(i,j-1);
                 number_of_collisions++;
                 i--;
@@ -523,7 +591,6 @@ unsigned long Particle::detect_collision(unsigned long index_1, unsigned long in
         }
     }
     m_time_simulated += 1;
-    return number_of_collisions;
     //std::cout << "1/m_dt: "<< 1/m_dt << std::endl;
 }
 
