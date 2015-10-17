@@ -3,6 +3,7 @@
 
 #include "vec3.hpp"
 #include "resource_manager.hpp"
+#include "camera.hpp"
 #include <SDL2/SDL.h>
 #include <SDL_ttf.h>
 #include <vector>
@@ -50,6 +51,7 @@ class Visualizer
         SDL_Renderer *m_renderer;
         SDL_Window *m_window;
         SDL_Rect m_camera;
+        Camera m_camara_object;
         SDL_Rect m_background;
         TTF_Font *m_font;
 

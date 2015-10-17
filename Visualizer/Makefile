@@ -5,7 +5,7 @@ SHELL = /bin/sh
 CC = g++
 CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
 LFLAGS = -lboost_serialization
-OBJS = main.o visualizer.o 
+OBJS = main.o visualizer.o camera.o 
 EXECUTABLE = Visualizer.x
 
 ## SDL stuff ##

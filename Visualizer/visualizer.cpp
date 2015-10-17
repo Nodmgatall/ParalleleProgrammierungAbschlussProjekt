@@ -2,6 +2,7 @@
 #include "../Simulation/particle.hpp"
 #include "visualizer.hpp"
 #include "resource_manager.hpp"
+#include "camera.hpp"
 #include "vec3.hpp"
 #include <SDL2/SDL.h>
 #include <SDL_ttf.h>
@@ -59,6 +60,7 @@ Visualizer::Visualizer(std::string filename)
     m_x_rot_deg = 0.0;
     m_y_rot_deg = 0.0;
     m_camera = {-m_screen_width/2, -m_screen_height/2, m_screen_width, m_screen_height};
+    m_camara_object.init(m_screen_width, m_screen_height, 45.0);
     m_scale = 5000000000;
     std::cout << "HERE" << std::endl;
     load_object_data_from_file(filename);
@@ -677,7 +679,7 @@ void Visualizer::draw_main_loop()
         }
         pos_x = (int)(m_object_positions[m_iteration_number][index].getX()/m_scale) - m_camera.x;
 
-        //render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x - 8, pos_y - 8, 0, 16, 16);
+        render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x - 8, pos_y - 8, 0, 16, 16);
 
         if(m_draw_ids)
         {
