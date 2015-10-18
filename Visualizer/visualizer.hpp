@@ -10,20 +10,21 @@
 #include <set>
 #include <map>
 #include <string>
+#include <glm/glm.hpp>
 
 class Visualizer
 {
     private:
     
-        std::vector<std::vector<Vec3<double> > > m_object_positions;
-        std::vector<std::vector<Vec3<double> > > m_object_velocities;
+        std::vector<std::vector<glm::vec3 > > m_object_positions;
+        std::vector<std::vector<glm::vec3 > > m_object_velocities;
         std::vector<std::vector<double> > m_object_masses;
         std::vector<std::vector<double> > m_object_radiuses;
         std::vector<std::vector<unsigned long> >m_object_ids;
         std::vector<double> m_iteration_dts;
-        std::vector<std::vector<Vec3<unsigned long>>> m_collision_data;
-        std::vector<std::vector<Vec3<double>>> m_collision_points;
-        std::map<unsigned long, std::vector<std::pair<SDL_Color, Vec3<double>>>> m_trajectory_lines;
+        std::vector<std::vector<glm::u64vec3>> m_collision_data;
+        std::vector<std::vector<glm::vec3>> m_collision_points;
+        std::map<unsigned long, std::vector<std::pair<SDL_Color, glm::vec3>>> m_trajectory_lines;
         int m_screen_width;
         int m_screen_height;
         bool m_running;
@@ -78,7 +79,7 @@ class Visualizer
         void load_particle_archive_from_file(std::string filename);
         SDL_Color set_color_gradient_for_speed(double speed, double max_speed, SDL_Color lowest_speed_color, SDL_Color middle_speed_color, SDL_Color highest_speed_color);
 
-        void draw_vector(Vec3<double> pos_vec, Vec3<double> vec);
+        void draw_vector(glm::vec3 pos_vec, glm::vec3 vec);
         bool is_all_digits(char *text);
         void draw_collison_marks();
         void calculate_collision_points();

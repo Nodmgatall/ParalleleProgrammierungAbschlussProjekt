@@ -16,6 +16,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <time.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 
 #include <boost/serialization/vector.hpp>
@@ -129,7 +131,7 @@ void Visualizer::main_loop()
             {
                 for(unsigned long j = 0; j < m_collision_data[i].size(); j++)
                 {
-                    //std::cout << m_collision_data[i][j].toString() << std::endl;
+                    //std::cout << m_collision_data[i][j].to_string() << std::endl;
                 }
             }
             std::cout << std::endl;
@@ -178,10 +180,15 @@ void Visualizer::update()
                 {
                     zoom = 10000000;
                 }
-                m_scale += event.wheel.y * zoom;
+                m_camara_object.m_position.z -= event.wheel.y * 500000000;
                 if(m_scale == 0)
                 {
                     m_scale = zoom;
+                }
+                if(m_camara_object.z < 0)
+                {
+                    std::cout << "lol" << std::endl;
+                    //m_camara_object.z = zoom;
                 }
                 draw_main_loop();
                 break;
@@ -254,24 +261,29 @@ void Visualizer::update()
                             command.erase(command.end()-1);
                         }
                         break;
-
+                    case SDLK_PAGEDOWN:
+                        m_camara_object.rotate(18);
+                        break;
+                    case SDLK_PAGEUP:
+                        m_camara_object.rotate(18);
+                        break;
                     case SDLK_BACKQUOTE:
                         m_console_is_open = !m_console_is_open;
                         break;
                     case SDLK_DOWN:
-                        m_camera.y += c_scroll_velo;
+                        m_camara_object.m_position.y -=c_scroll_velo;
                         break;
 
                     case SDLK_UP:
-                        m_camera.y -= c_scroll_velo;
+                        m_camara_object.m_position.y +=c_scroll_velo;
                         break;
 
                     case SDLK_LEFT:
-                        m_camera.x -= c_scroll_velo;
+                        m_camara_object.m_position.x += c_scroll_velo;
                         break;
 
                     case SDLK_RIGHT:
-                        m_camera.x += c_scroll_velo;
+                        m_camara_object.m_position.x -= c_scroll_velo;
                         break;
 
                     case SDLK_ESCAPE:
@@ -472,9 +484,9 @@ void Visualizer::handle_console_input(std::string input)
             strcmp(token_vector[0], "foo") == 0)
     {
         unsigned long index = m_object_id_maps[m_iteration_number].find(strtoul(token_vector[1],NULL,0))->second;
-        unsigned long x = (m_object_positions[m_iteration_number][index].getX() / m_scale) - (m_camera.w /2);
-        unsigned long y = (m_object_positions[m_iteration_number][index].getY() / m_scale) - (m_camera.h /2);
-        unsigned long z = m_object_positions[m_iteration_number][index].getZ() / m_scale;
+        unsigned long x = (m_object_positions[m_iteration_number][index].x / m_scale) - (m_camera.w /2);
+        unsigned long y = (m_object_positions[m_iteration_number][index].y / m_scale) - (m_camera.h /2);
+        unsigned long z = m_object_positions[m_iteration_number][index].z / m_scale;
         m_camera.x = x; //- (m_camera.h / 2);
         m_camera.y = z;
         m_camera.y = y;// + (m_camera.w / 2);
@@ -633,8 +645,6 @@ bool Visualizer::is_all_digits(char *text)
 
 void Visualizer::draw_main_loop()
 {
-    int pos_x;
-    int pos_y;
     // int pos_z;
     SDL_RenderClear(m_renderer);
     //std::cout << m_iteration_number << std::endl;
@@ -642,48 +652,21 @@ void Visualizer::draw_main_loop()
             0,0,0,1920,1080);
     draw_all_trajectory_lines();
     display_all_grav_ranges();
-    /*
-       for(unsigned long index = 0; index < m_object_positions[m_iteration_number].size(); ++index)
-       {
-       if(m_perspective == 'x')
-       {
-       pos_y = (m_object_positions[m_iteration_number][index].getY()/ m_scale) + m_camera.y;
-       }
-       else
-       {
-       pos_y = (m_object_positions[m_iteration_number][index].getZ()/ m_scale) + m_camera.y;
-
-       }
-       pos_x = (int)(m_object_positions[m_iteration_number][index].getX()/m_scale) - m_camera.x;
-
-       render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x - 8, pos_y - 8, 0, 16, 16);
-
-       if(m_draw_ids)
-       {
-       draw_text(std::to_string(m_object_ids[m_iteration_number][index]), pos_x + 18 , pos_y - 18, {255, 255, 255, 255});
-       }
-       }
-       */
-    draw_all_object_circles();
+    draw_all_object_circles(); 
+    
     for(auto it : m_object_id_maps[m_iteration_number])
     {
         unsigned long index = it.second;
-        if(m_perspective == 'x')
-        {
-            pos_y = (m_object_positions[m_iteration_number][index].getY()/ m_scale) - m_camera.y;
-        }
-        else
-        {
-            pos_y = (m_object_positions[m_iteration_number][index].getZ()/ m_scale) - m_camera.y;
 
-        }
-        pos_x = (int)(m_object_positions[m_iteration_number][index].getX()/m_scale) - m_camera.x;
+        glm::vec4 plane_pos = m_camara_object.calculate_position_on_draw_plane(m_object_positions[m_iteration_number][index]);
 
-        render_texture(m_resource_manager.get_texture("Triangle_Green"), pos_x - 8, pos_y - 8, 0, 16, 16);
-
-        if(m_draw_ids)
+        if(plane_pos.w * 180/3.141592 > 45)
         {
-            draw_text(std::to_string(m_object_ids[m_iteration_number][index]), pos_x + 18 , pos_y - 18, {255, 255, 255, 255});
+            render_texture(m_resource_manager.get_texture("Triangle_Green"), plane_pos.x - 8, plane_pos.y - 8, 0, 16, 16);
+            if(m_draw_ids)
+            {
+                draw_text(std::to_string(m_object_ids[m_iteration_number][index]), plane_pos.x + 18 , plane_pos.y - 18, {255, 255, 25, 255});
+            }
         }
     }
 
@@ -720,7 +703,7 @@ void Visualizer::draw_main_loop()
         draw_text(command, 50, 50, {255, 255 ,255 ,255});
     }
     draw_collison_marks();
-    draw_text(std::to_string(m_camera.x + m_camera.w / 2) + " " + std::to_string(m_camera.y + m_camera.h / 2),50, 700, {255, 255, 255, 255});
+    draw_text(std::to_string(m_camara_object.m_position.x) + " " + std::to_string(m_camara_object.m_position.y) + " " + std::to_string(m_camara_object.m_position.z),50, 700, {255, 255, 255, 255});
     SDL_RenderPresent(m_renderer);
 
     m_time_simulated += 1/ m_iteration_dts[m_iteration_number];
@@ -736,19 +719,19 @@ void Visualizer::generate_trajectory_line(unsigned long particle_id)
     unsigned long particle_index_a; 
     SDL_Color line_segment_color;
 
-    std::vector<std::pair<SDL_Color,Vec3<double>>> line_points;
+    std::vector<std::pair<SDL_Color,glm::vec3>> line_points;
     for(unsigned long iteration = 0; iteration <  m_object_positions.size(); iteration++)
     {
         particle_index_a = m_object_id_maps[iteration].find(particle_id)->second;
-        Vec3<double> line_point(
-                m_object_positions[iteration][particle_index_a].getX(),
-                m_object_positions[iteration][particle_index_a].getY(),
-                m_object_positions[iteration][particle_index_a].getZ());
-        
+        glm::vec3 line_point(
+                m_object_positions[iteration][particle_index_a].x,
+                m_object_positions[iteration][particle_index_a].y,
+                m_object_positions[iteration][particle_index_a].z);
+
         line_segment_color = set_color_gradient_for_speed(
-                m_object_velocities[iteration][particle_index_a].getLength()
+                length(m_object_velocities[iteration][particle_index_a])
                 ,200000,{255,0,0,255},{0,0,255,255},{0,0,255,255});
-        
+
         line_points.push_back(std::make_pair(line_segment_color,line_point));
     }
     m_trajectory_lines.insert(std::make_pair(particle_id, line_points));
@@ -763,13 +746,21 @@ void Visualizer::draw_all_trajectory_lines()
         {
             for(unsigned long index = 0; index < m_object_radiuses.size() - 1; index++)
             {
-                int x1 = (m_trajectory_lines[it->first][index].second.getX() / m_scale) - m_camera.x;
-                int x2 = (m_trajectory_lines[it->first][index + 1].second.getX() / m_scale) - m_camera.x;
-                int y1 = (m_trajectory_lines[it->first][index].second.getY()/ m_scale) - m_camera.y;
-                int y2 = (m_trajectory_lines[it->first][index + 1].second.getY()/ m_scale) - m_camera.y;
-
-                set_color(m_trajectory_lines[it->first][index].first);
-                SDL_RenderDrawLine(m_renderer,x1,y1,x2,y2);
+                /*
+                   int x1 = (m_trajectory_lines[it->first][index].second.x / m_scale) - m_camera.x;
+                   int x2 = (m_trajectory_lines[it->first][index + 1].second.x / m_scale) - m_camera.x;
+                   int y1 = (m_trajectory_lines[it->first][index].second.y/ m_scale) - m_camera.y;
+                   int y2 = (m_trajectory_lines[it->first][index + 1].second.y/ m_scale) - m_camera.y;
+                   */
+                glm::vec4 pos = m_camara_object.calculate_position_on_draw_plane(m_trajectory_lines[it->first][index].second);
+                glm::vec4 pos2 = m_camara_object.calculate_position_on_draw_plane(m_trajectory_lines[it->first][index + 1].second);
+                if(pos.w * 180/3.1415926 > 45)
+                {
+                    set_color(m_trajectory_lines[it->first][index].first);
+                    SDL_RenderDrawLine(m_renderer,pos.x,pos.y,pos2.x,pos2.y);
+                }
+                //set_color({255,255,0,255});
+                //SDL_RenderDrawLine(m_renderer,x1,y1,x2,y2);
             }
         }
     }
@@ -812,8 +803,8 @@ void Visualizer::display_grav_range(unsigned long id, double min_force)
     double width_height = ((erg * 2) / m_scale);
     //std::cout << width_height << std::endl;
     //std::cout << m_scale << std::endl << m_object_radiuses[m_iteration_number][id] << std::endl << width_height<< std::endl;
-    x = (((m_object_positions[m_iteration_number][id].getX()/ m_scale) - (width_height/2)) - m_camera.x) ;
-    y = (((m_object_positions[m_iteration_number][id].getY()/ m_scale) - (width_height/2)) - m_camera.y);
+    x = (((m_object_positions[m_iteration_number][id].x/ m_scale) - (width_height/2)) - m_camera.x) ;
+    y = (((m_object_positions[m_iteration_number][id].y/ m_scale) - (width_height/2)) - m_camera.y);
     render_texture(m_resource_manager.get_texture("grav_range"), x, y, z, width_height, width_height );
 }
 
@@ -821,38 +812,28 @@ void Visualizer::display_data(unsigned long particle_id)
 {
     unsigned long particle_index = m_object_id_maps[m_iteration_number].find(particle_id)->second;
 
-    Vec3<double> pos = m_object_positions[m_iteration_number][particle_index];
-    pos.setX(pos.getX() / 149597870700.0);
-    pos.setY(pos.getY() / 149597870700.0);
-    pos.setZ(pos.getZ() / 149597870700.0);
+    glm::vec3 pos = m_object_positions[m_iteration_number][particle_index];
+    glm::vec4 plane_pos = m_camara_object.calculate_position_on_draw_plane(pos);
+    pos = {(pos.x / 149597870700.0),(pos.y / 149597870700.0),(pos.z / 149597870700.0)};
 
-    double dist = pos.getLength();
+    double dist = glm::length(pos);
 
-    int pos_x;
-    int pos_y;
+    int pos_x = plane_pos.x;
+    int pos_y = plane_pos.y;
 
     std::vector<SDL_Point> line;
 
-    //std::cout << m_object_positions[index][obj_id].getX() / m_scale - m_camera.x << std::endl;
-    //std::cout << m_object_positions[index][obj_id].getY() / m_scale + m_camera.y << std::endl;
-    if(m_perspective == 'x')
-    {
-        pos_y = m_object_positions[m_iteration_number][particle_index].getY() / m_scale - m_camera.y;
-    }
-    else
-    {
-        pos_y = m_object_positions[m_iteration_number][particle_index].getZ() / m_scale - m_camera.y; 
-    }
-    pos_x = (int)((m_object_positions[m_iteration_number][particle_index].getX())/ m_scale - m_camera.x);
-
-    //Vec3<double> current_velo = m_object_positions[m_iteration_number + 1][particle_id] - m_object_positions[m_iteration_number][particle_id];
+    //std::cout << m_object_positions[index][obj_id].x / m_scale - m_camera.x << std::endl;
+    //std::cout << m_object_positions[index][obj_id].y / m_scale + m_camera.y << std::endl;
+    
+    //glm::vec3 current_velo = m_object_positions[m_iteration_number + 1][particle_id] - m_object_positions[m_iteration_number][particle_id];
     SDL_Color color = {176, 33, 38, 255};
     draw_text("Coordinates:", pos_x + 20, pos_y, color);
-    draw_text(pos.toString(),pos_x + 60, pos_y + 12, color);
+    draw_text(glm::to_string(pos),pos_x + 60, pos_y + 12, color);
     draw_text("Distance to Sun:", pos_x + 20, pos_y + 24, color);
     draw_text(std::to_string(dist) + " AU", pos_x + 60, pos_y + 36, color);
     draw_text("Velocity:", pos_x + 20, pos_y + 48, color);
-    draw_text(std::to_string(m_object_velocities[m_iteration_number][particle_index].getLength()) + " m/s", pos_x + 60, pos_y + 60, color);
+    draw_text(std::to_string(glm::length(m_object_velocities[m_iteration_number][particle_index])) + " m/s", pos_x + 60, pos_y + 60, color);
     draw_text("Mass:", pos_x + 20, pos_y + 72, color);
     draw_text(std::to_string(m_object_masses[m_iteration_number][particle_index] / 100000000000000) + " x 10^15", pos_x + 60, pos_y + 84, color);
     draw_text("Radius:", pos_x + 20, pos_y + 96, color);
@@ -911,13 +892,29 @@ void Visualizer::load_textures()
 
 void Visualizer::draw_object_circle(unsigned long id)
 {
-    unsigned long x,y,z;
-    z = 0;
-    double width_height = (((m_object_radiuses[m_iteration_number][id])) * 2 / m_scale);
+    unsigned long z = 0;
     //std::cout << m_scale << std::endl << m_object_radiuses[m_iteration_number][id] << std::endl << width_height<< std::endl;
-    x = (((m_object_positions[m_iteration_number][id].getX()/ m_scale) - (width_height/2)) - m_camera.x) ;
-    y = (((m_object_positions[m_iteration_number][id].getY()/ m_scale) - (width_height/2)) - m_camera.y);
-    render_texture(m_resource_manager.get_texture("Circle"), x, y, z, width_height, width_height );
+    //x = (((m_object_positions[m_iteration_number][id].x/ m_scale) - (width_height/2)) - m_camera.x) ;
+    //y = (((m_object_positions[m_iteration_number][id].y/ m_scale) - (width_height/2)) - m_camera.y);
+
+    glm::vec4 plane_pos = m_camara_object.calculate_position_on_draw_plane(m_object_positions[m_iteration_number][id]);
+
+    if(plane_pos.w * (180/3.141592) > 45)
+    {
+        double new_d = glm::length(m_camara_object.m_position + m_camara_object.m_orientation + glm::vec3(plane_pos));
+        double radius = m_object_radiuses[m_iteration_number][id];
+        double d = glm::length(m_camara_object.m_position - m_object_positions[m_iteration_number][id]);
+        double width_height = ((new_d * radius) / d);
+
+        float gegen_kath =  sin(plane_pos.w) * d;
+        double an_kath = sqrt((d*d) - (gegen_kath * gegen_kath));
+        double orient_length = glm::length(m_camara_object.m_orientation);
+
+        double x = glm::length((glm::normalize(m_camara_object.m_orientation) * gegen_kath) - m_object_positions[m_iteration_number][id]);
+        double test = orient_length * radius * sqrt(x*x + an_kath * an_kath + radius * radius) / (an_kath * an_kath - radius * radius);
+        width_height = test;
+        render_texture(m_resource_manager.get_texture("Circle"), plane_pos.x - width_height/2  , plane_pos.y - width_height/2, z, width_height, width_height );
+    }
 }
 
 void Visualizer::calculate_collision_points()
@@ -926,21 +923,18 @@ void Visualizer::calculate_collision_points()
     std::cout << "size: " << m_collision_data.size() << std::endl;
     for(unsigned long i = 0; i < m_collision_data.size(); i++)
     {
-        std::vector<Vec3<double>> it_collision_points;
+        std::vector<glm::vec3> it_collision_points;
         for(unsigned long j = 0; j < m_collision_data[i].size(); j++)
         {
             std::cout << i  <<  " "<< j <<" "<< m_collision_data[i].size() << std::endl;
-            unsigned long obj_1_index =  m_object_id_maps[i].find(m_collision_data[i][j].getY())->second;
-            unsigned long obj_2_index =  m_object_id_maps[i].find(m_collision_data[i][j].getZ())->second;
-            Vec3<double> pos1 = m_object_positions[i][obj_1_index];
-            Vec3<double> vec1 = m_object_velocities[i][obj_1_index];
-            Vec3<double> pos2 = m_object_positions[i][obj_2_index];
-            Vec3<double> vec2 = m_object_velocities[i][obj_2_index];
-            double t = -Vec3<double>::dotProduct((pos1 - pos2) ,vec1 - vec2)/ Vec3<double>::dotProduct(vec1 - vec2, vec1 - vec2);
+            unsigned long obj_1_index =  m_object_id_maps[i].find(m_collision_data[i][j].y)->second;
+            unsigned long obj_2_index =  m_object_id_maps[i].find(m_collision_data[i][j].z)->second;
+            glm::vec3 pos1 = m_object_positions[i][obj_1_index];
+            glm::vec3 vec1 = m_object_velocities[i][obj_1_index];
+            glm::vec3 pos2 = m_object_positions[i][obj_2_index];
+            glm::vec3 vec2 = m_object_velocities[i][obj_2_index];
+            float t = -glm::dot((pos1 - pos2) ,vec1 - vec2)/ glm::dot(vec1 - vec2, vec1 - vec2);
             it_collision_points.push_back((pos1 + (vec1 * t)));
-            std::cout << "lol " << obj_1_index << " "<< obj_2_index << " " << ((pos1 + (vec1 * -t))/m_scale).toString()<< " " << (m_collision_data[i][j].getX()) << " " 
-                << (m_collision_data[i][j].getY()) << " " << (m_collision_data[i][j].getZ())<<" " << pos2.toString() 
-                << " " << vec1.toString() <<  " " << pos1.toString() << " " << vec2.toString() << std::endl;
         }
         m_collision_points.push_back(it_collision_points);
     }
@@ -948,18 +942,14 @@ void Visualizer::calculate_collision_points()
 
 void Visualizer::draw_collison_marks()
 {
-    unsigned long x,y,z;
     int width_height = 32;
     for(unsigned long j = 0; j < m_iteration_number; j++)
     {
         for(unsigned long i = 0; i < m_collision_points[j].size(); i++)
         {
-            z = 0;
-            x = (((m_collision_points[j][i].getX()/m_scale) - (width_height/2)) - m_camera.x) ;
-            y = (((m_collision_points[j][i].getY()/m_scale) - (width_height/2)) - m_camera.y);
-            render_texture(m_resource_manager.get_texture("collision_detected"), x, y, z, width_height, width_height);
-            draw_text(m_collision_data[j][i].toString(),x + 36, y,{255,255,255,255});
-            std::cout << j << " " << m_collision_points[j][i].getX() / m_scale<< " " << m_collision_points[j][i].getY()/ m_scale<< std::endl;
+            glm::vec4 plane_pos = m_camara_object.calculate_position_on_draw_plane(m_collision_points[j][i]);
+            render_texture(m_resource_manager.get_texture("collision_detected"), plane_pos.x, plane_pos.y, plane_pos.z, width_height, width_height);
+            draw_text(glm::to_string(m_collision_data[j][i]),plane_pos.x + 36, plane_pos.y,{255,255,255,255});
         }
     }
 }
@@ -991,13 +981,13 @@ void Visualizer::load_object_data_from_file(std::string filepath)
     std::vector<char *> file_name_token;
     std::ifstream file(filepath, std::ifstream::binary);
     std::string s;
-    std::vector<Vec3<double> > it_pos_vector;
-    std::vector<Vec3<double> > it_velo_vector;
+    std::vector<glm::vec3 > it_pos_vector;
+    std::vector<glm::vec3 > it_velo_vector;
     std::vector<double> it_masses;
     std::vector<double> it_radiuses;
     std::vector<unsigned long>it_ids;
     std::map<unsigned long, unsigned long> it_ids_map;
-    std::vector<Vec3<unsigned long>> it_collision_data;
+    std::vector<glm::u64vec3> it_collision_data;
     //int next_bar = 1;
     std::string bars = "";
 
@@ -1055,12 +1045,11 @@ void Visualizer::load_object_data_from_file(std::string filepath)
                 {
                     getline(collision_data_stream, id1,' ');
                     getline(collision_data_stream, id2,' ');
-                    it_collision_data.push_back(Vec3<unsigned long>
-                            (std::strtoul(iteration_number.c_str(),NULL,0),
-                             std::strtoul(id1.c_str(),NULL,0),
-                             std::strtoul(id2.c_str(),NULL,0)
-                            ));
-                    std::cout <<"tezt"<< it_collision_data.back().toString() << std::endl;;
+                    it_collision_data.push_back({std::strtoul(iteration_number.c_str(),NULL,0),
+                            std::strtoul(id1.c_str(),NULL,0),
+                            std::strtoul(id2.c_str(),NULL,0)
+                            });
+                    std::cout <<"tezt"<< glm::to_string(it_collision_data.back()) << std::endl;;
                 }
                 m_collision_data.push_back(it_collision_data);
 
@@ -1082,8 +1071,8 @@ void Visualizer::load_object_data_from_file(std::string filepath)
 
                 it_ids_map.insert(std::pair<unsigned long, unsigned long>(std::strtoul(id.c_str(),NULL,0), it_ids_map.size()));
                 it_ids.push_back(std::strtoul(id.c_str(), NULL, 0));
-                it_pos_vector.push_back(Vec3<double>(std::stod(x),std::stod(y),std::stod(z)));
-                it_velo_vector.push_back(Vec3<double>(std::stod(velo_x),std::stod(velo_y), std::stod(velo_z)));
+                it_pos_vector.push_back(glm::vec3(std::stod(x),std::stod(y),std::stod(z)));
+                it_velo_vector.push_back(glm::vec3(std::stod(velo_x),std::stod(velo_y), std::stod(velo_z)));
                 it_masses.push_back(std::stod(mass));
                 it_radiuses.push_back(std::stod(radius));
                 //std::cout << it_vector.back().toString() << std::endl;
@@ -1123,8 +1112,8 @@ std::string Visualizer::format_seconds_to_time(double time)
    double max_iteration = 1;
    double it_dt;
 
-   std::vector<Vec3<double> > it_pos_vector;
-   std::vector<Vec3<double> > it_velo_vector;
+   std::vector<glm::vec3 > it_pos_vector;
+   std::vector<glm::vec3 > it_velo_vector;
    std::vector<double> it_masses;
    std::vector<double> it_radiuses;
    std::vector<unsigned long>it_ids;
@@ -1139,7 +1128,7 @@ std::string Visualizer::format_seconds_to_time(double time)
    ia >> max_iteration;
    std::cout << cur_iteration << " " <<  max_iteration << std::endl;
    std::cout << "HERE3" << std::endl;
-   m_object_positions.push_back(std::vector<Vec3<double>>());
+   m_object_positions.push_back(std::vector<glm::vec3>());
    ia >> m_object_positions.back(); 
 
    std::cout << "HERE4" << std::endl;
