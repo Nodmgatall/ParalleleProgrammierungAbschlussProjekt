@@ -20,9 +20,7 @@
     #include <mpi.h>
     MPI::Datatype MPI_Vec3;
     MPI::Datatype MPI_Vec3_ul;
-#endif
 
-#ifdef PARALLEL_BUILD
 int main(int argc, char **argv)
 {
     MPI::Init();

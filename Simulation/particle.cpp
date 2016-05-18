@@ -228,6 +228,11 @@ void Particle::add_acceleration_vector(unsigned long particle_index, Vec3<double
     m_velocity_vectors[particle_index] += accelerationVector;
 }
 
+std::vector<Vec3<double>> * Particle::getPosVec()
+{
+    return &m_positions;
+}
+
 Vec3<double> Particle::getPosition(unsigned long particle_index)
 {
     return m_positions[particle_index];
@@ -321,6 +326,33 @@ unsigned long Particle::generate_random_object(
 
 }
 
+unsigned long Particle::generate_stable_orbit_object(
+        std::pair<double, double> range_position,
+        std::pair<double, double> range_mass,
+        std::pair<double, double> range_radius)
+{
+    Vec3<double> new_position = generateRandomVec3<double>(
+            range_position.first,
+            range_position.second);
+    Vec3<double> new_velocity_vector =  generateRandomVec3<double>(
+            0,
+            100);
+
+    double new_mass = generateRandomNumber<double>(
+            range_mass.first,
+            range_mass.second);
+    double new_radius = generateRandomNumber<double>(
+            range_radius.first,
+            range_radius.second);
+    // Ve3
+    new_velocity_vector = calculate_ortogonal_vector_to_pos_vec(new_position,new_velocity_vector);
+    new_velocity_vector.normalise();
+    new_velocity_vector = new_velocity_vector * sqrt((0.000000000066742 * (m_masses[0] + new_mass)) / new_position.getLength());
+    std::cout << new_velocity_vector.getLength() << std::endl;
+    std::cout << new_position.getLength() / 149597870700.0 << std::endl;
+    return create_object(new_position, new_velocity_vector, new_mass, new_radius);
+}
+
 /**
  *  Creates a new particle
  * */
@@ -343,7 +375,7 @@ unsigned long Particle::create_object(
 /**
  *  prints a single particle
  * */
-void Particle::print_object(unsigned long particle_index)
+        void Particle::print_object(unsigned long particle_index)
 {
     printf("ParicleID: %lu\nDistance from center: %f\nPosition:\n	X: %f\n	Y: %f\n	Z: %f\nVelocity: %f\n	X: %f\n	Y: %f\n	Z: %f\nMass: %f\nRadius %f\n\n",
             particle_index,
@@ -362,7 +394,7 @@ void Particle::print_object(unsigned long particle_index)
 /**
  *  prints the current status of all particels
  * */
-void Particle::print_all_objects()
+            void Particle::print_all_objects()
 {
     for(unsigned long i = 0; i <  m_number_of_particles; i++)
     {
@@ -581,7 +613,6 @@ void Particle::detect_collision(unsigned long index_1, unsigned long index_2)
 
             if(check_for_collision(i, j -1, time_of_closest_approach))
             {
-                std::cout << pro_id << " " << m_time_simulated << " " << m_ids[i] << " " << m_ids[j - 1] << std::endl;
                 m_collision_data.push_back(Vec3<unsigned long>(m_time_simulated,m_ids[i],m_ids[j-1]));
                 merge_objects(i,j-1);
                 number_of_collisions++;

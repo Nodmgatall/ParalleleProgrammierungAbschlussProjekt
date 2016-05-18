@@ -2,7 +2,7 @@
 
 ### definitions ###
 CC = g++
-CFLAGS = -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
+CFLAGS = -pg -g -Wall -Werror -Wextra -Wno-error=unused-parameter -pedantic -std=c++14
 OBJS = main.o particle.o simulator.o
 EXECUTABLE = Simulation.x
 
@@ -20,7 +20,7 @@ opti: default
 
 # parallelized
 parallel: CC = mpic++
-parallel: CFLAGS = -O2 -pedantic -std=c++14
+parallel: CFLAGS = -O2 -pedantic -std=c++14 -pg
 parallel: CFLAGS += -DPARALLEL_BUILD
 #parallel: CFLAGS += -DOUTPUT_DEBUG
 parallel: default

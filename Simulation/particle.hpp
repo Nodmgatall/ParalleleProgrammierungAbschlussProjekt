@@ -9,7 +9,7 @@
 #include <math.h>
 #include <iostream>
 #include <ctime>
-#include <utility> 
+#include <utility>
 #include <cstdlib>
 #include <map>
 
@@ -27,28 +27,26 @@
   Paritcles are stored in a std::vector<double> and are accsessed by
   their index.
   */
-class Particle
-{
-    private:
-        std::vector<Vec3<double> > m_velocity_vectors;
-        std::vector<Vec3<double> > m_positions;
-        std::vector<double> m_masses;
-        std::vector<double> m_radiuses;
-        std::vector<unsigned long> m_ids;
-        unsigned long m_number_of_particles;
-        unsigned long m_max_id;
-        double m_dt;
-        double m_max_velo;
-        unsigned long m_time_simulated;
-        std::vector<Vec3<unsigned long>> m_collision_data;
+class Particle {
+  private:
+    std::vector<Vec3<double>> m_velocity_vectors;
+    std::vector<Vec3<double>> m_positions;
+    std::vector<double> m_masses;
+    std::vector<double> m_radiuses;
+    std::vector<unsigned long> m_ids;
+    unsigned long m_number_of_particles;
+    unsigned long m_max_id;
+    double m_dt;
+    double m_max_velo;
+    unsigned long m_time_simulated;
+    std::vector<Vec3<unsigned long>> m_collision_data;
 
-    public:
+  public:
+    Particle();
 
-        Particle();
-
-        /**
-         *  removes all data about a particle form the system, decrements m_number_of_particles
-         * */
+    /**
+     *  removes all data about a particle form the system, decrements m_number_of_particles
+     * */
     void remove(unsigned long vector_index);
 
     /** returns delta time */
@@ -63,8 +61,10 @@ class Particle
     /** Vector storing the velocities ob objects */
     std::vector<Vec3<double>> get_velo_vector();
 
-    /** Vector storing the positios ob objects */
-    std::vector<Vec3<double>> get_pos_vector();
+    std::vector<Vec3<double>> *getPosVec();
+
+        /** Vector storing the positios ob objects */
+        std::vector<Vec3<double>> get_pos_vector();
 
     /** Vector storing the masses ob objects */
     std::vector<double> get_mass_vector();
@@ -87,19 +87,20 @@ class Particle
     void update_radius_vector(std::vector<double> new_radius_vector);
     /** updates the id vector by overwriting it with a new one */
     void update_id_vector(std::vector<unsigned long> new_id_vector);
-    
+
     void update_collision_data_vector(std::vector<Vec3<unsigned long>> new_collision_data_vector);
 
     void set_max_velo(double new_max_velo);
-    //void remove_by_id(unsigned long particle_id);
+    // void remove_by_id(unsigned long particle_id);
 
-    std::pair<double,double> calculate_possible_collison_point(unsigned long index_1, unsigned long index_2);
+    std::pair<double, double> calculate_possible_collison_point(unsigned long index_1,
+                                                                unsigned long index_2);
 
     /** returns the distance from the center of the system */
     double get_distance_to_center(unsigned long particle_index);
 
     /**
-     * move each object by their velocity, if the stepsize is equal to 1second 
+     * move each object by their velocity, if the stepsize is equal to 1second
      */
     void move_object(unsigned long particle_index);
 
@@ -114,10 +115,11 @@ class Particle
     /** returns the positon of given particle */
     Vec3<double> getPosition(unsigned long particle_index);
 
-    /** returns a pointer to a copied m_positions Vector for saving */ 
-    Vec3<Vec3<double> > savePositionData();
+    /** returns a pointer to a copied m_positions Vector for saving */
+    Vec3<Vec3<double>> savePositionData();
 
-    void write_to_file(std::string filename, unsigned long iteration_number, std::ios_base::openmode mode) ;
+    void write_to_file(std::string filename, unsigned long iteration_number,
+                       std::ios_base::openmode mode);
     /** returns the mass of given particle */
     double get_mass(unsigned long particle_index);
 
@@ -127,11 +129,12 @@ class Particle
     /** returns the number of existing particles */
     unsigned long get_number_of_particles();
 
-    /** 
+    /**
      * calculates the vector that is on the same plane as pos_vec and velocity_vector
      * that is orthogonal to pos_vec
      */
-    Vec3<double> calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec, Vec3<double> velocity_vector);
+    Vec3<double> calculate_ortogonal_vector_to_pos_vec(Vec3<double> pos_vec,
+                                                       Vec3<double> velocity_vector);
 
     /**
      * Discription:\n
@@ -140,21 +143,19 @@ class Particle
      * returns the index of the new Particle
      */
 
-    unsigned long generate_random_object(
-            std::pair<double,double> range_position,
-            std::pair<double,double> range_velocity,
-            std::pair<double,double> range_mass,
-            std::pair<double,double> range_radius);
-    /**	
+    unsigned long generate_random_object(std::pair<double, double> range_position,
+                                         std::pair<double, double> range_velocity,
+                                         std::pair<double, double> range_mass,
+                                         std::pair<double, double> range_radius);
+    /**
      * Discription:\n
      * Generates a new particle witch random atributes form range 0 to max_<atr> \n
      * Return value:\n
      * returns the index of the new Particle
      */
 
-    unsigned long generate_random_object(
-            double max_pos, double max_velo,
-            double max_mass, double max_radius);
+    unsigned long generate_random_object(double max_pos, double max_velo, double max_mass,
+                                         double max_radius);
 
     /**
      * * Generates a new object with specified values\n
@@ -162,13 +163,10 @@ class Particle
      * returns the index of the new Particle
      */
 
-    unsigned long create_object(
-            Vec3<double> positon,
-            Vec3<double> velocity_vector,
-            double mass,
-            double radius);
+    unsigned long create_object(Vec3<double> positon, Vec3<double> velocity_vector, double mass,
+                                double radius);
 
-    /** prints all data about given particle to the console 
+    /** prints all data about given particle to the console
      *        Example output:\n
      * ParicleID: 0\n
      * Distance from center: 58984654.079628\n
@@ -188,21 +186,21 @@ class Particle
     /** prints all particles to the console */
     void print_all_objects();
 
-
     /**
      *  Iterates over all objects and calls applyGravity() (from physics.hpp) for each
      * */
-    void apply_gravity_loop(unsigned long start_idx = 1, unsigned long end_idx = 0); 
+    void apply_gravity_loop(unsigned long start_idx = 1, unsigned long end_idx = 0);
 
     /** */
     void calculate_collision(unsigned long obj_id_1, unsigned long obj_id_2);
 
     /**
      * merges 2 kolliding objects and replaces the one that is nearer to the center of
-     * the world with a new one, deletes the second one, effectively shrinking the number of objects by one.
+     * the world with a new one, deletes the second one, effectively shrinking the number of objects
+     * by one.
      * A Exeption is if a objects collides with the sun or the main center of gravity
      * (always pos 0), here only the object is deletet and no new object is generated.
-     * 
+     *
      * */
     void merge_objects(unsigned long obj_id_1, unsigned long obj_id_2);
 
@@ -210,7 +208,8 @@ class Particle
     void load_data_from_file(std::string filepath, unsigned long &number_of_previous_iterations);
 
     /** returns true if distance between two objects is smaller than the sum of their radiuses */
-    bool check_for_collision(unsigned long id_1, unsigned long id_2, double time_of_closest_approach);
+    bool check_for_collision(unsigned long id_1, unsigned long id_2,
+                             double time_of_closest_approach);
 
     /** iterates over all particles and checks for collisions */
     void detect_collision(unsigned long index_1 = 1, unsigned long index_2 = 0);
@@ -218,14 +217,17 @@ class Particle
     /** Sorts particle data for distance to sun*/
     void particle_bubble_sort(unsigned long start_idx = 0, unsigned long end_idx = 0);
 
-    /** checks if distances from sun are greater than 2 x max_velo 
-     * retuns true if distance is greater than 2x max velo
-     * */
+    unsigned long generate_stable_orbit_object(std::pair<double, double> range_position,
+                                               std::pair<double, double> range_mass,
+                                               std::pair<double, double> range_radius);
+
+/** checks if distances from sun are greater than 2 x max_velo
+ * retuns true if distance is greater than 2x max velo
+ * */
 #ifdef PARALLEL_BUILD
     void broadcast_object_data(unsigned long size);
 #endif
     bool limit(unsigned long index_1, unsigned long index_2);
 };
-
 
 #endif
