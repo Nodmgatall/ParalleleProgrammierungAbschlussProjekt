@@ -40,6 +40,13 @@ class Visualizer
         bool m_draw_time_simulated;
         double m_x_rot_deg;
         double m_y_rot_deg;
+        
+        int m_iterations_per_second;
+        int m_frames_per_second;
+        int m_current_frames_per_second;
+        int m_frame_time;
+        int m_start_time;
+
         std::vector<std::map<unsigned long, unsigned long>>  m_object_id_maps;
         std::map<unsigned long,unsigned long> m_line_draw_active;
         std::map<unsigned long,double> m_grav_range_draw_active;
@@ -47,8 +54,9 @@ class Visualizer
         double m_time_simulated;
         unsigned long m_scale;
         unsigned long m_iteration_number;
+        
         ResourceManager m_resource_manager;
-
+        
         SDL_Renderer *m_renderer;
         SDL_Window *m_window;
         SDL_Rect m_camera;

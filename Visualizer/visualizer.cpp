@@ -1,30 +1,30 @@
-#include "../Simulation/particle.hpp"
 #include "visualizer.hpp"
-#include "resource_manager.hpp"
+#include "../Simulation/particle.hpp"
 #include "camera.hpp"
+#include "resource_manager.hpp"
 #include "vec3.hpp"
 #include <SDL2/SDL.h>
 #include <SDL_ttf.h>
-#include <iostream>
-#include <string>
-#include <math.h>
-#include <sstream>
-#include <fstream>
-#include <string.h>
-#include <stdio.h>
+#include <algorithm>
 #include <ctype.h>
-#include <stdlib.h>
-#include <time.h>
+#include <fstream>
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
-#include <algorithm>
+#include <iostream>
+#include <math.h>
+#include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <string>
+#include <time.h>
 
-#include <boost/serialization/vector.hpp>
-#include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/vector.hpp>
 
-#include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 
 Visualizer::Visualizer() {
     m_pause = false;
@@ -107,13 +107,17 @@ void Visualizer::init_SDL() {
 const unsigned c_scroll_velo = 100000;
 std::string command = "";
 void Visualizer::main_loop() {
+    m_frame_time = 0;
+    m_current_frames_per_second = 0;
     while (m_running == true) {
+        m_start_time = SDL_GetTicks();
         update();
         draw_main_loop();
         m_iteration_number++;
         if (m_iteration_number == m_object_positions.size()) {
             m_iteration_number = 0;
         }
+        /*
         SDL_Delay(10);
         // std::cout << lol++ << std::endl;
         for (unsigned long i = 0; m_object_positions.size() < i; i++) {
@@ -123,6 +127,14 @@ void Visualizer::main_loop() {
                 }
             }
             std::cout << std::endl;
+        }*/
+
+        m_frame_time += SDL_GetTicks() - m_start_time;
+        m_frames_per_second++;
+        if (m_frame_time > 1000) {
+            m_current_frames_per_second = m_frames_per_second;
+            m_frames_per_second = 0;
+            m_frame_time = 0;
         }
     }
     m_resource_manager.shutdown();
@@ -671,6 +683,7 @@ void Visualizer::draw_main_loop() {
                   std::to_string(m_camara_object.m_position.y) + " " +
                   std::to_string(m_camara_object.m_position.z),
               50, 700, {255, 255, 255, 255});
+    draw_text(std::to_string(m_current_frames_per_second), 10, 850, {255, 255, 25, 255});
     SDL_RenderPresent(m_renderer);
 
     m_time_simulated += 1 / m_iteration_dts[m_iteration_number];
