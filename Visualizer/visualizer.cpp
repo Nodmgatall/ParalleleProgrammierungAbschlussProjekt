@@ -240,11 +240,11 @@ void Visualizer::update() {
                     break;
 
                 case SDLK_PAGEDOWN:
-                    m_camara_object.rotate(5);
+                    m_camara_object.rotate(10);
                     break;
 
                 case SDLK_PAGEUP:
-                    m_camara_object.rotate(-5);
+                    m_camara_object.rotate(-10);
                     break;
 
                 case SDLK_BACKQUOTE:

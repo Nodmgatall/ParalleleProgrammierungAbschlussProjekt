@@ -34,7 +34,12 @@ void Camera::move(glm::vec3 move_vector) {
 }
 
 void Camera::rotate(double new_angle) {
-    float angle_in_rad = glm::radians(new_angle);
+
+
+    float angle = glm::radians(new_angle);
+    glm::quat rot_y(cos(angle/2),0,sin(angle/2),0);
+    m_orientation = glm::normalize(m_orientation) * (rot_y) * glm::length(m_orientation);
+   /* uuu
     glm::quat orientation_quat(0, m_orientation);
     glm::quat rotation_quat(glm::cos(angle_in_rad), 0, 1 * glm::sin(angle_in_rad), 0);
     glm::quat rot_2(glm::cos(angle_in_rad), 1 * glm::sin(angle_in_rad), 0, 0);
@@ -49,7 +54,8 @@ void Camera::rotate(double new_angle) {
     m_plane_vec.z = new_lol.z;
     m_orientation = glm::normalize(m_orientation) * m_dist_to_draw_plane;
     m_plane_vec = glm::normalize(m_plane_vec) * m_dist_to_draw_plane;
-}
+*/
+    }
 
 unsigned long Camera::get_distance_to_camera(glm::vec3 object_position) {
     return length((glm::vec3(x, y, z) - object_position));
