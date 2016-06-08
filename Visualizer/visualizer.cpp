@@ -60,7 +60,7 @@ Visualizer::Visualizer(std::string filename) {
     m_x_rot_deg = 0.0;
     m_y_rot_deg = 0.0;
     m_camera = {-m_screen_width / 2, -m_screen_height / 2, m_screen_width, m_screen_height};
-    m_camara_object.init(m_screen_width, m_screen_height, 45.0);
+    m_camara_object.init(&m_screen_width, &m_screen_height, 45.0);
     m_scale = 5000000000;
     std::cout << "HERE" << std::endl;
     load_object_data_from_file(filename);
