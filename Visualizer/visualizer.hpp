@@ -38,9 +38,10 @@ class Visualizer
         bool m_draw_number_of_particles;
         bool m_draw_dt;
         bool m_draw_time_simulated;
-        double m_x_rot_deg;
-        double m_y_rot_deg;
-        
+       
+        int m_x_drag;
+        int m_y_drag;
+
         int m_iterations_per_second;
         int m_frames_per_second;
         int m_current_frames_per_second;
@@ -60,7 +61,7 @@ class Visualizer
         SDL_Renderer *m_renderer;
         SDL_Window *m_window;
         SDL_Rect m_camera;
-        Camera m_camara_object;
+        Camera m_camera_object;
         SDL_Rect m_background;
         TTF_Font *m_font;
 

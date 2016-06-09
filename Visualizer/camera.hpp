@@ -12,9 +12,6 @@ class Camera {
     int *m_screen_width;
     int *m_screen_height;
 
-    double x;
-    double y;
-    double z;
     double m_x_rot_deg;
     double m_field_of_view;
     float m_dist_to_draw_plane;
@@ -30,10 +27,12 @@ class Camera {
     void init(int* screen_width, int* screen_height, double field_of_view);
     unsigned long get_distance_to_camera(glm::vec3 object_position);
     glm::vec4 calculate_position_on_draw_plane(glm::vec3 object_position);
+    glm::vec2 get_screen_center();
     double get_rotation_angle();
     void move(glm::vec3 move_vector);
-    void rotate(double angle);
     void rotate(glm::quat rot_quad);
-    void calculate_rotation_from_drag(glm::vec2 mouse_pos_last, glm::vec2 mouse_pos_cur);
+    void calculate_rotation_quat_from_drag(glm::vec2 mouse_rel);
+    void to_start_position();
+
 };
 #endif

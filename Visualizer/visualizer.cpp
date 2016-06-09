@@ -57,10 +57,8 @@ Visualizer::Visualizer(std::string filename) {
     m_time_simulated = 0;
     m_draw_dt = false;
     m_draw_ids = false;
-    m_x_rot_deg = 0.0;
-    m_y_rot_deg = 0.0;
     m_camera = {-m_screen_width / 2, -m_screen_height / 2, m_screen_width, m_screen_height};
-    m_camara_object.init(&m_screen_width, &m_screen_height, 45.0);
+    m_camera_object.init(&m_screen_width, &m_screen_height, 45.0);
     m_scale = 5000000000;
     std::cout << "HERE" << std::endl;
     load_object_data_from_file(filename);
@@ -174,13 +172,9 @@ void Visualizer::update() {
             if (m_scale <= 100000001) {
                 zoom = 10000000;
             }
-            m_camara_object.m_position.z += (event.wheel.y * 500000000.f);
+            m_camera_object.m_position.z += (event.wheel.y * 500000000.f);
             if (m_scale == 0) {
                 m_scale = zoom;
-            }
-            if (m_camara_object.z < 0) {
-                std::cout << "lol" << std::endl;
-                // m_camara_object.z = zoom;
             }
             draw_main_loop();
             break;
@@ -199,21 +193,56 @@ void Visualizer::update() {
             // m_screen_height = event.window.data2;
             break;
 
+        case SDL_MOUSEBUTTONDOWN:
+            if (event.button.button == SDL_BUTTON_RIGHT) {
+                std::cout << "rotation now active" << std::endl;
+                m_rotation_active = true;
+            }
+            break;
+        case SDL_MOUSEBUTTONUP:
+            if (event.button.button == SDL_BUTTON_RIGHT) {
+                std::cout << "rotation now inactive" << std::endl;
+                m_rotation_active = false;
+            }
+            break;
         case SDL_MOUSEMOTION:
             if (m_rotation_active) {
-                // VERSUCH VON VIEW ROTATION ...i
                 int x_rel = event.motion.xrel;
-                // int y_rel = event.motion.yrel;
-                // std::cout << x_rel << std::endl;
-                // std::cout << y_rel << std::endl;
-                if (x_rel != 0) {
-                    m_camara_object.rotate(x_rel);
+                int y_rel = event.motion.yrel;
+                m_x_drag += y_rel;
+                m_y_drag += x_rel;
+                float x_angle = 0;
+                float y_angle = 0;
+                std::cout << "dragx" << m_x_drag << std::endl;
+                std::cout << "dragy" << m_y_drag << std::endl;
+                if (m_x_drag > 2) {
+
+                    x_angle = glm::radians(m_x_drag * 1.f);
+                    std::cout << "+x : " << x_angle << std::endl;
                 }
-                // if(y_rel != 0)
-                //{
-                //   m_y_rot_deg += 0.1 * y_rel;
-                //}
-                // m_x_rot_deg += event.motion.x ;
+                if (m_x_drag < -2) {
+                    x_angle = glm::radians(m_x_drag * 1.f);
+                    std::cout << "-x : " << x_angle << std::endl;
+                }
+                if (m_y_drag > 2) {
+
+                    y_angle = glm::radians(m_y_drag * 1.f);
+                    std::cout << "+y : " << y_angle << std::endl;
+                }
+                if (m_y_drag < -2) {
+                    y_angle = glm::radians(m_y_drag * 1.f);
+                    std::cout << "-y : " <<y_angle << std::endl;
+                }
+                glm::quat x_rot = glm::quat(
+                    cos(x_angle / 2), sin(x_angle / 2) * (glm::normalize(m_camera_object.m_plane_vec)));
+                glm::quat y_rot = glm::quat(
+                    cos(y_angle / 2), sin(y_angle) * (glm::normalize(glm::cross(m_camera_object.m_plane_vec,m_camera_object.m_orientation))));
+                m_camera_object.rotate(x_rot * y_rot);
+                ;
+                if (x_angle != 0 || y_angle != 0) {
+                    m_y_drag = 0;
+                    m_x_drag = 0;
+                }
             }
             break;
 
@@ -242,21 +271,9 @@ void Visualizer::update() {
             } else {
                 switch (event.key.keysym.sym) {
 
-                case SDLK_LCTRL:
-                    m_rotation_active = !m_rotation_active;
-                    break;
-
                 case SDLK_RETURN:
                     std::cout << "test1" << std::endl;
                     m_input = true;
-                    break;
-
-                case SDLK_PAGEDOWN:
-                    m_camara_object.rotate(10);
-                    break;
-
-                case SDLK_PAGEUP:
-                    m_camara_object.rotate(-10);
                     break;
 
                 case SDLK_BACKQUOTE:
@@ -264,39 +281,39 @@ void Visualizer::update() {
                     break;
 
                 case SDLK_DOWN:
-                    m_camara_object.m_position.y -= c_scroll_velo;
+                    m_camera_object.m_position.y -= c_scroll_velo;
                     break;
 
                 case SDLK_UP:
-                    m_camara_object.m_position.y += c_scroll_velo;
+                    m_camera_object.m_position.y += c_scroll_velo;
                     break;
 
                 case SDLK_LEFT:
-                    m_camara_object.m_position.x += c_scroll_velo;
+                    m_camera_object.m_position.x += c_scroll_velo;
                     break;
 
                 case SDLK_RIGHT:
-                    m_camara_object.m_position.x -= c_scroll_velo;
+                    m_camera_object.m_position.x -= c_scroll_velo;
                     break;
 
                 case SDLK_w:
-                    m_camara_object.m_position +=
-                        glm::normalize(m_camara_object.m_orientation) * 100.f;
+                    m_camera_object.m_position +=
+                        glm::normalize(m_camera_object.m_orientation) * 100.f;
                     break;
                 case SDLK_a:
-                    m_camara_object.m_position +=
-                        glm::normalize(glm::cross(m_camara_object.m_orientation,
-                                                  m_camara_object.m_plane_vec)) *
+                    m_camera_object.m_position +=
+                        glm::normalize(glm::cross(m_camera_object.m_orientation,
+                                                  m_camera_object.m_plane_vec)) *
                         10.f;
                     break;
                 case SDLK_s:
-                    m_camara_object.m_position -=
-                        glm::normalize(m_camara_object.m_orientation) * 100.f;
+                    m_camera_object.m_position -=
+                        glm::normalize(m_camera_object.m_orientation) * 100.f;
                     break;
                 case SDLK_d:
-                    m_camara_object.m_position -=
-                        glm::normalize(glm::cross(m_camara_object.m_orientation,
-                                                  m_camara_object.m_plane_vec)) *
+                    m_camera_object.m_position -=
+                        glm::normalize(glm::cross(m_camera_object.m_orientation,
+                                                  m_camera_object.m_plane_vec)) *
                         10.f;
                     break;
 
@@ -324,6 +341,7 @@ void Visualizer::update() {
                     if (!m_input) {
                         m_iteration_number = 0;
                         m_time_simulated = 0;
+                        m_camera_object.to_start_position();
                         draw_main_loop();
                     }
                     break;
@@ -463,7 +481,6 @@ void Visualizer::handle_console_input(std::string input) {
         double min_force; // = (double)strtod(token_vector[2],NULL);
         std::istringstream conv(token_vector[2]);
         conv >> min_force;
-        std::cout << min_force << " < LOLOLO > " << token_vector[2] << std::endl;
         auto it = m_grav_range_draw_active.find(id);
         if (it != m_grav_range_draw_active.end()) {
             m_grav_range_draw_active.erase(it);
@@ -632,7 +649,7 @@ void Visualizer::draw_main_loop() {
     for (auto it : m_object_id_maps[m_iteration_number]) {
         unsigned long index = it.second;
 
-        glm::vec4 plane_pos = m_camara_object.calculate_position_on_draw_plane(
+        glm::vec4 plane_pos = m_camera_object.calculate_position_on_draw_plane(
             m_object_positions[m_iteration_number][index]);
         if (index == 1 || index == 43) {
             // std::cout << index << " " <<glm::degrees(plane_pos.w) << std::endl;
@@ -679,10 +696,21 @@ void Visualizer::draw_main_loop() {
         draw_text(command, 50, 50, {255, 255, 255, 255});
     }
     draw_collison_marks();
-    draw_text(std::to_string(m_camara_object.m_position.x) + " " +
-                  std::to_string(m_camara_object.m_position.y) + " " +
-                  std::to_string(m_camara_object.m_position.z),
+    draw_text(std::to_string(m_camera_object.m_position.x) + " " +
+                  std::to_string(m_camera_object.m_position.y) + " " +
+                  std::to_string(m_camera_object.m_position.z),
               50, 700, {255, 255, 255, 255});
+
+    draw_text(std::to_string(m_camera_object.m_orientation.x) + " " +
+                  std::to_string(m_camera_object.m_orientation.y) + " " +
+                  std::to_string(m_camera_object.m_orientation.z),
+              50, 750, {255, 255, 255, 255});
+
+    draw_text(std::to_string(m_camera_object.m_plane_vec.x) + " " +
+                  std::to_string(m_camera_object.m_plane_vec.y) + " " +
+                  std::to_string(m_camera_object.m_plane_vec.z),
+              50, 800, {255, 255, 255, 255});
+
     draw_text(std::to_string(m_current_frames_per_second), 10, 850, {255, 255, 25, 255});
     SDL_RenderPresent(m_renderer);
 
@@ -717,9 +745,9 @@ void Visualizer::draw_all_trajectory_lines() {
     if (!m_line_draw_active.empty()) {
         for (auto it = m_line_draw_active.begin(); it != m_line_draw_active.end(); ++it) {
             for (unsigned long index = 0; index < m_object_masses.size() - 1; index++) {
-                glm::vec4 pos = m_camara_object.calculate_position_on_draw_plane(
+                glm::vec4 pos = m_camera_object.calculate_position_on_draw_plane(
                     m_trajectory_lines[it->first][index].second);
-                glm::vec4 pos2 = m_camara_object.calculate_position_on_draw_plane(
+                glm::vec4 pos2 = m_camera_object.calculate_position_on_draw_plane(
                     m_trajectory_lines[it->first][index + 1].second);
                 if (glm::degrees(pos.w) < 45) {
                     set_color(m_trajectory_lines[it->first][index].first);
@@ -776,7 +804,7 @@ void Visualizer::display_data(unsigned long particle_id) {
     unsigned long particle_index = m_object_id_maps[m_iteration_number].find(particle_id)->second;
 
     glm::vec3 pos = m_object_positions[m_iteration_number][particle_index];
-    glm::vec4 plane_pos = m_camara_object.calculate_position_on_draw_plane(pos);
+    glm::vec4 plane_pos = m_camera_object.calculate_position_on_draw_plane(pos);
     pos = {(pos.x / 149597870700.0), (pos.y / 149597870700.0), (pos.z / 149597870700.0)};
 
     double dist = glm::length(pos);
@@ -858,22 +886,22 @@ void Visualizer::draw_object_circle(unsigned long id) {
     // y = (((m_object_positions[m_iteration_number][id].y/ m_scale) - (width_height/2)) -
     // m_camera.y);
 
-    glm::vec4 plane_pos = m_camara_object.calculate_position_on_draw_plane(
+    glm::vec4 plane_pos = m_camera_object.calculate_position_on_draw_plane(
         m_object_positions[m_iteration_number][id]);
 
     if (glm::degrees(plane_pos.w) < 45 / 2) {
-        double new_d = glm::length(m_camara_object.m_position + m_camara_object.m_orientation +
+        double new_d = glm::length(m_camera_object.m_position + m_camera_object.m_orientation +
                                    glm::vec3(plane_pos));
         double radius = m_object_radiuses[m_iteration_number][id];
         double d =
-            glm::length(m_camara_object.m_position - m_object_positions[m_iteration_number][id]);
+            glm::length(m_camera_object.m_position - m_object_positions[m_iteration_number][id]);
         double width_height = ((new_d * radius) / d);
 
         float gegen_kath = sin(plane_pos.w) * d;
         double an_kath = sqrt((d * d) - (gegen_kath * gegen_kath));
-        double orient_length = glm::length(m_camara_object.m_orientation);
+        double orient_length = glm::length(m_camera_object.m_orientation);
 
-        double x = glm::length((glm::normalize(m_camara_object.m_orientation) * gegen_kath) -
+        double x = glm::length((glm::normalize(m_camera_object.m_orientation) * gegen_kath) -
                                m_object_positions[m_iteration_number][id]);
         double test = orient_length * radius * sqrt(x * x + an_kath * an_kath + radius * radius) /
                       (an_kath * an_kath - radius * radius);
@@ -908,7 +936,7 @@ void Visualizer::draw_collison_marks() {
     for (unsigned long j = 0; j < m_iteration_number; j++) {
         for (unsigned long i = 0; i < m_collision_points[j].size(); i++) {
             glm::vec4 plane_pos =
-                m_camara_object.calculate_position_on_draw_plane(m_collision_points[j][i]);
+                m_camera_object.calculate_position_on_draw_plane(m_collision_points[j][i]);
             if (glm::degrees(plane_pos.w) < 45 / 2) {
                 render_texture(m_resource_manager.get_texture("collision_detected"), plane_pos.x,
                                plane_pos.y, plane_pos.z, width_height, width_height);

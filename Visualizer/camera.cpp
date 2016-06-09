@@ -4,9 +4,8 @@
 #include <math.h>
 #include <string>
 Camera::Camera() {
-    x = 0;
-    y = 0;
-    z = 0;
+
+    m_position = {0, 0, 0};
 
     x_axis = {1, 0, 0};
     y_axis = {0, 1, 0};
@@ -17,51 +16,29 @@ void Camera::init(int *screen_width, int *screen_height, double field_of_view) {
     m_field_of_view = field_of_view;
     m_screen_width = screen_width;
     m_screen_height = screen_height;
-    x = *screen_width / 2;
-    y = *screen_height / 2;
 
     m_dist_to_draw_plane = (*screen_width / 2) / tan(glm::radians(m_field_of_view / 2));
-    m_orientation = glm::vec3(0, 0, -1) * m_dist_to_draw_plane;
-    m_plane_vec = glm::vec3(0, 1, 0) * m_dist_to_draw_plane;
-    z = 100000000000000;
-    m_position = glm::vec3(x, y, z);
+    to_start_position();
 }
 
 void Camera::move(glm::vec3 move_vector) {
-    x += move_vector.x;
-    y += move_vector.y;
-    z += move_vector.z;
+    m_position += move_vector;
 }
 
-void Camera::rotate(double new_angle) {
+void Camera::to_start_position() {
 
-    float angle = glm::radians(new_angle);
-    glm::quat rot_y(cos(angle / 2), 0, sin(angle / 2), 0);
-    rotate(rot_y);
-    /* uuu
-     glm::quat orientation_quat(0, m_orientation);
-     glm::quat rotation_quat(glm::cos(angle_in_rad), 0, 1 * glm::sin(angle_in_rad), 0);
-     glm::quat rot_2(glm::cos(angle_in_rad), 1 * glm::sin(angle_in_rad), 0, 0);
-     glm::quat new_orientation = rotation_quat * orientation_quat;
-     m_orientation.x = new_orientation.x;
-     m_orientation.y = new_orientation.y;
-     m_orientation.z = new_orientation.z;
-     glm::quat lol(0, m_plane_vec);
-     glm::quat new_lol = rotation_quat * lol;
-     m_plane_vec.x = new_lol.x;
-     m_plane_vec.y = new_lol.y;
-     m_plane_vec.z = new_lol.z;
-     m_orientation = glm::normalize(m_orientation) * m_dist_to_draw_plane;
-     m_plane_vec = glm::normalize(m_plane_vec) * m_dist_to_draw_plane;
- */
+    m_position = glm::vec3(*m_screen_width / 2, *m_screen_height / 2, 2*( m_dist_to_draw_plane));
+    m_orientation = glm::vec3(0, 0, 1) * m_dist_to_draw_plane;
+    m_plane_vec = glm::vec3(1, 0, 0) * m_dist_to_draw_plane;
+    ;
 }
 
-void Camera::rotate(glm::quat rot_quat){ 
-    m_orientation = glm::normalize(m_orientation) * (rot_quat)*glm::length(m_orientation);
+void Camera::rotate(glm::quat rot_quat) {
+    m_orientation = glm::normalize((m_orientation) * rot_quat) * m_dist_to_draw_plane;
 }
 
 unsigned long Camera::get_distance_to_camera(glm::vec3 object_position) {
-    return length((glm::vec3(x, y, z) - object_position));
+    return length((m_position - object_position));
 }
 
 double Camera::get_size_on_plane(glm::vec3 object_position, glm::vec3 vector_to_plane_pos) {
@@ -69,19 +46,48 @@ double Camera::get_size_on_plane(glm::vec3 object_position, glm::vec3 vector_to_
     return glm::length(camera_to_object_vector) / glm::length(vector_to_plane_pos);
 }
 
-void Camera::calculate_rotation_from_drag(glm::vec2 mouse_pos_last, glm::vec2 mouse_pos_cur) {
-    glm::vec2 norm_pos_last = glm::normalize(mouse_pos_last);
-    glm::vec2 norm_pos_cur = glm::normalize(mouse_pos_cur);
+void Camera::calculate_rotation_quat_from_drag(glm::vec2 mouse_rel) {
+    /*
+    // std::cout << "mouse_pssepspe" << to_string(mouse_pos_last - get_screen_center()) << " / "
+    //          << to_string(mouse_pos_cur - get_screen_center()) << std::endl;
+    glm::vec2 pos_last = mouse_pos_last - get_screen_center();
+    glm::vec2 pos_cur = mouse_pos_cur - get_screen_center();
 
-    glm::vec3 norm_pos_last_3D = glm::vec3(norm_pos_last.x, norm_pos_last.y,
-                                           sqrt(1 - (pow(norm_pos_last.x,2) + pow(norm_pos_last.y,2))));
-    glm::vec3 norm_pos_cur_3D = glm::vec3(norm_pos_cur.x, norm_pos_cur.y,
-                                            sqrt(1 - (pow(norm_pos_cur.x,2) + pow(norm_pos_cur.y,2))));
+    glm::vec2 norm_pos_last = glm::normalize(pos_last);
+    glm::vec2 norm_pos_cur = glm::normalize(pos_cur);
 
-    glm::vec3 rotation_axis = glm::cross(norm_pos_last_3D, norm_pos_cur_3D);
+    float radius_sphere = glm::length(get_screen_center());
+    // std::cout << "SPHERAE RA  "<<radius_sphere << std::endl;
+
+    float length_x_y_cur = glm::length(pos_last) / radius_sphere;
+    float length_x_y_last = glm::length(pos_cur) / radius_sphere;
+    // std::cout << "lengts: cur: " << length_x_y_cur << " last: "  << length_x_y_last << std::endl;
+    // std::cout << "lengts: cur: " << pow(length_x_y_last,2) << " last: "  <<
+    // pow(length_x_y_cur,2) << std::endl;
+
+    glm::vec3 norm_pos_last_3D =
+        glm::vec3(norm_pos_last.x, -norm_pos_last.y, sqrt(1 - pow(length_x_y_last, 2)));
+    glm::vec3 norm_pos_cur_3D =
+        glm::vec3(norm_pos_cur.x, -norm_pos_cur.y, sqrt(1 - pow(length_x_y_cur, 2)));
+
+    // std::cout << "3D last: " << to_string(norm_pos_last_3D) << std::endl;
+    // std::cout << "3D cur: " << to_string(norm_pos_cur_3D) << std::endl;
+    glm::vec3 rotation_axis = cross(m_plane_vec, m_orientation);
     float angle = glm::dot(norm_pos_last_3D, norm_pos_cur_3D);
+    */
 
-    rotate(glm::quat(cos(angle/2.f), sin(rotation_axis/2.f)));
+    // float x_angle = (mouse_rel.x/1000);
+    float y_angle = mouse_rel.y / 1000;
+    float x_angle = mouse_rel.x / 1000;
+
+
+    if (abs(mouse_rel.x)  > abs(mouse_rel.y)) {
+    //    rotate(glm::quat(cos(x_angle), sin(m_plane_vec / 2.f)));
+    std::cout << "X_ANGLE: " << x_angle << std::endl;
+    } else {
+        rotate(glm::quat(cos(y_angle), sin(glm::cross(m_orientation,m_plane_vec) / 2.f)));
+    std::cout << "Y_ANGLE: " << y_angle << std::endl;
+    }
 }
 
 glm::vec4 Camera::calculate_position_on_draw_plane(glm::vec3 object_position) {
@@ -95,4 +101,8 @@ glm::vec4 Camera::calculate_position_on_draw_plane(glm::vec3 object_position) {
         (glm::normalize(camera_to_object_vector) * f) - m_orientation;
 
     return glm::vec4(from_direction_to_plane_pos + m_position, winkel_rad);
+}
+
+glm::vec2 Camera::get_screen_center() {
+    return glm::vec2(*m_screen_width / 2, *m_screen_height / 2);
 }
