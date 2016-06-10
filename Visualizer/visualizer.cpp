@@ -213,10 +213,8 @@ void Visualizer::update() {
                 float x_angle = 0;
                 float y_angle = 0;
                 x_angle = glm::radians(y_rel / 2.f);
-                std::cout << "-x : " << x_angle << std::endl;
                 y_angle = glm::radians(x_rel / 2.f);
-                std::cout << "-y : " << y_angle << std::endl;
-               
+
                 glm::quat x_rot =
                     glm::quat(cos(y_angle / 2),
                               sin(y_angle / 2) * (glm::normalize(m_camera_object.m_plane_vec)));
@@ -224,14 +222,10 @@ void Visualizer::update() {
                     cos(x_angle / 2),
                     sin(x_angle / 2) * (glm::normalize(glm::cross(m_camera_object.m_plane_vec,
                                                                   m_camera_object.m_orientation))));
-                glm::vec3 old = m_camera_object.m_orientation;
                 m_camera_object.rotate(x_rot);
                 m_camera_object.rotate(y_rot);
-                float new_angle = acos(
-                    glm::dot(glm::normalize(old), glm::normalize(m_camera_object.m_orientation)));
-                ;
+              
                 if (x_angle != 0 || y_angle != 0) {
-                    std::cout << "new angle:" << new_angle << " " << fuck_this << std::endl;
                     fuck_this++;
                 }
             }
@@ -264,11 +258,11 @@ void Visualizer::update() {
                 case SDLK_SPACE:
                     m_camera_object.m_position +=
                         glm::normalize(m_camera_object.m_plane_vec) * 1000000000.f;
-                break;
+                    break;
                 case SDLK_LSHIFT:
                     m_camera_object.m_position -=
                         glm::normalize(m_camera_object.m_plane_vec) * 1000000000.f;
-                break;
+                    break;
                 }
             }
             break;
@@ -658,17 +652,15 @@ void Visualizer::draw_main_loop() {
         glm::vec4 plane_pos = m_camera_object.calculate_position_on_draw_plane(
             m_object_positions[m_iteration_number][index]);
 
-        if(plane_pos.w < glm::radians(32.f)){
-        render_texture(m_resource_manager.get_texture("Triangle_Green"), plane_pos.x - 8,
-                       plane_pos.y - 8, 0, 16, 16);
-                
-        if (m_draw_ids) {
-            draw_text(std::to_string(m_object_ids[m_iteration_number][index]), plane_pos.x + 18,
-                      plane_pos.y - 18, {255, 255, 25, 255});
-        }}
-        draw_text(std::to_string(glm::degrees(plane_pos.w)), plane_pos.x + 18, plane_pos.y - 28,
-                  {255, 255, 25, 255});
+        if (plane_pos.w < glm::radians(32.f)) {
+            render_texture(m_resource_manager.get_texture("Triangle_Green"), plane_pos.x - 8,
+                           plane_pos.y - 8, 0, 16, 16);
 
+            if (m_draw_ids) {
+                draw_text(std::to_string(m_object_ids[m_iteration_number][index]), plane_pos.x + 18,
+                          plane_pos.y - 18, {255, 255, 25, 255});
+            }
+        }
     }
 
     if (m_draw_number_of_particles == true) {
@@ -754,14 +746,16 @@ void Visualizer::draw_all_trajectory_lines() {
             for (unsigned long index = 0; index < m_object_masses.size() - 1; index++) {
                 glm::vec4 pos = m_camera_object.calculate_position_on_draw_plane(
                     m_trajectory_lines[it->first][index].second);
-                glm::vec4 pos2 = m_camera_object.calculate_position_on_draw_plane(
-                    m_trajectory_lines[it->first][index + 1].second);
-                if (glm::degrees(pos.w) < 45) {
-                    set_color(m_trajectory_lines[it->first][index].first);
-                    SDL_RenderDrawLine(m_renderer, pos.x, pos.y, pos2.x, pos2.y);
+                if (pos.w < glm::radians(35.f)) {
+                    glm::vec4 pos2 = m_camera_object.calculate_position_on_draw_plane(
+                        m_trajectory_lines[it->first][index + 1].second);
+                    if (pos2.w < glm::radians(35.f)) {
+                        set_color(m_trajectory_lines[it->first][index].first);
+                        SDL_RenderDrawLine(m_renderer, pos.x, pos.y, pos2.x, pos2.y);
+                        // set_color({255,255,0,255});
+                        // SDL_RenderDrawLine(m_renderer,x1,y1,x2,y2);
+                    }
                 }
-                // set_color({255,255,0,255});
-                // SDL_RenderDrawLine(m_renderer,x1,y1,x2,y2);
             }
         }
     }

@@ -58,10 +58,8 @@ void Camera::calculate_rotation_quat_from_drag(glm::vec2 mouse_rel) {
 
     if (abs(mouse_rel.x) > abs(mouse_rel.y)) {
             rotate(glm::quat(cos(x_angle), sin(m_plane_vec / 2.f)));
-        std::cout << "X_ANGLE: " << x_angle << std::endl;
     } else {
-        //rotate(glm::quat(cos(y_angle), sin(glm::cross(m_orientation, m_plane_vec) / 2.f)));
-        std::cout << "Y_ANGLE: " << y_angle << std::endl;
+        rotate(glm::quat(cos(y_angle), sin(glm::cross(m_orientation, m_plane_vec) / 2.f)));
     }
 }
 
@@ -77,14 +75,7 @@ glm::vec4 Camera::calculate_position_on_draw_plane(glm::vec3 object_position) {
                 );
     
     float f = m_dist_to_draw_plane / cos(winkel_rad);
-if(object_position == glm::vec3(0,0,0))
-    {
-    std::cout << winkel_rad << std::endl;
-    std::cout << to_string(m_position) << std::endl;
-    std::cout << to_string(object_position) << std::endl;
-    std::cout << to_string(camera_to_object_vector) << std::endl << std::endl;
-    std::cout << "f: " << f << std::endl;
-    }
+
     glm::vec3 from_direction_to_plane_pos = ((glm::normalize(camera_to_object_vector) * f ) - m_orientation) + glm::vec3(450,450,0);
 
     return glm::vec4(from_direction_to_plane_pos + m_position , winkel_rad);
