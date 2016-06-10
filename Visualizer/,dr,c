@@ -156,10 +156,9 @@ void Visualizer::draw_text(std::string text, int pos_x, int pos_y, SDL_Color col
     SDL_FreeSurface(font_surf);
     SDL_DestroyTexture(font_tex);
 }
-int fuck_this = 0;
 /** Function for getting and processing user keyboard input*/
 void Visualizer::update() {
-    unsigned long zoom = 50000000000;
+    unsigned long zoom = 100000000;
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -210,68 +209,36 @@ void Visualizer::update() {
             if (m_rotation_active) {
                 int x_rel = event.motion.xrel;
                 int y_rel = event.motion.yrel;
-                float x_angle = 0;
-                float y_angle = 0;
-                x_angle = glm::radians(y_rel / 2.f);
-                std::cout << "-x : " << x_angle << std::endl;
-                y_angle = glm::radians(x_rel / 2.f);
-                std::cout << "-y : " << y_angle << std::endl;
-               
-                glm::quat x_rot =
-                    glm::quat(cos(y_angle / 2),
-                              sin(y_angle / 2) * (glm::normalize(m_camera_object.m_plane_vec)));
-                glm::quat y_rot = glm::quat(
-                    cos(x_angle / 2),
-                    sin(x_angle / 2) * (glm::normalize(glm::cross(m_camera_object.m_plane_vec,
-                                                                  m_camera_object.m_orientation))));
-                glm::vec3 old = m_camera_object.m_orientation;
-                m_camera_object.rotate(x_rot);
-                m_camera_object.rotate(y_rot);
-                float new_angle = acos(
-                    glm::dot(glm::normalize(old), glm::normalize(m_camera_object.m_orientation)));
-                ;
-                if (x_angle != 0 || y_angle != 0) {
-                    std::cout << "new angle:" << new_angle << " " << fuck_this << std::endl;
-                    fuck_this++;
+                if(x_rel > y_rel)
+                {
+                    m_x_drag += x_rel;
+                }
+                else
+                {
+                    m_y_drag += y_rel;
+                }
+                if(m_x_drag > 10) {
+                    float angle = glm::radians(m_x_drag / 450.f);
+                    m_camera_object.rotate(glm::quat(cos(angle/2), sin(angle/2)*(glm::normalize(m_camera_object.m_plane_vec ))));                    
+                if(m_x_drag < -10)    
+                    float angle = glm::radians(m_x_drag / 450.f);
+                    m_camera_object.rotate(glm::quat(cos(angle/2), sin(angle/2)*(glm::normalize(m_camera_object.m_plane_vec ))));                    
+                    glm::vec3 lol = m_camera_object.m_orientation;
+                    std::cout << "camera direc" << to_string(m_camera_object.m_orientation)
+                              << std::endl;
+                    // std::cout << "roationquat" << to_string(rotation_quat) << " " << pow(2, 4) <<
+                    // std::endl;
+                    std::cout << "camera direc after" << to_string(m_camera_object.m_orientation)
+                              << std::endl;
+
+                    std::cout << "camera direc diff"
+                              << to_string(m_camera_object.m_orientation - lol) << std::endl
+                              << std::endl;
+                    ;
                 }
             }
             break;
 
-        case SDL_KEYDOWN:
-            if (m_input == false) {
-                switch (event.key.keysym.sym) {
-                case SDLK_w:
-                    m_camera_object.m_position +=
-                        (glm::normalize(m_camera_object.m_orientation)) * 1000000000.f;
-                    break;
-                case SDLK_s:
-                    m_camera_object.m_position -=
-                        (glm::normalize(m_camera_object.m_orientation) * 1000000000.f);
-                    break;
-
-                case SDLK_a:
-                    m_camera_object.m_position +=
-                        glm::normalize(glm::cross(m_camera_object.m_plane_vec,
-                                                  m_camera_object.m_orientation)) *
-                        1000000000.f;
-                    break;
-                case SDLK_d:
-                    m_camera_object.m_position -=
-                        glm::normalize(glm::cross(m_camera_object.m_plane_vec,
-                                                  m_camera_object.m_orientation)) *
-                        1000000000.f;
-                    break;
-                case SDLK_SPACE:
-                    m_camera_object.m_position +=
-                        glm::normalize(m_camera_object.m_plane_vec) * 1000000000.f;
-                break;
-                case SDLK_LSHIFT:
-                    m_camera_object.m_position -=
-                        glm::normalize(m_camera_object.m_plane_vec) * 1000000000.f;
-                break;
-                }
-            }
-            break;
         case SDL_KEYUP:
 
             if (m_input == true) {
@@ -285,7 +252,6 @@ void Visualizer::update() {
                     std::cout << "test1" << std::endl;
                     m_input = false;
                     command = "";
-                    ;
                     draw_main_loop();
                     m_input = false;
                     break;
@@ -321,6 +287,27 @@ void Visualizer::update() {
 
                 case SDLK_RIGHT:
                     m_camera_object.m_position.x -= c_scroll_velo;
+                    break;
+
+                case SDLK_w:
+                    m_camera_object.m_position +=
+                        glm::normalize(m_camera_object.m_orientation) * 100.f;
+                    break;
+                case SDLK_a:
+                    m_camera_object.m_position +=
+                        glm::normalize(glm::cross(m_camera_object.m_orientation,
+                                                  m_camera_object.m_plane_vec)) *
+                        10.f;
+                    break;
+                case SDLK_s:
+                    m_camera_object.m_position -=
+                        glm::normalize(m_camera_object.m_orientation) * 100.f;
+                    break;
+                case SDLK_d:
+                    m_camera_object.m_position -=
+                        glm::normalize(glm::cross(m_camera_object.m_orientation,
+                                                  m_camera_object.m_plane_vec)) *
+                        10.f;
                     break;
 
                 case SDLK_ESCAPE:
@@ -657,18 +644,17 @@ void Visualizer::draw_main_loop() {
 
         glm::vec4 plane_pos = m_camera_object.calculate_position_on_draw_plane(
             m_object_positions[m_iteration_number][index]);
-
-        if(plane_pos.w < glm::radians(32.f)){
-        render_texture(m_resource_manager.get_texture("Triangle_Green"), plane_pos.x - 8,
-                       plane_pos.y - 8, 0, 16, 16);
-                
-        if (m_draw_ids) {
-            draw_text(std::to_string(m_object_ids[m_iteration_number][index]), plane_pos.x + 18,
-                      plane_pos.y - 18, {255, 255, 25, 255});
-        }}
-        draw_text(std::to_string(glm::degrees(plane_pos.w)), plane_pos.x + 18, plane_pos.y - 28,
-                  {255, 255, 25, 255});
-
+        if (index == 1 || index == 43) {
+            // std::cout << index << " " <<glm::degrees(plane_pos.w) << std::endl;
+        }
+        if (glm::degrees(plane_pos.w) < 45) {
+            render_texture(m_resource_manager.get_texture("Triangle_Green"), plane_pos.x - 8,
+                           plane_pos.y - 8, 0, 16, 16);
+            if (m_draw_ids) {
+                draw_text(std::to_string(m_object_ids[m_iteration_number][index]), plane_pos.x + 18,
+                          plane_pos.y - 18, {255, 255, 25, 255});
+            }
+        }
     }
 
     if (m_draw_number_of_particles == true) {
