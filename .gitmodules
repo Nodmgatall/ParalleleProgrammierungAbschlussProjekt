@@ -1,0 +1,3 @@
+[submodule "sdl2_console"]
+	path = sdl2_console
+	url = git@github.com:Nodmgatall/sdl2_console.git
